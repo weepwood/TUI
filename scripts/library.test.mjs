@@ -142,3 +142,15 @@ test('flip board renders SSR current text and a single accessible label', () => 
   assert.equal((html.match(/tui-flip__cell/g) || []).length, 10)
   assert.match(html, /aria-hidden="true"/)
 })
+
+
+test('disabled leading segmented option is skipped by roving tabindex', () => {
+  const html = render(SegmentedControl, {
+    label: 'Mode', options: [
+      { value: 'legacy', label: 'Legacy', disabled: true },
+      { value: 'modern', label: 'Modern' },
+    ],
+  })
+  assert.match(html, /disabled="" tabindex="-1"/)
+  assert.match(html, /aria-checked="true"[^>]*tabindex="0"/)
+})

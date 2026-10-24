@@ -1,6 +1,6 @@
 # @weepwood/terminal-ui
 
-个人通用 React 组件包，保留 TERMINAL/UI 的琥珀色、精细动效与轻量视觉设计。目前提供十八个组件，独立于航班数据和展示站状态运行。
+Weepwood UI 的通用 React 组件包，采用中性灰阶、蓝色主强调色、轻量交互和可配置主题变量。目前提供 18 个独立于特定业务的组件。
 
 > 版本 0.1.0 为首批可复用组件 API。尚未发布 npm；需要从本仓库构建并打包后本地安装。
 
@@ -23,7 +23,7 @@ import '@weepwood/terminal-ui/styles.css'
 export function Example() {
   return (
     <ThemeScope theme="dark">
-      <Badge tone="accent">TERMINAL/UI</Badge>
+      <Badge tone="accent">Weepwood UI</Badge>
       <Button onClick={() => alert('Hello')}>开始</Button>
       <TextField label="项目名称" placeholder="输入项目名称" />
       <SegmentedControl
@@ -68,19 +68,19 @@ UploadDropzone **不执行上传**，只返回浏览器 `File[]` 给调用方；
 所有 CSS 使用 tui- 前缀，不注入全局 reset，不依赖展示站的 Context。主题通过 CSS 变量覆盖：
 
 ```css
-.my-terminal-theme {
+.my-ui-theme {
   --tui-accent: #60a5fa;
   --tui-radius: 16px;
 }
 ```
 
-将该 class 应用于 ThemeScope 即可。默认采用暗色风格，所有组件尽可能提供原生键盘操作及可访问标签。
+将该 class 应用于 ThemeScope 即可。支持浅色与深色两套设计变量（展示站默认浅色；单独使用 ThemeScope 时请显式指定 theme），所有组件尽可能提供原生键盘操作及可访问标签。
 
 详细翻牌 API 和使用示例见 [FlipBoard 指南](../../docs/FLIPBOARD.md)。
 
 ## 版本政策
 
 - React 18/19 peer dependency；构建时不会把 React 打入组件包。
-- 主站原有 32 个演示组件暂时是展厅代码，**不能**认为都已提取为公共 API。
+- 原来的专题演示代码已从默认构建入口移除，仍留在仓库作为历史实验源码，**不属于** npm 包公开 API。
 - 后续逐步迁移动效组件；每个迁移必须完成数据/事件解耦、键盘与 ARIA、样式隔离、类型与测试。
 - 因私有仓库尚未声明可再分发的开源许可，当前包标记 UNLICENSED。发布前应明确授权方案。

@@ -46,7 +46,8 @@ export function SegmentedControl({
     }
   }
 
-  const focusIndex = Math.max(0, options.findIndex(option => option.value === selected && !option.disabled))
+  const selectedIndex = options.findIndex(option => option.value === selected && !option.disabled)
+  const focusIndex = selectedIndex >= 0 ? selectedIndex : options.findIndex(option => !option.disabled)
   return (
     <div className={['tui-segmented', className].filter(Boolean).join(' ')} role="radiogroup" aria-label={label} aria-disabled={disabled || undefined}>
       {options.map((option, index) => (

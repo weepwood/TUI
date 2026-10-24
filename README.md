@@ -1,4 +1,29 @@
-# TERMINAL/UI — 组件航站楼
+# TERMINAL/UI — 个人通用组件库与动效实验室
+
+本仓库现分为两部分：
+
+- **通用 React 组件包（新）**：`packages/react/`，第一批 9 个可复用组件，独立构建、局部主题、公共 TypeScript API。
+- **原交互动效展厅（保留）**：`src/components/`，原有 32 个交互演示尚未全部抽成可发布组件。
+
+## 两个预览入口
+
+```bash
+npm ci
+npm run dev       # / 原动效展厅；/library.html 通用组件目录
+npm run check     # 站点构建 + 组件包构建/声明 + SSR 回归测试
+npm run build:lib # 将独立组件打包到 packages/react/dist
+npm pack ./packages/react # 生成可本地安装的 npm 包
+```
+
+**组件库说明、API 与安装示例：** [packages/react/README.md](./packages/react/README.md)。
+
+**架构和迁移路线：** [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)。
+
+> 包已准备好本地打包，但没有自动发布至 npm。私有仓库默认保留 UNLICENSED，发布前需先确定许可。
+
+---
+
+## 原展示站：组件航站楼
 
 像机场航显板一样翻动的 React 动效组件展示厅，现共 **32 个可交互组件**。每一个都是活演示，页面即文档。
 

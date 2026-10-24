@@ -1,0 +1,30 @@
+{
+  "name": "@weepwood/terminal-ui",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Reusable React components inspired by Terminal/UI",
+  "license": "UNLICENSED",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/styles.css",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  }
+}

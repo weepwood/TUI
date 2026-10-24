@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "packages/react/dist",
+    "rootDir": "packages/react/src"
+  },
+  "include": ["packages/react/src"],
+  "exclude": ["node_modules", "dist"]
+}

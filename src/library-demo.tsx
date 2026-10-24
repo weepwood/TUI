@@ -191,7 +191,7 @@ function LibraryApp() {
         <div className="lb-toolbar"><div className="lb-toolbar-left"><button type="button" className={onlyNew ? 'lb-chip is-selected' : 'lb-chip'} aria-pressed={onlyNew} onClick={() => setOnlyNew(v => !v)}>✦ 本次新增 6</button><span>参考社区实践 · 保持轻量 API</span></div><div className="lb-view-switch" aria-label="组件视图"><button type="button" aria-pressed={density === 'grid'} className={density === 'grid' ? 'is-active' : ''} onClick={() => setDensity('grid')}>▦ 网格</button><button type="button" aria-pressed={density === 'compact'} className={density === 'compact' ? 'is-active' : ''} onClick={() => setDensity('compact')}>≡ 紧凑</button></div></div>
         <div className="lb-list-title"><div><span className="lb-section-number">COMPONENT LIBRARY / 01</span><h2>组件目录 <small>Components</small></h2></div><span className="lb-counter">{visible.length} / {catalog.length} 个结果</span></div>
         <section className={density === 'compact' ? 'lb-grid is-compact' : 'lb-grid'} aria-label="组件预览">
-          {visible.map((item, index) => <article className="lb-item" key={item.id}>
+          {visible.map((item, index) => <article className={item.id === 'tooltip' ? 'lb-item lb-item--tooltip' : 'lb-item'} key={item.id}>
             <div className="lb-item-head"><span className="lb-item-number">{String(index + 1).padStart(2, '0')}</span><div className="lb-item-flags">{'fresh' in item && <span className="lb-new-flag">NEW</span>}<Badge tone="accent">{item.group}</Badge></div></div>
             <h3>{item.name}<small>{item.cn}</small></h3><p>{item.description}</p>
             <div className={item.id === 'tooltip' ? 'lb-preview lb-preview--overflow' : 'lb-preview'}>{renderPreview(item.id)}</div>

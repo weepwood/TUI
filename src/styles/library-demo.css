@@ -114,4 +114,4 @@ button,input{font:inherit}
 .lb-item{animation-fill-mode:backwards}
 
 .lb-preview--overflow{overflow:visible}
-.lb-item:focus-within{position:relative;z-index:2}
+.lb-item--tooltip:is(:hover,:focus-within){position:relative;z-index:2}

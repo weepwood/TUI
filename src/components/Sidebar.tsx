@@ -5,12 +5,14 @@ import { useToast } from '../state/app'
 interface Props {
   activeId: string
   onNavigate: (id: string) => void
+  onOpenOverview: () => void
+  overview: boolean
 }
 
 const dotCls = (st: Status) => (st === 'BOARDING' ? 'st-boarding pulse' : st === 'ON TIME' ? 'st-ontime' : 'st-delayed')
 
-/** 左侧目录：分组导航 + 状态点（点会偶尔闪换，保持"活着"） */
-export default function Sidebar({ activeId, onNavigate }: Props) {
+/** 左侧目录：总览/聚焦切换 + 分组导航 + 状态点（点会偶尔闪换，保持"活着"） */
+export default function Sidebar({ activeId, onNavigate, onOpenOverview, overview }: Props) {
   const { toast } = useToast()
   const [flick, setFlick] = useState(0)
 
@@ -30,6 +32,15 @@ export default function Sidebar({ activeId, onNavigate }: Props) {
         组件目录 <span>INDEX</span>
       </div>
       <nav className="sb-nav">
+        <button
+          className={`sb-item${overview ? ' active' : ''}`}
+          onClick={onOpenOverview}
+          title="并排显示全部组件"
+        >
+          <span className="sb-code">▤▤</span>
+          <span className="sb-name">总览全部组件</span>
+          <i className="sb-dot st-boarding" />
+        </button>
         {GROUPS.map(g => (
           <div key={g.label} style={{ display: 'contents' }}>
             <div className="sb-group">{g.label}</div>

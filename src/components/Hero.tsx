@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { CHARSET, INSTALL_CMD, PHRASES } from '../lib/data'
+import { CHARSET, COMPONENTS, INSTALL_CMD, PHRASES } from '../lib/data'
 import { FlapBoardEngine } from '../lib/flap'
-import { REDUCED } from '../lib/scroll'
+import { REDUCED, copyText } from '../lib/scroll'
 import { useToast } from '../state/app'
 import CopyButton from './CopyButton'
 import Clock from './Clock'
@@ -37,7 +37,8 @@ export default function Hero({ onGoto, onOpenPalette }: Props) {
       window.removeEventListener('terminal:speed', onSpeed)
       window.removeEventListener('terminal:flip-random', onRandom)
       engine.destroy()
-      rowRef.current!.innerHTML = ''
+      /* React 18 卸载时 ref 已被置空，需判空 */
+      if (rowRef.current) rowRef.current.innerHTML = ''
     }
   }, [])
 
@@ -124,6 +125,15 @@ export default function Hero({ onGoto, onOpenPalette }: Props) {
           <b>$</b> {INSTALL_CMD}
         </code>
         <CopyButton cmd={INSTALL_CMD} label="复制" doneLabel="已复制 COPIED" />
+        <button
+          className="prompt-chip"
+          onClick={async () => {
+            const ok = await copyText(COMPONENTS[0].prompt)
+            toast(ok ? '组件提示词已复制，去喂给 AI 吧' : '复制失败，请手动选择', ok ? 'ok' : 'err')
+          }}
+        >
+          ✦ 提示词
+        </button>
       </div>
     </section>
   )

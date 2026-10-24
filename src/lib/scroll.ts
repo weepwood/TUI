@@ -79,7 +79,11 @@ export function gotoComponent(id: string, after?: (id: string) => void): void {
 
 export async function copyText(text: string): Promise<boolean> {
   try {
-    await navigator.clipboard.writeText(text)
+    /* 某些嵌入式 webview 的剪贴板权限会永久挂起，超时竞速保证必有反馈 */
+    await Promise.race([
+      navigator.clipboard.writeText(text),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('clipboard timeout')), 800)),
+    ])
     return true
   } catch {
     const ta = document.createElement('textarea')

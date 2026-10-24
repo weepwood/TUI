@@ -15,6 +15,7 @@ import ThemeSwitch from './components/ThemeSwitch'
 import HoldToBoard from './components/HoldToBoard'
 import BoardingPass from './components/BoardingPass'
 import CommandPalette, { usePaletteHotkey } from './components/CommandPalette'
+import ComponentViewer from './components/ComponentViewer'
 
 /* 新增组件代码分割：独立 chunk 在主包解析后异步加载，不阻塞首屏渲染 */
 const SeatMap = lazy(() => import('./components/SeatMap'))
@@ -147,8 +148,6 @@ export default function App() {
 
   const idx = view ? SECTIONS.findIndex(s => s.id === view) : -1
   const cur = idx >= 0 ? SECTIONS[idx] : null
-  const prev = idx > 0 ? SECTIONS[idx - 1] : null
-  const next = idx >= 0 && idx < SECTIONS.length - 1 ? SECTIONS[idx + 1] : null
 
   return (
     <>
@@ -161,33 +160,8 @@ export default function App() {
         <Sidebar activeId={view ?? spyId} onNavigate={openView} onOpenOverview={() => openView(null)} overview={!view} />
 
         <main className="content">
-          {cur ? (
-            /* ---------- 聚焦模式：只挂载当前组件 ---------- */
-            <>
-              <div className="focus-bar">
-                <button className="btn" onClick={() => openView(null)}>
-                  ← 总览 GALLERY
-                </button>
-                <span className="focus-crumb mono">
-                  {cur.id.replace('c', 'C-')} · {cur.cn}
-                </span>
-              </div>
-              {cur.id === 'c00' ? (
-                <Hero onGoto={openView} onOpenPalette={openPalette} />
-              ) : (
-                renderComp(cur, true)
-              )}
-              <div className="focus-nav">
-                <button className="btn" disabled={!prev} onClick={() => prev && openView(prev.id)}>
-                  ← {prev ? prev.cn : '没有了'}
-                </button>
-                <button className="btn" disabled={!next} onClick={() => next && openView(next.id)}>
-                  {next ? next.cn : '没有了'} →
-                </button>
-              </div>
-            </>
-          ) : (
-            /* ---------- 总览模式 ---------- */
+          {/* 聚焦模式：组件呈现在全局浮动查看器中，背后不挂载总览，保持单组件开销 */}
+          {!cur && (
             <>
               <Hero onGoto={openView} onOpenPalette={openPalette} />
               {SECTIONS.filter(s => s.id !== 'c00').map(s => renderComp(s))}
@@ -196,6 +170,16 @@ export default function App() {
           )}
         </main>
       </div>
+
+      {cur && (
+        <ComponentViewer id={cur.id} onClose={() => openView(null)} onSwitch={openView}>
+          {cur.id === 'c00' ? (
+            <Hero onGoto={openView} onOpenPalette={openPalette} />
+          ) : (
+            renderComp(cur, true)
+          )}
+        </ComponentViewer>
+      )}
 
       <CommandPalette open={paletteOpen} onClose={closePalette} onNavigate={openView} onRandomFlip={randomFlip} />
     </>

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 
 /* ---------- 主题 ---------- */
 type Theme = 'night' | 'day'
@@ -10,8 +10,25 @@ const ThemeContext = createContext<ThemeCtx>({ theme: 'night', toggle: () => {} 
 export const useTheme = () => useContext(ThemeContext)
 
 function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('night')
+  /* 初始值来自 index.html 内联脚本按系统外观写入的 data-theme */
+  const [theme, setTheme] = useState<Theme>(() => (document.documentElement.dataset.theme as Theme) || 'night')
+  const [userPicked, setUserPicked] = useState(false)
+
+  /* 系统切换深浅色时实时跟随，用户手动选过一次后尊重手动选择 */
+  useEffect(() => {
+    const mq = matchMedia('(prefers-color-scheme: light)')
+    const onChange = () => {
+      if (userPicked) return
+      const next: Theme = mq.matches ? 'day' : 'night'
+      setTheme(next)
+      document.documentElement.dataset.theme = next
+    }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [userPicked])
+
   const toggle = useCallback(() => {
+    setUserPicked(true)
     setTheme(t => {
       const next = t === 'day' ? 'night' : 'day'
       document.documentElement.dataset.theme = next

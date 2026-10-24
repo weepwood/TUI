@@ -7,6 +7,7 @@
 - **React 18** + **TypeScript**（strict）+ **Vite 5**
 - 零运行时依赖（除 react/react-dom）
 - 样式为单份全局 CSS（CSS 变量驱动的昼夜双主题）
+- 默认主题跟随系统外观（`prefers-color-scheme`，首帧前内联脚本设定避免闪烁）；系统切换时实时跟随，用户手动切换一次后尊重手动选择
 
 ## 快速开始
 

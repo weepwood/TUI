@@ -159,3 +159,41 @@ export const PHRASES = [
 export const CHARSET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.:/+'
 
 export const INSTALL_CMD = 'npx @terminal-ui/react add split-flap-board'
+
+/* ============ 样式变体：同一组件在不同提示词下生成不同样式 ============ */
+
+export interface Variant {
+  id: string
+  label: string
+  /** 挂在演示区上的作用域 class（重定义 CSS 变量组） */
+  cls: string
+  /** 拼接在组件基础提示词之后的风格描述 */
+  promptSuffix: string
+}
+
+export const VARIANTS: Variant[] = [
+  {
+    id: 'classic',
+    label: '经典 CLASSIC',
+    cls: '',
+    promptSuffix:
+      '视觉风格：深色航站楼——近黑背景 #121216、琥珀 #ffb02e 主色、米白文字、等宽字体点缀、发丝级半透明描边、克制的辉光。',
+  },
+  {
+    id: 'neon',
+    label: '霓虹 NEON',
+    cls: 'v-neon',
+    promptSuffix:
+      '视觉风格：赛博霓虹——深蓝黑背景 #0a1626、青色 #22d3ee 主色并带明显辉光（box-shadow 光晕）、淡天蓝文字、紫罗兰点缀、细发光描边，整体像深夜机坪的霓虹指示牌。',
+  },
+  {
+    id: 'paper',
+    label: '纸感 PAPER',
+    cls: 'v-paper',
+    promptSuffix:
+      '视觉风格：纸质登机牌——米白纸底 #f6f1e4、赭石 #b45309 主色、墨色文字、暖灰辅助、白色输入面、虚线打孔元素，像一张攥在手里的老式机票。',
+  },
+]
+
+/** 启用多变体切换的组件 id（其余组件只有「经典」一个变体） */
+export const MULTI_VARIANT_IDS = new Set(['c03', 'c07', 'c15', 'c20', 'c21', 'c23'])

@@ -128,7 +128,7 @@ export default function App() {
     c25: <Lazy><TextScramble /></Lazy>,
   }
 
-  const renderComp = (c: CompMeta & { id: string }, focus = false) => (
+  const renderComp = (c: CompMeta & { id: string }) => (
     <CompSection
       key={c.id}
       id={c.id}
@@ -137,7 +137,6 @@ export default function App() {
       cn={c.cn}
       st={c.st === 'BOARDING' ? 'BOARDING' : 'ON TIME'}
       prompt={c.prompt}
-      showPrompt={focus}
       demoStyle={c.id === 'c09' ? { minHeight: 260 } : undefined}
       className={c.id === 'c02' ? 'mq-comp' : undefined}
       footer={FOOTERS[c.id]}
@@ -176,7 +175,7 @@ export default function App() {
           {cur.id === 'c00' ? (
             <Hero onGoto={openView} onOpenPalette={openPalette} />
           ) : (
-            renderComp(cur, true)
+            renderComp(cur)
           )}
         </ComponentViewer>
       )}

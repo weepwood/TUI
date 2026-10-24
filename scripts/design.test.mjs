@@ -31,3 +31,14 @@ test('component explorer keeps category, token and theme controls', () => {
   }
   assert.doesNotMatch(jsx, /机场|登机|航班|航显|TERMINAL\/UI/)
 })
+
+
+test('component catalog includes all six new reusable primitives and density controls', () => {
+  const jsx = read('src/library-demo.tsx')
+  for (const name of ['Switch', 'Tabs', 'Tooltip', 'Dialog', 'EmptyState', 'CountUp']) {
+    assert.ok(jsx.includes("name: '" + name + "'"), name + ' must have a catalog card')
+  }
+  for (const term of ['onlyNew', 'setDensity', 'is-compact', 'lb-new-flag']) {
+    assert.ok(jsx.includes(term), term + ' must remain present')
+  }
+})

@@ -26,14 +26,16 @@ npm pack ./packages/react
 
 ## 当前组件
 
-共 **18 个**：
+共 **24 个**：
 
 | 分类 | 组件 |
 | --- | --- |
 | 基础 | Button, Badge, CopyButton, ThemeScope |
-| 输入 | TextField, SegmentedControl, TagInput, OtpInput, Stepper, RangeSlider, UploadDropzone |
-| 展示 | Progress, Skeleton, Marquee, FlipBoard |
-| 容器 | Card, Accordion, SpotlightCard |
+| 输入 | TextField, SegmentedControl, TagInput, OtpInput, Stepper, RangeSlider, UploadDropzone, Switch |
+| 展示 | Progress, Skeleton, Marquee, FlipBoard, CountUp |
+| 容器 | Card, Accordion, SpotlightCard, Tabs |
+
+| 反馈 | Dialog, Tooltip, EmptyState |
 
 FlipBoard 是通用数字/文字翻页效果，而非行业专用显示屏；不会额外捆绑业务状态或航班数据。
 
@@ -41,6 +43,7 @@ FlipBoard 是通用数字/文字翻页效果，而非行业专用显示屏；不
 
 - React 18 + TypeScript + Vite；React 为独立包 peer dependency。
 - 组件包不依赖展示站业务 Context、路由或者全局主题。
+- [社区组件库研究与迁移记录](./docs/COMMUNITY_RESEARCH.md)
 - [组件包安装与 API](./packages/react/README.md)
 - [设计规范与 Tokens](./docs/DESIGN_SYSTEM.md)
 - [架构与迁移计划](./docs/ARCHITECTURE.md)

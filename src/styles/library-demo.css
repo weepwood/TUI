@@ -109,3 +109,9 @@ button,input{font:inherit}
 @media(max-width:800px){.lb-header{padding:0 20px}.lb-main{padding:0 20px}.lb-hero{display:block;padding:60px 0}.lb-hero-aside{margin-top:36px}.lb-grid,.lb-tokens-grid{grid-template-columns:1fr}.lb-list-title{margin-top:38px}.lb-hero-stats{gap:22px}}
 @media(max-width:540px){.lb-brand small,.lb-topnav a:nth-child(3),.lb-topnav button span{display:none}.lb-header{height:64px}.lb-topnav{gap:13px}.lb-topnav a,.lb-topnav button{font-size:12px}.lb-hero h1{font-size:40px}.lb-hero-stats{gap:13px}.lb-hero-stats strong{font-size:23px}.lb-hero-stats span{font-size:8px}.lb-search{width:100%;min-width:0}.lb-preview{padding:14px}.lb-item{padding:17px}.lb-token-heading{align-items:start;flex-direction:column}.lb-token-line code{font-size:10px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lb-root,.lb-item{transition:none}}
+
+/* Scoped component demo dialogs must not inherit a transformed fixed-position containing block. */
+.lb-item{animation-fill-mode:backwards}
+
+.lb-preview--overflow{overflow:visible}
+.lb-item--tooltip:is(:hover,:focus-within){position:relative;z-index:2}

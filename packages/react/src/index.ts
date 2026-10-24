@@ -38,3 +38,16 @@ export type { UploadDropzoneProps, UploadRejection } from './components/UploadDr
 
 export { FlipBoard, formatFlipRows } from './components/FlipBoard'
 export type { FlipBoardProps } from './components/FlipBoard'
+
+export { Switch } from './components/Switch'
+export type { SwitchProps } from './components/Switch'
+export { Tabs } from './components/Tabs'
+export type { TabsProps, TabItem } from './components/Tabs'
+export { Tooltip } from './components/Tooltip'
+export type { TooltipProps } from './components/Tooltip'
+export { Dialog } from './components/Dialog'
+export type { DialogProps } from './components/Dialog'
+export { EmptyState } from './components/EmptyState'
+export type { EmptyStateProps } from './components/EmptyState'
+export { CountUp } from './components/CountUp'
+export type { CountUpProps } from './components/CountUp'

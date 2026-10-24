@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Button, Badge, Card, ThemeScope, TextField, Progress, SegmentedControl, Accordion, TagInput, SpotlightCard, Marquee, CopyButton, Skeleton,
   OtpInput, Stepper, RangeSlider, UploadDropzone, acceptsFile, pickFiles,
-  FlipBoard, formatFlipRows,
+  FlipBoard, formatFlipRows, Switch, Tabs, Tooltip, Dialog, EmptyState, CountUp,
 } from '../packages/react/dist/index.js'
 
 const render = (component, props) => renderToStaticMarkup(createElement(component, props))
@@ -153,4 +153,56 @@ test('disabled leading segmented option is skipped by roving tabindex', () => {
   })
   assert.match(html, /disabled="" tabindex="-1"/)
   assert.match(html, /aria-checked="true"[^>]*tabindex="0"/)
+})
+
+
+test('switch declares keyboard-friendly switch state and controlled values', () => {
+  assert.match(render(Switch, { label: 'Alerts', checked: true, description: 'Receive alerts' }), /role="switch"/)
+  assert.match(render(Switch, { label: 'Alerts', checked: true }), /aria-checked="true"/)
+  assert.match(render(Switch, { label: 'Off', disabled: true }), /disabled=""/)
+})
+
+test('tabs connect selected trigger to its panel while disabling unavailable tabs', () => {
+  const html = render(Tabs, { label: 'Details', defaultValue: 'two', items: [
+    { id: 'one', label: 'Overview', content: 'One' },
+    { id: 'two', label: 'Details', content: 'Two' },
+    { id: 'three', label: 'Disabled', content: 'Three', disabled: true },
+  ]})
+  assert.match(html, /role="tablist"/)
+  assert.match(html, /role="tabpanel"/)
+  assert.match(html, /aria-selected="true" tabindex="0"/)
+  assert.match(html, /aria-labelledby="/)
+  assert.match(html, /Two/)
+  assert.doesNotMatch(html, />Three<\/div>/)
+})
+
+test('tooltip is described and rendered without a browser global', () => {
+  const html = render(Tooltip, { label: 'Help', content: 'Keyboard support', placement: 'bottom' })
+  assert.match(html, /role="tooltip"/)
+  assert.match(html, /aria-describedby="/)
+  assert.match(html, /tui-tooltip--bottom/)
+})
+
+test('dialog supports both closed and initially open SSR markup', () => {
+  assert.equal(render(Dialog, { open: false, title: 'Preferences', onOpenChange() {}, children: 'Settings' }), '')
+  const html = render(Dialog, { open: true, title: 'Preferences', description: 'Change settings', onOpenChange() {}, children: 'Settings' })
+  assert.match(html, /role="dialog"/)
+  assert.match(html, /aria-modal="true"/)
+  assert.match(html, /aria-labelledby="/)
+  assert.match(html, /Settings/)
+})
+
+test('empty state supplies descriptive copy and caller action slot', () => {
+  const html = render(EmptyState, { title: 'Nothing yet', description: 'Create a project', action: createElement('button', null, 'Create') })
+  assert.match(html, /Nothing yet/)
+  assert.match(html, /Create a project/)
+  assert.match(html, /<button>Create<\/button>/)
+})
+
+test('count-up provides stable initial SSR value and a descriptive label', () => {
+  const html = render(CountUp, { value: 2300, label: 'Views', prefix: '+', suffix: ' views' })
+  assert.match(html, /tui-count/)
+  assert.match(html, /role="img"/)
+  assert.match(html, /aria-label="Views: \+2300 views"/)
+  assert.match(html, /\+2,300 views/)
 })

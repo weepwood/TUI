@@ -15,7 +15,7 @@
 
 ## 第一、二阶段已纳入公共 API
 
-ThemeScope、Button、Badge、Card、TextField、Progress、SegmentedControl、Accordion、TagInput、SpotlightCard、Marquee、CopyButton、Skeleton、OtpInput、Stepper、RangeSlider、UploadDropzone。
+ThemeScope、Button、Badge、Card、TextField、Progress、SegmentedControl、Accordion、TagInput、SpotlightCard、Marquee、CopyButton、Skeleton、OtpInput、Stepper、RangeSlider、UploadDropzone、FlipBoard。
 
 ### 公共组件的准入要求
 
@@ -32,7 +32,7 @@ ThemeScope、Button、Badge、Card、TextField、Progress、SegmentedControl、A
 - P1 输入与反馈：StarRating、Checklist。
 - P2 动效组件：Odometer、TextScramble、TiltCard、MagnifyingDock、CardSwap。
 - P3 复杂交互：CommandPalette、DetentDrawer、TimeScrubber、SeatMap、DestCarousel、RotaryKnob。
-- P4 split-flap：拆解 src/lib/flap.ts 为可配置引擎 + React 包装层，移除机场文案硬编码。
+- P4 split-flap：首个通用 FlipBoard 已独立于机场数据；后续可研究复用 src/lib/flap.ts 的更精细动画引擎、grapheme 分割、连续快速变更和跨设备视觉回归。
 - 未来可加单独 packages/vue，但不应把 React 包简单包装为 Vue 组件。
 
 ## 测试与发布

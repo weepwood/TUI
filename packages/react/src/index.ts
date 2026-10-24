@@ -35,3 +35,6 @@ export { RangeSlider } from './components/RangeSlider'
 export type { RangeSliderProps } from './components/RangeSlider'
 export { UploadDropzone, acceptsFile, pickFiles } from './components/UploadDropzone'
 export type { UploadDropzoneProps, UploadRejection } from './components/UploadDropzone'
+
+export { FlipBoard, formatFlipRows } from './components/FlipBoard'
+export type { FlipBoardProps } from './components/FlipBoard'

@@ -1,6 +1,6 @@
 # @weepwood/terminal-ui
 
-个人通用 React 组件包，保留 TERMINAL/UI 的琥珀色、精细动效与轻量视觉设计。目前提供十七个组件，独立于航班数据和展示站状态运行。
+个人通用 React 组件包，保留 TERMINAL/UI 的琥珀色、精细动效与轻量视觉设计。目前提供十八个组件，独立于航班数据和展示站状态运行。
 
 > 版本 0.1.0 为首批可复用组件 API。尚未发布 npm；需要从本仓库构建并打包后本地安装。
 
@@ -57,6 +57,7 @@ export function Example() {
 | Stepper | min, max, step, repeatOnHold | 长按连发的数值步进器 |
 | RangeSlider | min, max, step, value/defaultValue | 基于原生 range 的滑块 |
 | UploadDropzone | accept, maxFiles, value/defaultValue, onFilesChange, onReject | 纯本地文件选择及校验 |
+| FlipBoard | value, columns, align, duration, stagger, label | 通用 split-flap 机械翻牌屏 |
 
 CopyButton 依赖安全上下文中的 Clipboard API，失败时触发 onCopyError，不会假装成功。Marquee 的 items 为纯文本，避免克隆可交互元素造成重复 Tab 焦点。
 
@@ -74,6 +75,8 @@ UploadDropzone **不执行上传**，只返回浏览器 `File[]` 给调用方；
 ```
 
 将该 class 应用于 ThemeScope 即可。默认采用暗色风格，所有组件尽可能提供原生键盘操作及可访问标签。
+
+详细翻牌 API 和使用示例见 [FlipBoard 指南](../../docs/FLIPBOARD.md)。
 
 ## 版本政策
 

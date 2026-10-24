@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import {
   ThemeScope, Button, Badge, Card, TextField, Progress, SegmentedControl, Accordion, TagInput,
   SpotlightCard, Marquee, CopyButton, Skeleton,
-  OtpInput, Stepper, RangeSlider, UploadDropzone,
+  OtpInput, Stepper, RangeSlider, UploadDropzone, FlipBoard,
 } from '../packages/react/src'
 import '../packages/react/src/styles.css'
 import './styles/library-demo.css'
@@ -27,6 +27,7 @@ const catalog = [
   { id: 'stepper', name: 'Stepper', cn: '数字步进器', group: '输入', description: '上下限 · 可配置步长 · 按住连续增减', usage: '<Stepper label="数量" min={0} max={20} />' },
   { id: 'range', name: 'RangeSlider', cn: '数值滑块', group: '输入', description: '原生 range · 键盘友好 · 可配置范围', usage: '<RangeSlider label="音量" defaultValue={36} />' },
   { id: 'upload', name: 'UploadDropzone', cn: '拖拽文件', group: '输入', description: '类型过滤 · 重复检测 · 文件列表（不上传）', usage: '<UploadDropzone label="附件" accept=".png,.pdf" />' },
+  { id: 'flip', name: 'FlipBoard', cn: '机械翻牌屏', group: '数据展示', description: '通用文字显示 · 3D 双面翻牌 · 动效降级', usage: '<FlipBoard value="HELLO UI" columns={10} />' },
   { id: 'theme', name: 'ThemeScope', cn: '主题容器', group: '基础', description: '局部暗色/亮色切换和 CSS Tokens', usage: '<ThemeScope theme="dark">...</ThemeScope>' },
 ] as const
 
@@ -40,6 +41,7 @@ function LibraryApp() {
   const [view, setView] = useState('grid')
   const [tags, setTags] = useState(['React', 'TypeScript'])
   const [otp, setOtp] = useState('')
+  const [flipText, setFlipText] = useState('HELLO UI')
   const [quantity, setQuantity] = useState(3)
   const [rangeValue, setRangeValue] = useState(36)
   const [uploads, setUploads] = useState<File[]>([])
@@ -94,6 +96,8 @@ function LibraryApp() {
         return <RangeSlider label="音量" value={rangeValue} onValueChange={setRangeValue} />
       case 'upload':
         return <UploadDropzone label="项目附件" value={uploads} onFilesChange={setUploads} maxFiles={3} accept=".png,.jpg,.pdf" onReject={reason => setToast(reason === 'limit' ? '最多 3 个文件' : reason === 'type' ? '仅支持 PNG / JPG / PDF' : '文件重复')} />
+      case 'flip':
+        return <div className="lb-preview-stack"><FlipBoard value={flipText.toUpperCase()} columns={10} align="center" label="展示文本" stagger={24} /><div className="lb-preview-row"><Button variant="secondary" size="sm" onClick={() => setFlipText('READY')}>READY</Button><Button variant="secondary" size="sm" onClick={() => setFlipText('DESIGN')}>DESIGN</Button><Button variant="secondary" size="sm" onClick={() => setFlipText('BUILD UI')}>BUILD UI</Button></div></div>
       case 'theme':
         return <div className="lb-preview-stack"><span className="lb-meta">当前主题 / {theme}</span><Button variant="secondary" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>切换到{theme === 'dark' ? '亮色' : '暗色'}主题</Button></div>
       default:
@@ -112,7 +116,7 @@ function LibraryApp() {
           <div className="lb-eyebrow"><span className="lb-pulse" /> THE COMPONENT WORKSHOP · 001</div>
           <h1>Build once.<br /><em>Use everywhere.</em></h1>
           <p>把喜欢的设计变成真正能复用的组件。独立 React 包、清晰 API、可访问交互与可定制的设计变量。</p>
-          <div className="lb-hero-stats"><div><strong>17</strong><span>PUBLIC COMPONENTS</span></div><div><strong>02</strong><span>THEME MODES</span></div><div><strong>0</strong><span>UI DEPENDENCIES</span></div></div>
+          <div className="lb-hero-stats"><div><strong>18</strong><span>PUBLIC COMPONENTS</span></div><div><strong>02</strong><span>THEME MODES</span></div><div><strong>0</strong><span>UI DEPENDENCIES</span></div></div>
         </div>
         <div className="lb-controls"><div className="lb-filter-group" aria-label="组件分类">{categories.map(c => <button key={c} type="button" className={category === c ? 'is-active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div><label className="lb-search"><span>⌕</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索组件 / Search" /></label></div>
         <div className="lb-list-title"><div><span className="lb-section-number">01 / CATALOG</span><h2>Component collection</h2></div><span className="lb-counter">{visible.length} / {catalog.length} SHOWN</span></div>

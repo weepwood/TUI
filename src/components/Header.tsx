@@ -18,7 +18,7 @@ export default function Header({ onOpenPalette, onGoto }: Props) {
           <span className="ver mono">v2.6</span>
         </button>
         <nav className="top">
-          <button onClick={() => onGoto('about')}>关于 About</button>
+          <button onClick={() => { window.location.href = '/library.html' }}>通用组件库 Library ↗</button>
         </nav>
         <span className="hd-clock">
           <Clock />

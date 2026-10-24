@@ -53,7 +53,7 @@ export function Dialog({ open, onOpenChange, title, description, children, foote
     }
   }, [open])
 
-  if (!open || typeof document === 'undefined') return null
+  if (!open) return null
   return (
     <div className="tui-dialog__overlay" onPointerDown={event => { if (event.target === event.currentTarget) onOpenChange(false) }}>
       <div className={['tui-dialog', className].filter(Boolean).join(' ')} ref={panel}

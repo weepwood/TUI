@@ -183,8 +183,13 @@ test('tooltip is described and rendered without a browser global', () => {
   assert.match(html, /tui-tooltip--bottom/)
 })
 
-test('dialog is safe to render closed during SSR', () => {
+test('dialog supports both closed and initially open SSR markup', () => {
   assert.equal(render(Dialog, { open: false, title: 'Preferences', onOpenChange() {}, children: 'Settings' }), '')
+  const html = render(Dialog, { open: true, title: 'Preferences', description: 'Change settings', onOpenChange() {}, children: 'Settings' })
+  assert.match(html, /role="dialog"/)
+  assert.match(html, /aria-modal="true"/)
+  assert.match(html, /aria-labelledby="/)
+  assert.match(html, /Settings/)
 })
 
 test('empty state supplies descriptive copy and caller action slot', () => {

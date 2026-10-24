@@ -194,7 +194,7 @@ function LibraryApp() {
           {visible.map((item, index) => <article className="lb-item" key={item.id}>
             <div className="lb-item-head"><span className="lb-item-number">{String(index + 1).padStart(2, '0')}</span><div className="lb-item-flags">{'fresh' in item && <span className="lb-new-flag">NEW</span>}<Badge tone="accent">{item.group}</Badge></div></div>
             <h3>{item.name}<small>{item.cn}</small></h3><p>{item.description}</p>
-            <div className="lb-preview">{renderPreview(item.id)}</div>
+            <div className={item.id === 'tooltip' ? 'lb-preview lb-preview--overflow' : 'lb-preview'}>{renderPreview(item.id)}</div>
             <div className="lb-code"><code>{item.usage}</code><button type="button" onClick={() => copy(item.id, item.usage)} aria-label={'复制 ' + item.name + ' 用法'}>{copied === item.id ? '✓ 已复制' : '复制 ↗'}</button></div>
           </article>)}
           {visible.length === 0 && <div className="lb-empty">没有找到匹配的组件，请更换关键词。</div>}

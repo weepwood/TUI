@@ -1093,7 +1093,7 @@ html.viewer-open{overflow:hidden}
 .comp-demo.v-paper .ti-box,
 .comp-demo.v-paper .cmd-box{background:#fff}
 
-/* ============ 提示词 ============ */
+/* ============ 提示词（点击即复制） ============ */
 .prompt-chip{
   display:inline-flex;align-items:center;gap:6px;flex:none;
   font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;
@@ -1101,22 +1101,8 @@ html.viewer-open{overflow:hidden}
   padding:5px 12px;transition:.2s;
 }
 .prompt-chip:hover{color:var(--amber);border-color:var(--amber);border-style:solid}
-.prompt-chip.on{color:var(--amber);border-color:var(--amber);border-style:solid;background:rgba(255,176,46,.08)}
+.prompt-chip.done{color:var(--ok);border-color:var(--ok);border-style:solid;background:rgba(61,220,151,.08)}
 .comp-hd-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-/* 折叠面板：默认收起 */
-.pcard-wrap{
-  display:grid;grid-template-rows:0fr;
-  transition:grid-template-rows .4s cubic-bezier(.2,.8,.3,1);
-}
-.pcard-wrap.open{grid-template-rows:1fr}
-.pcard-clip{overflow:hidden}
-.pcard{
-  margin:0 28px 26px;background:var(--bg2);border:1px dashed rgba(255,176,46,.4);
-  border-radius:13px;padding:18px 20px;
-}
-.pcard-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap}
-.pcard-tag{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.2em;color:var(--amber)}
-.pcard-body{font-size:13px;color:var(--muted);line-height:1.9}
 
 /* ============ 响应式：侧边栏变顶部横条 ============ */
 @media(max-width:960px){

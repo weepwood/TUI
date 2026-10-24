@@ -16,13 +16,15 @@
 
 ```bash
 npm ci
-npm run dev           # http://localhost:5173/ 和 /library.html 均进入通用组件库
+npm run dev           # 默认进入文档式组件详情页（参考 Planes 的信息结构）
+                      # ?component=segmented-control 直接访问分段控制文档
+                      # ?view=gallery 访问原有互动卡片总览
 npm run check         # 双入口打包、独立组件构建、类型声明和测试
 npm run build:lib     # packages/react/dist
 npm pack ./packages/react
 ```
 
-两个 URL 是兼容入口，均采用同一个通用组件库应用。原专题演示源码仍保留在 src/App.tsx、src/components 和 src/styles/global.css 等文件中以便后续无损迁移，但已不再作为首页入口参与生产站点构建，也不包含在可安装组件包内。
+两个入口（`/` 和 `/library.html`）均采用同一个应用，默认打开**文档式组件详情页**。侧栏按组件分类导航，中间包括演示、安装、使用示例、属性表、场景和相关组件。组件间切换使用 `?component=<slug>`，支持刷新与前后退；原卡片墙在 `?view=gallery` 保留。原专题演示源码仍保留在 src/App.tsx、src/components 和 src/styles/global.css 等文件中以便后续无损迁移，但已不再作为首页入口参与生产站点构建，也不包含在可安装组件包内。
 
 ## 当前组件
 
@@ -43,6 +45,7 @@ FlipBoard 是通用数字/文字翻页效果，而非行业专用显示屏；不
 
 - React 18 + TypeScript + Vite；React 为独立包 peer dependency。
 - 组件包不依赖展示站业务 Context、路由或者全局主题。
+- [参考 Planes 的组件文档展示改造](./docs/DOCS_PRESENTATION.md)
 - [社区组件库研究与迁移记录](./docs/COMMUNITY_RESEARCH.md)
 - [组件包安装与 API](./packages/react/README.md)
 - [设计规范与 Tokens](./docs/DESIGN_SYSTEM.md)

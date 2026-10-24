@@ -115,3 +115,7 @@ button,input{font:inherit}
 
 .lb-preview--overflow{overflow:visible}
 .lb-item--tooltip:is(:hover,:focus-within){position:relative;z-index:2}
+
+.lb-code-actions{display:flex;align-items:center;gap:14px;flex:none}
+.lb-code-actions a{font-size:11px;color:var(--tui-accent);text-decoration:none;white-space:nowrap}
+.lb-code-actions a:hover{text-decoration:underline}

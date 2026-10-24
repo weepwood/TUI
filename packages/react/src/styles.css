@@ -258,3 +258,17 @@
  .tui-dialog__overlay,.tui-dialog{animation:none}
  .tui-switch__control,.tui-switch__thumb,.tui-tooltip__bubble{transition:none}
 }
+
+/* Animated, equal-width selection surface for SegmentedControl */
+.tui-segmented{position:relative;display:inline-grid;grid-template-columns:repeat(var(--tui-segment-count,3),minmax(0,1fr));
+  flex-wrap:nowrap;gap:0;isolation:isolate}
+.tui-segmented::before{content:"";position:absolute;left:4px;top:4px;bottom:4px;
+  width:calc((100% - 8px) / var(--tui-segment-count,3));
+  border-radius:calc(var(--tui-radius,12px) - 4px);
+  background:var(--tui-surface,#fff);box-shadow:0 2px 9px rgba(0,0,0,.085);
+  transform:translateX(calc(var(--tui-segment-index,0) * 100%));
+  transition:transform .24s cubic-bezier(.2,.8,.2,1);pointer-events:none;z-index:0}
+.tui-segmented[data-has-selection="false"]::before{display:none}
+.tui-segmented__option{position:relative;z-index:1;white-space:nowrap;min-width:0;padding:9px 13px;transition:color .2s;background:transparent}
+.tui-segmented__option.is-selected{background:transparent;box-shadow:none;color:var(--tui-accent,#365de6);font-weight:660}
+@media(prefers-reduced-motion:reduce){.tui-segmented::before{transition:none}}

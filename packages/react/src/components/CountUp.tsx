@@ -41,7 +41,7 @@ export function CountUp({ value, duration = 850, decimals = 0, prefix = '', suff
     return () => cancelAnimationFrame(raf)
   }, [target, speed])
   const formatted = display.toLocaleString(undefined, { minimumFractionDigits: places, maximumFractionDigits: places })
-  return <span className={['tui-count', className].filter(Boolean).join(' ')} aria-label={label ? label + ': ' + prefix + target + suffix : undefined}>
+  return <span className={['tui-count', className].filter(Boolean).join(' ')} role={label ? 'img' : undefined} aria-label={label ? label + ': ' + prefix + target + suffix : undefined}>
     <span aria-hidden={label ? 'true' : undefined}>{prefix}{formatted}{suffix}</span>
   </span>
 }

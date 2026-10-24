@@ -202,6 +202,7 @@ test('empty state supplies descriptive copy and caller action slot', () => {
 test('count-up provides stable initial SSR value and a descriptive label', () => {
   const html = render(CountUp, { value: 2300, label: 'Views', prefix: '+', suffix: ' views' })
   assert.match(html, /tui-count/)
+  assert.match(html, /role="img"/)
   assert.match(html, /aria-label="Views: \+2300 views"/)
   assert.match(html, /\+2,300 views/)
 })

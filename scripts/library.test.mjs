@@ -58,3 +58,17 @@ test('tag input renders controlled values and labels', () => {
   assert.match(html, /React/)
   assert.match(html, /aria-label="移除 React"/)
 })
+
+test('package exports point at actual built JS, declarations, and stylesheet', async () => {
+  const packageUrl = new URL('../packages/react/package.json', import.meta.url)
+  const { readFileSync, existsSync } = await import('node:fs')
+  const manifest = JSON.parse(readFileSync(packageUrl, 'utf8'))
+  const exportsToVerify = [
+    manifest.exports['.'].import,
+    manifest.exports['.'].types,
+    manifest.exports['./styles.css'],
+  ]
+  for (const relativePath of exportsToVerify) {
+    assert.ok(existsSync(new URL(relativePath, packageUrl)), relativePath + ' must exist')
+  }
+})

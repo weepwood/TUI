@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
-  Button, Badge, Card, ThemeScope, TextField, Progress, SegmentedControl, Accordion, TagInput,
+  Button, Badge, Card, ThemeScope, TextField, Progress, SegmentedControl, Accordion, TagInput, SpotlightCard, Marquee, CopyButton, Skeleton,
 } from '../packages/react/dist/index.js'
 
 const render = (component, props) => renderToStaticMarkup(createElement(component, props))
@@ -71,4 +71,11 @@ test('package exports point at actual built JS, declarations, and stylesheet', a
   for (const relativePath of exportsToVerify) {
     assert.ok(existsSync(new URL(relativePath, packageUrl)), relativePath + ' must exist')
   }
+})
+
+test('motion primitives render without browser globals', () => {
+  assert.match(render(SpotlightCard, { children: 'Glow' }), /tui-spotlight/)
+  assert.match(render(Marquee, { label: 'Logos', items: ['React', 'Vite'] }), /aria-hidden="true"/)
+  assert.match(render(CopyButton, { text: 'npm install' }), /tui-copy/)
+  assert.match(render(Skeleton, { avatar: true, lines: 3 }), /aria-busy="true"/)
 })

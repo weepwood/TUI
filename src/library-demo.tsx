@@ -2,6 +2,7 @@ import { StrictMode, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   ThemeScope, Button, Badge, Card, TextField, Progress, SegmentedControl, Accordion, TagInput,
+  SpotlightCard, Marquee, CopyButton, Skeleton,
 } from '../packages/react/src'
 import '../packages/react/src/styles.css'
 import './styles/library-demo.css'
@@ -17,6 +18,10 @@ const catalog = [
   { id: 'accordion', name: 'Accordion', cn: '手风琴', group: '容器', description: '可访问的单开面板 · 可受控', usage: '<Accordion items={items} defaultValue="one" />' },
   { id: 'tags', name: 'TagInput', cn: '标签输入', group: '输入', description: 'Enter 添加 · 去重 · 最大数量限制', usage: '<TagInput label="标签" maxTags={6} />' },
   { id: 'progress', name: 'Progress', cn: '进度条', group: '数据展示', description: '进度反馈 · 范围约束 · aria-progressbar', usage: '<Progress label="构建进度" value={75} />' },
+  { id: 'spotlight', name: 'SpotlightCard', cn: '聚光卡片', group: '容器', description: '指针追踪 · 光晕渐隐 · 零 React 重渲染', usage: '<SpotlightCard>内容</SpotlightCard>' },
+  { id: 'marquee', name: 'Marquee', cn: '跑马灯', group: '数据展示', description: '循环滚动 · 悬停暂停 · 减少动效偏好', usage: '<Marquee label="工具" items={["React", "Vite"]} />' },
+  { id: 'copy', name: 'CopyButton', cn: '复制按钮', group: '基础', description: '异步复制 · 状态反馈 · 失败回调', usage: '<CopyButton text="npm install">复制命令</CopyButton>' },
+  { id: 'skeleton', name: 'Skeleton', cn: '骨架屏', group: '数据展示', description: '可配置头像/行数 · Shimmer 占位效果', usage: '<Skeleton lines={3} avatar />' },
   { id: 'theme', name: 'ThemeScope', cn: '主题容器', group: '基础', description: '局部暗色/亮色切换和 CSS Tokens', usage: '<ThemeScope theme="dark">...</ThemeScope>' },
 ] as const
 
@@ -64,6 +69,14 @@ function LibraryApp() {
         return <TagInput label="技术栈标签" value={tags} onValueChange={setTags} maxTags={6} onError={reason => setToast(reason === 'duplicate' ? '标签已存在' : '最多添加 6 个标签')} />
       case 'progress':
         return <div className="lb-preview-stack"><Progress label="构建进度" value={progress} /><input aria-label="调整进度值" type="range" min="0" max="100" value={progress} onChange={event => setProgress(Number(event.target.value))} className="lb-range" /></div>
+      case 'spotlight':
+        return <SpotlightCard glowSize={300}><span className="lb-card-kicker">INTERACTIVE / LIGHT</span><h3 style={{margin:'8px 0'}}>Pointer spotlight</h3><p className="lb-meta">移动鼠标，让边缘光晕跟随你的指针。</p></SpotlightCard>
+      case 'marquee':
+        return <Marquee label="技术标签" items={['React', 'TypeScript', 'Vite', 'Accessible', 'Motion', 'Terminal UI']} duration={18} />
+      case 'copy':
+        return <div className="lb-preview-stack"><span className="lb-meta">npm install @weepwood/terminal-ui</span><CopyButton text="npm install @weepwood/terminal-ui" onCopyError={() => setToast('请在安全环境中启用剪贴板权限')} /></div>
+      case 'skeleton':
+        return <Skeleton avatar lines={3} />
       case 'theme':
         return <div className="lb-preview-stack"><span className="lb-meta">当前主题 / {theme}</span><Button variant="secondary" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>切换到{theme === 'dark' ? '亮色' : '暗色'}主题</Button></div>
       default:
@@ -82,7 +95,7 @@ function LibraryApp() {
           <div className="lb-eyebrow"><span className="lb-pulse" /> THE COMPONENT WORKSHOP · 001</div>
           <h1>Build once.<br /><em>Use everywhere.</em></h1>
           <p>把喜欢的设计变成真正能复用的组件。独立 React 包、清晰 API、可访问交互与可定制的设计变量。</p>
-          <div className="lb-hero-stats"><div><strong>09</strong><span>PUBLIC COMPONENTS</span></div><div><strong>02</strong><span>THEME MODES</span></div><div><strong>0</strong><span>UI DEPENDENCIES</span></div></div>
+          <div className="lb-hero-stats"><div><strong>13</strong><span>PUBLIC COMPONENTS</span></div><div><strong>02</strong><span>THEME MODES</span></div><div><strong>0</strong><span>UI DEPENDENCIES</span></div></div>
         </div>
         <div className="lb-controls"><div className="lb-filter-group" aria-label="组件分类">{categories.map(c => <button key={c} type="button" className={category === c ? 'is-active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div><label className="lb-search"><span>⌕</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索组件 / Search" /></label></div>
         <div className="lb-list-title"><div><span className="lb-section-number">01 / CATALOG</span><h2>Component collection</h2></div><span className="lb-counter">{visible.length} / {catalog.length} SHOWN</span></div>

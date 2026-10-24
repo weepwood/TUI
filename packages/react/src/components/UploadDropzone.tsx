@@ -36,7 +36,8 @@ export function pickFiles(
     else if (result.length >= maxFiles) rejected.push({ reason: 'limit', file })
     else result.push(file)
   }
-  return { files: result, rejected }
+  // An invalid/repeated selection must never erase an existing single-file value.
+  return { files: !multiple && !result.length ? [...previous] : result, rejected }
 }
 function formatSize(bytes: number) {
   if (bytes < 1024) return bytes + ' B'

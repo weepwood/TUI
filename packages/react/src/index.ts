@@ -27,7 +27,7 @@ export type { CopyButtonProps } from './components/CopyButton'
 export { Skeleton } from './components/Skeleton'
 export type { SkeletonProps } from './components/Skeleton'
 
-export { OtpInput } from './components/OtpInput'
+export { OtpInput, updateOtpValue } from './components/OtpInput'
 export type { OtpInputProps } from './components/OtpInput'
 export { Stepper } from './components/Stepper'
 export type { StepperProps } from './components/Stepper'

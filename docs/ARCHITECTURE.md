@@ -13,9 +13,9 @@
 - src/App.tsx + index.html：原有组件展厅。
 - scripts/library.test.mjs：公共导出 SSR 烟测，CI 自动执行。
 
-## 第一阶段已纳入公共 API
+## 第一、二阶段已纳入公共 API
 
-ThemeScope、Button、Badge、Card、TextField、Progress、SegmentedControl、Accordion、TagInput、SpotlightCard、Marquee、CopyButton、Skeleton。
+ThemeScope、Button、Badge、Card、TextField、Progress、SegmentedControl、Accordion、TagInput、SpotlightCard、Marquee、CopyButton、Skeleton、OtpInput、Stepper、RangeSlider、UploadDropzone。
 
 ### 公共组件的准入要求
 
@@ -29,7 +29,7 @@ ThemeScope、Button、Badge、Card、TextField、Progress、SegmentedControl、A
 
 ## 后续迁移优先级（待实施）
 
-- P1 输入与反馈：OtpInput、RangeSlider、Stepper、UploadDropzone、StarRating、Checklist。
+- P1 输入与反馈：StarRating、Checklist。
 - P2 动效组件：Odometer、TextScramble、TiltCard、MagnifyingDock、CardSwap。
 - P3 复杂交互：CommandPalette、DetentDrawer、TimeScrubber、SeatMap、DestCarousel、RotaryKnob。
 - P4 split-flap：拆解 src/lib/flap.ts 为可配置引擎 + React 包装层，移除机场文案硬编码。

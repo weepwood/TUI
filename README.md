@@ -1,6 +1,6 @@
 # TERMINAL/UI — 组件航站楼
 
-像机场航显板一样翻动的 React 动效组件展示厅，现共 **26 个可交互组件**。每一个都是活演示，页面即文档。
+像机场航显板一样翻动的 React 动效组件展示厅，现共 **32 个可交互组件**。每一个都是活演示，页面即文档。
 
 部分组件交互参考了 [Bencho](https://bencho.dev)、[Magic UI](https://magicui.design) 与 [ReactBits](https://reactbits.dev)，全部零依赖手工实现。
 
@@ -65,6 +65,12 @@ src/
     ├── TagInput.tsx        # C-23 标签输入（懒加载）
     ├── UploadDropzone.tsx  # C-24 上传区（Magic UI FileUpload 参考，懒加载）
     ├── TextScramble.tsx    # C-25 乱码解码（ReactBits Decode Text 参考，懒加载）
+    ├── StarRating.tsx      # C-26 星级评分（懒加载）
+    ├── Checklist.tsx       # C-27 登机清单（描画对勾+划除，懒加载）
+    ├── SpotlightCard.tsx   # C-28 聚光卡片（Magic UI Spotlight，懒加载）
+    ├── CardSwap.tsx        # C-29 卡片堆叠（Bencho Card Swap，懒加载）
+    ├── TimeScrubber.tsx    # C-30 起飞时间轴（Bencho Time Scrubber，懒加载）
+    ├── DestCarousel.tsx    # C-31 目的地轮播（scroll-snap，懒加载）
     ├── Clock.tsx           # 独立时钟（隔离每秒重渲染）
     └── BoardingPass.tsx    # 登机牌页脚
 ```
@@ -73,7 +79,7 @@ src/
 
 - 每个组件都附带「AI 生成提示词」：点击区块头 `✦ 提示词` 按钮**一键复制**（按钮短暂变绿「✓ 已复制」），不展开任何面板
 - **样式变体机制**：同一组件、不同提示词 → 不同样式。启用变体的组件（OTP、复制按钮、
-  滑动确认、滑杆、步骤条、标签输入）可在 `经典 CLASSIC / 霓虹 NEON / 纸感 PAPER`
+  滑动确认、滑杆、步骤条、标签输入、星级、聚光卡片、卡片堆叠）可在 `经典 CLASSIC / 霓虹 NEON / 纸感 PAPER`
   之间切换——演示区挂作用域 class 重定义 CSS 变量组，子组件整体换装；
   复制的提示词会自动拼接当前变体的风格描述，让 AI 生成对应样式
 - 新增变体只需在 `data.ts` 的 `VARIANTS` 里加一项（label + 作用域 class + 风格后缀），

@@ -118,6 +118,30 @@ export const COMPONENTS: CompMeta[] = [
     id: 'c25', no: 'TR-129', en: 'TEXT SCRAMBLE', cn: '乱码解码', gate: 'TEXT', st: 'BOARDING',
     prompt: '实现乱码解码文字效果：目标短语逐位定格，正在解码的字符每 2 帧换一个随机字形（!<>-_\\/[]{}=+*^?#），从左到右推进；解码完停留 1.8s 切下一句循环；rAF 驱动、离开视口自动暂停；大号 Barlow Condensed 琥珀字 + 微光晕。',
   },
+  {
+    id: 'c26', no: 'TR-130', en: 'STAR RATING', cn: '星级评分', gate: 'INPUT', st: 'ON TIME',
+    prompt: '实现星级评分组件：5 颗 SVG 星星，悬停时预览点亮到该星级、移开还原，点击确认评分；选中的星星带 scale 回弹动画和辉光；下方文案随档位变化（糟糕/一般/舒适/尊享/完美）；支持方向键调节。',
+  },
+  {
+    id: 'c27', no: 'TR-131', en: 'CHECKLIST', cn: '登机清单', gate: 'FEEDBACK', st: 'BOARDING',
+    prompt: '实现待办清单组件：自定义方形复选框，勾选时对勾用 SVG stroke-dashoffset 描画动画；文字用伪元素横线 scaleX 展开划除；底部进度条随完成度填充，全部完成时变绿并弹出祝贺提示。条目示例：护照/签证/充电宝/颈枕/常旅客卡。',
+  },
+  {
+    id: 'c28', no: 'TR-132', en: 'SPOTLIGHT CARD', cn: '聚光卡片', gate: 'MOTION', st: 'BOARDING',
+    prompt: '实现聚光边框卡片（Magic UI Spotlight 风格）：卡片外层 1px 容器内放置 radial-gradient 光斑层，位置由 CSS 变量 --gx/--gy 跟随指针，悬停时边框光晕亮起、离开淡出；内部为实底内容层。卡片内容做成登机口信息面板。',
+  },
+  {
+    id: 'c29', no: 'TR-133', en: 'CARD SWAP', cn: '卡片堆叠', gate: 'MOTION', st: 'ON TIME',
+    prompt: '实现卡片堆叠切换（Bencho Card Swap 风格）：3 张卡片绝对定位堆叠，第 1 张在前（原位），后两张依次下移、缩小并左右微旋；点击卡片或按钮时顺序轮转，所有卡片用弹性 transform 过渡到新位置；卡片内容为三张不同航线的登机牌。',
+  },
+  {
+    id: 'c30', no: 'TR-134', en: 'TIME SCRUBBER', cn: '起飞时间轴', gate: 'MOTION', st: 'ON TIME',
+    prompt: '实现时间轴拖拽组件（Bencho Time Scrubber 风格）：横向时间轴分四个航段（滑行/爬升/巡航/下降），可拖拽的飞机指针沿轴移动，指针下方光点标记当前位置；实时换算飞行经过时间（总时长 11h30m）并高亮当前航段名称；支持点击跳转与方向键微调。',
+  },
+  {
+    id: 'c31', no: 'TR-135', en: 'DEST CAROUSEL', cn: '目的地轮播', gate: 'TEXT', st: 'BOARDING',
+    prompt: '实现滚动吸附轮播：横向 scroll-snap 容器展示目的地卡片，支持指针拖拽滚动（pointer 捕获 + scrollTo）、左右按钮按卡片宽度翻页；底部圆点指示器随滚动位置联动；每张卡片不同的渐变底色 + 大号压缩字体城市名 + 机场代码徽章。',
+  },
   { id: null, no: 'TR-112', en: 'SHADER ROWS', cn: '着色器行', gate: 'VISUAL', st: 'DELAYED', prompt: '' },
   { id: null, no: 'TR-118', en: 'MORSE TICKER', cn: '摩尔特尘', gate: 'TEXT', st: 'DELAYED', prompt: '' },
 ]
@@ -129,17 +153,17 @@ export interface Group {
 
 export const GROUPS: Group[] = [
   { label: '开始 · START', ids: ['c00'] },
-  { label: '文本 · TEXT', ids: ['c01', 'c02', 'c22', 'c25'] },
-  { label: '输入 · INPUT', ids: ['c03', 'c04', 'c05', 'c06', 'c10', 'c11', 'c20', 'c23', 'c24'] },
-  { label: '反馈 · FEEDBACK', ids: ['c07', 'c08', 'c14', 'c15', 'c19'] },
-  { label: '动效 · MOTION', ids: ['c09', 'c12', 'c13', 'c16', 'c17', 'c18', 'c21'] },
+  { label: '文本 · TEXT', ids: ['c01', 'c02', 'c22', 'c25', 'c31'] },
+  { label: '输入 · INPUT', ids: ['c03', 'c04', 'c05', 'c06', 'c10', 'c11', 'c20', 'c23', 'c24', 'c26'] },
+  { label: '反馈 · FEEDBACK', ids: ['c07', 'c08', 'c14', 'c15', 'c19', 'c27'] },
+  { label: '动效 · MOTION', ids: ['c09', 'c12', 'c13', 'c16', 'c17', 'c18', 'c21', 'c28', 'c29', 'c30'] },
 ]
 
 export const MQ_ITEMS = [
   'GATE 24 — NOW BOARDING',
   'FLIP · MOTION · DETAIL',
   'TERMINAL/UI v2.6',
-  '26 LIVE COMPONENTS',
+  '32 LIVE COMPONENTS',
   'ZERO DEPENDENCIES',
   'REACT + VITE + TS',
   'SLIDE · TILT · BURST',
@@ -196,4 +220,4 @@ export const VARIANTS: Variant[] = [
 ]
 
 /** 启用多变体切换的组件 id（其余组件只有「经典」一个变体） */
-export const MULTI_VARIANT_IDS = new Set(['c03', 'c07', 'c15', 'c20', 'c21', 'c23'])
+export const MULTI_VARIANT_IDS = new Set(['c03', 'c07', 'c15', 'c20', 'c21', 'c23', 'c26', 'c28', 'c29'])

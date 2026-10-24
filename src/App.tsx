@@ -34,6 +34,12 @@ const Accordion = lazy(() => import('./components/Accordion'))
 const TagInput = lazy(() => import('./components/TagInput'))
 const UploadDropzone = lazy(() => import('./components/UploadDropzone'))
 const TextScramble = lazy(() => import('./components/TextScramble'))
+const StarRating = lazy(() => import('./components/StarRating'))
+const Checklist = lazy(() => import('./components/Checklist'))
+const SpotlightCard = lazy(() => import('./components/SpotlightCard'))
+const CardSwap = lazy(() => import('./components/CardSwap'))
+const TimeScrubber = lazy(() => import('./components/TimeScrubber'))
+const DestCarousel = lazy(() => import('./components/DestCarousel'))
 
 const Lazy = ({ children }: { children: ReactNode }) => (
   <Suspense fallback={<span className="hint">LOADING…</span>}>{children}</Suspense>
@@ -126,6 +132,12 @@ export default function App() {
     c23: <Lazy><TagInput /></Lazy>,
     c24: <Lazy><UploadDropzone /></Lazy>,
     c25: <Lazy><TextScramble /></Lazy>,
+    c26: <Lazy><StarRating /></Lazy>,
+    c27: <Lazy><Checklist /></Lazy>,
+    c28: <Lazy><SpotlightCard /></Lazy>,
+    c29: <Lazy><CardSwap /></Lazy>,
+    c30: <Lazy><TimeScrubber /></Lazy>,
+    c31: <Lazy><DestCarousel /></Lazy>,
   }
 
   const renderComp = (c: CompMeta & { id: string }) => (
@@ -211,4 +223,10 @@ const FOOTERS: Record<string, ReactNode> = {
   c23: <>回车 / 逗号提交、空输入退格删最后一个、去重 + 上限校验，芯片带入场动画。</>,
   c24: <>拖入高亮 + 文件芯片列表（参考 Magic UI FileUpload）。纯前端演示，不真正上传。</>,
   c25: <>随机字形逐位定格成目标短语（ReactBits Decode Text 同款效果），rAF 驱动、离屏自动暂停。</>,
+  c26: <>悬停预览、点击确认，选中星带回弹与辉光；方向键可调（Bencho Rating 风格）。</>,
+  c27: <>对勾描画 + 文字划除双动画，进度条实时填充，集齐庆祝（Bencho Checklist 风格）。</>,
+  c28: <>边框光晕由 <code>--gx/--gy</code> 驱动跟随指针，悬停亮起（Magic UI Spotlight 同款手法）。</>,
+  c29: <>三张登机牌堆叠轮转，弹性 transform 换位（Bencho Card Swap 风格）。</>,
+  c30: <>四航段时间轴 + 可拖飞机指针，实时换算 T+ 时间并高亮当前航段。</>,
+  c31: <><code>scroll-snap</code> 吸附 + 指针拖拽 + 按钮翻页，圆点指示器随滚动联动。</>,
 }

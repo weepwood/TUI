@@ -1104,6 +1104,145 @@ html.viewer-open{overflow:hidden}
 .prompt-chip.done{color:var(--ok);border-color:var(--ok);border-style:solid;background:rgba(61,220,151,.08)}
 .comp-hd-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
+/* ============ C-26 星级评分 ============ */
+.sr{display:flex;flex-direction:column;gap:14px;align-items:center}
+.sr-stars{display:flex;gap:10px}
+.sr-star{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;transition:.18s}
+.sr-star svg{width:30px;height:30px;fill:var(--line2);transition:fill .18s,filter .18s}
+.sr-star.on svg{fill:var(--amber)}
+.sr-star.lead svg{filter:drop-shadow(0 0 8px rgba(255,176,46,.55))}
+.sr-star:hover{transform:translateY(-3px) scale(1.1)}
+.sr-star svg.pop{animation:sr-pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes sr-pop{40%{transform:scale(1.35) rotate(-8deg)}}
+.sr-label{font-size:12px;color:var(--amber);letter-spacing:.14em}
+
+/* ============ C-27 登机清单 ============ */
+.ck{display:flex;flex-direction:column;gap:18px;width:100%;max-width:420px}
+.ck-list{display:flex;flex-direction:column;gap:6px}
+.ck-item{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  padding:10px 12px;border-radius:10px;transition:background .15s;
+}
+.ck-item:hover{background:var(--bg2)}
+.ck-box{
+  width:24px;height:24px;border-radius:7px;border:2px solid var(--line2);flex:none;
+  display:grid;place-items:center;color:var(--amber);transition:.25s;
+}
+.ck-item.done .ck-box{border-color:var(--amber);background:rgba(255,176,46,.1)}
+.ck-box svg{width:14px;height:14px}
+.ck-tick{stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .35s cubic-bezier(.2,.8,.3,1) .05s}
+.ck-item.done .ck-tick{stroke-dashoffset:0}
+.ck-label{font-size:14px;position:relative;transition:color .3s}
+.ck-label::after{
+  content:"";position:absolute;left:-2px;right:-2px;top:52%;height:1.5px;background:var(--muted);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.8,.3,1);
+}
+.ck-item.done .ck-label{color:var(--muted)}
+.ck-item.done .ck-label::after{transform:scaleX(1)}
+.ck-foot{display:flex;align-items:center;gap:14px}
+.ck-bar{flex:1;height:5px;border-radius:99px;background:var(--line2);overflow:hidden}
+.ck-bar i{display:block;height:100%;border-radius:99px;background:var(--amber);transition:width .4s cubic-bezier(.2,.8,.3,1)}
+.ck-bar i.full{background:var(--ok)}
+.ck-count{font-size:10.5px;color:var(--muted);letter-spacing:.14em;flex:none}
+.ck-count.ok{color:var(--ok)}
+
+/* ============ C-28 聚光卡片 ============ */
+.spot-wrap{display:flex;flex-direction:column;gap:16px;align-items:center}
+.spot{
+  position:relative;padding:1px;border-radius:15px;overflow:hidden;width:min(400px,100%);
+  background:var(--line2);
+}
+.spot::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(240px circle at var(--gx, -100px) var(--gy, -100px), var(--amber), transparent 62%);
+  opacity:0;transition:opacity .35s;
+}
+.spot:hover::before{opacity:.85}
+.spot-inner{
+  position:relative;background:var(--panel);border-radius:14px;padding:20px 22px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.spot-hd{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.spot-route{font-weight:700;font-size:38px;letter-spacing:.08em;display:flex;align-items:center;gap:16px}
+.spot-route i{font-style:normal;color:var(--amber);font-size:18px}
+.spot-rows{display:flex;gap:16px;flex-wrap:wrap;font-size:10px;color:var(--muted);letter-spacing:.14em}
+
+/* ============ C-29 卡片堆叠 ============ */
+.cs{display:flex;flex-direction:column;gap:16px;align-items:center}
+.cs-stage{position:relative;width:min(340px,90%);height:190px}
+.cs-card{
+  position:absolute;left:50%;top:50%;width:100%;height:158px;border-radius:15px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:16px 18px;
+  border:1px solid var(--line2);box-shadow:0 10px 30px rgba(0,0,0,.35);
+  transition:transform .45s cubic-bezier(.25,1.1,.4,1),box-shadow .45s;cursor:pointer;
+  text-align:left;
+}
+.cs-card:hover{box-shadow:0 16px 40px rgba(0,0,0,.45)}
+.cs-card.a{background:linear-gradient(135deg,#1a1a22,#101016)}
+.cs-card.b{background:linear-gradient(135deg,#141d2b,#0d1420)}
+.cs-card.c{background:linear-gradient(135deg,#221722,#120d16)}
+.cs-no{font-size:10px;color:var(--amber);letter-spacing:.16em}
+.cs-route{font-weight:700;font-size:30px;letter-spacing:.08em;display:flex;align-items:center;gap:12px}
+.cs-route i{font-style:normal;color:var(--amber);font-size:15px}
+.cs-tag{margin-top:auto;font-size:9px;color:var(--muted);letter-spacing:.24em}
+
+/* ============ C-30 起飞时间轴 ============ */
+.tsb{display:flex;flex-direction:column;gap:16px;width:100%;max-width:520px}
+.tsb-hd{display:flex;justify-content:space-between;align-items:baseline;width:100%}
+.tsb-time{font-size:14px;color:var(--amber);font-weight:700;letter-spacing:.1em}
+.tsb-track{
+  position:relative;height:56px;display:flex;align-items:flex-end;
+  border-radius:12px;background:var(--bg2);border:1px solid var(--line2);
+  cursor:pointer;touch-action:none;overflow:visible;
+}
+.tsb-phase{
+  position:absolute;top:0;bottom:18px;display:grid;place-items:center;
+  font-family:'JetBrains Mono';font-size:8.5px;letter-spacing:.1em;color:var(--muted);
+  border-right:1px dashed var(--line);transition:.2s;overflow:hidden;white-space:nowrap;
+}
+.tsb-phase:last-child{border-right:none}
+.tsb-phase.on{color:var(--amber)}
+.tsb-tick{position:absolute;bottom:8px;width:1px;height:5px;background:var(--line2)}
+.tsb-fill{
+  position:absolute;left:0;bottom:0;height:8px;border-radius:0 99px 99px 0;
+  background:linear-gradient(90deg,var(--amber),var(--ok));transition:width .08s linear;
+}
+.tsb-head{
+  position:absolute;bottom:2px;transform:translateX(-50%);
+  font-size:17px;color:var(--amber);filter:drop-shadow(0 0 7px rgba(255,176,46,.6));
+  transition:left .08s linear;
+}
+.tsb-track:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+/* ============ C-31 目的地轮播 ============ */
+.dc{display:flex;flex-direction:column;gap:16px;width:100%;max-width:560px}
+.dc-view{
+  display:flex;gap:14px;overflow-x:auto;
+  scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab;
+  padding:6px 2px 10px;
+}
+.dc-view::-webkit-scrollbar{display:none}
+.dc-view:active{cursor:grabbing}
+.dc-card{
+  flex:0 0 200px;height:150px;border-radius:15px;scroll-snap-align:center;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:16px;
+  border:1px solid var(--line2);user-select:none;-webkit-user-select:none;
+  transition:transform .25s;
+}
+.dc-card:hover{transform:translateY(-4px)}
+.dc-card.a{background:linear-gradient(140deg,#2a1f3d,#12101c)}
+.dc-card.b{background:linear-gradient(140deg,#3d2630,#180f14)}
+.dc-card.c{background:linear-gradient(140deg,#1c2e3d,#0d151d)}
+.dc-card.d{background:linear-gradient(140deg,#163a3a,#0a1a1c)}
+.dc-card.e{background:linear-gradient(140deg,#3a3016,#1c1809)}
+.dc-code{font-size:10px;color:var(--amber);border:1px solid rgba(255,176,46,.4);border-radius:6px;padding:2px 8px}
+.dc-city{font-weight:700;font-size:26px;letter-spacing:.06em}
+.dc-tag{margin-top:auto;font-size:11.5px;color:var(--muted)}
+.dc-bar{display:flex;align-items:center;gap:16px;justify-content:center}
+.dc-dots{display:flex;gap:7px}
+.dc-dots i{width:7px;height:7px;border-radius:50%;background:var(--line2);transition:.25s}
+.dc-dots i.on{background:var(--amber);box-shadow:0 0 7px rgba(255,176,46,.5);transform:scale(1.25)}
+
 /* ============ 响应式：侧边栏变顶部横条 ============ */
 @media(max-width:960px){
   .layout{display:block}

@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Chromatic Studies — Gradient Cover Wall</title>
+  <style>
+    :root {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-synthesis: none;
+      color: #242734;
+      background: #f5f5f2;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; }
+    .page { max-width: 1280px; padding: clamp(24px, 5.4vw, 72px); margin: 0 auto; }
+    .page-heading {
+      display: flex; justify-content: space-between; align-items: end; gap: 24px;
+      margin-bottom: clamp(25px, 4.5vw, 52px);
+    }
+    .eyebrow { margin: 0 0 12px; color: #858694; font-size: 10px; font-weight: 600; letter-spacing: .24em; }
+    h1 { margin: 0; font-size: clamp(24px, 3vw, 37px); font-weight: 450; letter-spacing: -.055em; }
+    .page-note { margin: 0 0 3px; font-size: 12px; color: #9293a0; text-align: right; line-height: 1.8; }
+    .wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2.15vw, 26px); }
+    .cover {
+      --top: #bda4c7; --bottom: #75566a;
+      --orb1: #f9b986; --orb2: #df799c; --orb3: #b58acd; --orb4: #f6a06e;
+      --paint-x: 0px; --paint-y: 0px; --pattern-x: 0px; --pattern-y: 0px;
+      --glow-x: 50%; --glow-y: 50%;
+      position: relative; width: 100%; aspect-ratio: 1; overflow: hidden;
+      border-radius: 20px; isolation: isolate; container-type: inline-size;
+      background: linear-gradient(180deg, var(--top), var(--bottom));
+      box-shadow: 0 20px 45px -32px rgba(19, 21, 37, .32);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cover::after {
+      content: ""; position: absolute; inset: 0; z-index: 8; pointer-events: none;
+      border-radius: inherit; box-shadow: inset 0 0 0 .5px rgba(12, 17, 27, .3);
+    }
+    .cover:nth-child(1) { --top: #b9a6c8; --bottom: #a06766; --orb1: #f6b982; --orb2: #e875a0; --orb3: #a66bc0; --orb4: #ffcf8d; }
+    .cover:nth-child(2) { --top: #a8b8c5; --bottom: #534443; --orb1: #c2d3db; --orb2: #887b81; --orb3: #4c607d; --orb4: #aa785f; }
+    .cover:nth-child(3) { --top: #afceda; --bottom: #163954; --orb1: #bbeced; --orb2: #5b9ec2; --orb3: #246a9b; --orb4: #264b80; }
+    .cover:nth-child(4) { --top: #aacad5; --bottom: #224741; --orb1: #b5ddd6; --orb2: #8fbea9; --orb3: #327e6a; --orb4: #154d49; }
+    .cover:nth-child(5) { --top: #c2aedc; --bottom: #302747; --orb1: #d9b5e2; --orb2: #8068b7; --orb3: #493b8b; --orb4: #aaa3d5; }
+    .cover:nth-child(6) { --top: #b0bfc9; --bottom: #994b45; --orb1: #d9d1c5; --orb2: #b9858c; --orb3: #dc795c; --orb4: #7c5d72; }
+    /* Pointer movement acts on the entire paint layer, while each orb drifts independently. */
+    .paint { position: absolute; inset: -8%; z-index: 0; transform: translate3d(var(--paint-x), var(--paint-y), 0); will-change: transform; }
+    .paint-base { position: absolute; inset: 0; background: linear-gradient(180deg, var(--top) 0%, var(--bottom) 100%); }
+    .orb { position: absolute; width: 112%; height: 112%; border-radius: 50%; pointer-events: none;
+      filter: blur(9px); opacity: .68; mix-blend-mode: screen; transform-origin: center; }
+    .orb-a { left: -50%; top: -49%; background: radial-gradient(ellipse, var(--orb1) 0%, transparent 70%); animation: float-a 23s ease-in-out infinite alternate; }
+    .orb-b { right: -51%; top: -42%; background: radial-gradient(ellipse, var(--orb2) 0%, transparent 72%); animation: float-b 28s ease-in-out infinite alternate; }
+    .orb-c { left: -48%; bottom: -51%; background: radial-gradient(ellipse, var(--orb3) 0%, transparent 72%); animation: float-c 20s ease-in-out infinite alternate; }
+    .orb-d { right: -48%; bottom: -50%; background: radial-gradient(ellipse, var(--orb4) 0%, transparent 72%); animation: float-d 26s ease-in-out infinite alternate; }
+    @keyframes float-a { 0% { transform: translate(-6%, -4%) scale(1.06); } 100% { transform: translate(14%, 9%) scale(1.21); } }
+    @keyframes float-b { 0% { transform: translate(8%, 0) scale(1.12); } 100% { transform: translate(-13%, 12%) scale(1.01); } }
+    @keyframes float-c { 0% { transform: translate(-5%, 8%) scale(1); } 100% { transform: translate(12%, -15%) scale(1.18); } }
+    @keyframes float-d { 0% { transform: translate(5%, 11%) scale(1.15); } 100% { transform: translate(-12%, -9%) scale(1.03); } }
+    .shade { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(23, 20, 34, .03), rgba(13, 14, 31, .19)); pointer-events: none; }
+    .grain { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; opacity: .4; mix-blend-mode: overlay; pointer-events: none; }
+    .soft-glow { position: absolute; inset: 0; z-index: 3; pointer-events: none;
+      background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgba(255,255,255,.29) 0%, rgba(255,255,255,.12) 15%, transparent 44%);
+      mix-blend-mode: screen; opacity: 0; transition: opacity 650ms ease; }
+    .cover.is-hovering .soft-glow { opacity: .95; }
+    .ornament { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; pointer-events: none;
+      transform: translate3d(var(--pattern-x), var(--pattern-y), 0); will-change: transform; }
+    .ornament .fine-lines { fill: none; stroke: #fff; stroke-width: .8px; stroke-opacity: .3; vector-effect: non-scaling-stroke; }
+    .ornament .fine-dots { fill: white; fill-opacity: .29; stroke: none; }
+    .type { position: absolute; z-index: 5; inset: 0; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      color: #fff; font-size: 8cqw; font-weight: 400; letter-spacing: -.045em; line-height: 1.22;
+      white-space: nowrap; pointer-events: none; text-shadow: 0 1px 22px rgba(22, 22, 40, .09); }
+    .type span { display: block; }
+    @media (max-width: 720px) { .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); } .page-note { display: none; } }
+    @media (max-width: 420px) { .wall { grid-template-columns: 1fr; } .page { padding: 22px; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      .paint, .ornament { transform: none !important; will-change: auto; }
+      .soft-glow { opacity: 0 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-heading">
+      <div><p class="eyebrow">CHROMATIC STUDIES / NO. 01</p><h1>Soft gradient covers</h1></div>
+      <p class="page-note">Six color studies · Pure gradients<br />Canvas grain · SVG geometry</p>
+    </header>
+    <section class="wall" aria-label="Six experimental gradient covers">
+      <article class="cover" aria-label="Daily Poetry, violet pink and amber gradient" data-pattern="rays">
+        <div class="paint" aria-hidden="true"><div class="paint-base"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div><div class="orb orb-d"></div></div>
+        <div class="shade" aria-hidden="true"></div><canvas class="grain" aria-hidden="true"></canvas><div class="soft-glow" aria-hidden="true"></div>
+        <svg class="ornament" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" data-design="rays" aria-hidden="true"></svg>
+        <div class="type"><span>DAILY</span><span>POETRY</span></div>
+      </article>
+      <article class="cover" aria-label="After Hours, smoky blue and deep brown gradient">
+        <div class="paint" aria-hidden="true"><div class="paint-base"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div><div class="orb orb-d"></div></div>
+        <div class="shade" aria-hidden="true"></div><canvas class="grain" aria-hidden="true"></canvas><div class="soft-glow" aria-hidden="true"></div>
+        <div class="type"><span>AFTER</span><span>HOURS</span></div>
+      </article>
+      <article class="cover" aria-label="Deep Blue, mist blue to deep sea gradient" data-pattern="contours">
+        <div class="paint" aria-hidden="true"><div class="paint-base"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div><div class="orb orb-d"></div></div>
+        <div class="shade" aria-hidden="true"></div><canvas class="grain" aria-hidden="true"></canvas><div class="soft-glow" aria-hidden="true"></div>
+        <svg class="ornament" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" data-design="contours" aria-hidden="true"></svg>
+        <div class="type"><span>DEEP</span><span>BLUE</span></div>
+      </article>
+      <article class="cover" aria-label="Quiet Garden, mist blue to forest green gradient" data-pattern="waves">
+        <div class="paint" aria-hidden="true"><div class="paint-base"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div><div class="orb orb-d"></div></div>
+        <div class="shade" aria-hidden="true"></div><canvas class="grain" aria-hidden="true"></canvas><div class="soft-glow" aria-hidden="true"></div>
+        <svg class="ornament" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" data-design="waves" aria-hidden="true"></svg>
+        <div class="type"><span>QUIET</span><span>GARDEN</span></div>
+      </article>
+      <article class="cover" aria-label="Lilac Night, lavender to deep purple gradient" data-pattern="dots">
+        <div class="paint" aria-hidden="true"><div class="paint-base"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div><div class="orb orb-d"></div></div>
+        <div class="shade" aria-hidden="true"></div><canvas class="grain" aria-hidden="true"></canvas><div class="soft-glow" aria-hidden="true"></div>
+        <svg class="ornament" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" data-design="dots" aria-hidden="true"></svg>
+        <div class="type"><span>LILAC</span><span>NIGHT</span></div>
+      </article>
+      <article class="cover" aria-label="Ember Sky, sky gray to rust red gradient" data-pattern="lens">
+        <div class="paint" aria-hidden="true"><div class="paint-base"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div><div class="orb orb-d"></div></div>
+        <div class="shade" aria-hidden="true"></div><canvas class="grain" aria-hidden="true"></canvas><div class="soft-glow" aria-hidden="true"></div>
+        <svg class="ornament" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" data-design="lens" aria-hidden="true"></svg>
+        <div class="type"><span>EMBER</span><span>SKY</span></div>
+      </article>
+    </section>
+  </main>
+  <script>
+    (() => {
+      'use strict';
+      const covers = [...document.querySelectorAll('.cover')];
+      const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const SVG = 'http://www.w3.org/2000/svg';
+      const node = (tag, attributes = {}) => {
+        const item = document.createElementNS(SVG, tag);
+        for (const [key, value] of Object.entries(attributes)) item.setAttribute(key, String(value));
+        return item;
+      };
+
+      // Each SVG is drawn here: five independent thin-line patterns with a transparent
+      // middle so the only visible foreground content is the two-line white title.
+      function drawOrnament(svg, kind, index) {
+        const defs = node('defs');
+        const fadeId = `center-fade-${index}`;
+        const maskId = `center-mask-${index}`;
+        const grad = node('radialGradient', { id: fadeId, cx: '50%', cy: '50%', r: '71%' });
+        for (const [offset, color] of [['0%', '#000'], ['29%', '#000'], ['58%', '#888'], ['85%', '#fff'], ['100%', '#fff']])
+          grad.appendChild(node('stop', { offset, 'stop-color': color }));
+        defs.appendChild(grad);
+        const mask = node('mask', { id: maskId, maskContentUnits: 'userSpaceOnUse', 'mask-type': 'luminance' });
+        mask.appendChild(node('rect', { width: 400, height: 400, fill: `url(#${fadeId})` }));
+        defs.appendChild(mask);
+        svg.appendChild(defs);
+        const g = node('g', { mask: `url(#${maskId})`, class: kind === 'dots' ? 'fine-dots' : 'fine-lines' });
+        svg.appendChild(g);
+        const line = (x1,y1,x2,y2) => g.appendChild(node('line', { x1,y1,x2,y2 }));
+        if (kind === 'rays') {
+          for (let a = 0; a < 360; a += 9) {
+            const t = a * Math.PI / 180;
+            line(200 + Math.cos(t) * 10, 200 + Math.sin(t) * 10,
+                 200 + Math.cos(t) * 350, 200 + Math.sin(t) * 350);
+          }
+        } else if (kind === 'contours') {
+          for (let ring = 0; ring < 13; ring++) {
+            const radius = 38 + ring * 23;
+            const points = [];
+            for (let step = 0; step <= 180; step++) {
+              const a = step / 180 * Math.PI * 2;
+              const wobble = Math.sin(a * 5 + ring * .24) * 5 + Math.sin(a * 8 - ring * .35) * 2.5;
+              points.push(`${step ? 'L' : 'M'}${(200 + Math.cos(a) * (radius + wobble) * 1.17).toFixed(2)},${(200 + Math.sin(a) * (radius + wobble) * .83).toFixed(2)}`);
+            }
+            g.appendChild(node('path', { d: points.join(' ') }));
+          }
+        } else if (kind === 'waves') {
+          for (let i = 0; i < 23; i++) {
+            const y = -30 + i * 21;
+            const points = [];
+            for (let x = -20; x <= 420; x += 4) {
+              const yy = y + Math.sin(x * .027 + i * .26) * (12 + 7 * Math.sin(i * .3)) + Math.sin(x * .05 + i) * 3;
+              points.push(`${x === -20 ? 'M' : 'L'}${x},${yy.toFixed(2)}`);
+            }
+            g.appendChild(node('path', { d: points.join(' ') }));
+          }
+        } else if (kind === 'dots') {
+          for (let y = 12; y <= 400; y += 17) for (let x = 12; x <= 400; x += 17)
+            g.appendChild(node('circle', { cx: x, cy: y, r: 1.05 }));
+        } else if (kind === 'lens') {
+          for (let r = 44; r < 380; r += 22) {
+            g.appendChild(node('ellipse', { cx: 200, cy: 200, rx: (r * 1.13).toFixed(2), ry: (r * .64).toFixed(2), transform: 'rotate(-26 200 200)' }));
+          }
+          for (let r = 63; r < 385; r += 35)
+            g.appendChild(node('ellipse', { cx: 236, cy: 175, rx: (r * .54).toFixed(2), ry: (r * 1.17).toFixed(2), transform: 'rotate(27 236 175)' }));
+        }
+      }
+      document.querySelectorAll('svg[data-design]').forEach((svg, i) => drawOrnament(svg, svg.dataset.design, i));
+
+      // A 128x128 *physical-pixel* bitmap. Each source pixel is an independent
+      // grayscale grain. The display canvases use DPR-sized backing stores, so a
+      // 1px tile pixel maps to exactly one device pixel instead of a CSS pixel.
+      const TILE = 128;
+      const noiseTile = document.createElement('canvas');
+      noiseTile.width = noiseTile.height = TILE;
+      const tileContext = noiseTile.getContext('2d', { alpha: false });
+      const pixels = tileContext.createImageData(TILE, TILE);
+      const random = new Uint8Array(TILE * TILE);
+      if (globalThis.crypto?.getRandomValues) crypto.getRandomValues(random);
+      else for (let i = 0; i < random.length; i++) random[i] = Math.floor(Math.random() * 256);
+      for (let i = 0; i < random.length; i++) {
+        const gray = 94 + Math.floor(random[i] * .27);
+        const k = i * 4;
+        pixels.data[k] = pixels.data[k+1] = pixels.data[k+2] = gray;
+        pixels.data[k+3] = 255;
+      }
+      tileContext.putImageData(pixels, 0, 0);
+      const paintNoise = () => {
+        const dpr = window.devicePixelRatio || 1;
+        // Do not scale the 128x128 tile with setTransform: it already describes
+        // 128 physical pixels. The repeated pattern retains pixel-perfect grain.
+        for (const cover of covers) {
+          const canvas = cover.querySelector('canvas.grain');
+          const bounds = cover.getBoundingClientRect();
+          const w = Math.max(1, Math.round(bounds.width * dpr));
+          const h = Math.max(1, Math.round(bounds.height * dpr));
+          if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+          const context = canvas.getContext('2d', { alpha: false });
+          context.imageSmoothingEnabled = false;
+          context.clearRect(0, 0, w, h);
+          const pattern = context.createPattern(noiseTile, 'repeat');
+          if (pattern) { context.fillStyle = pattern; context.fillRect(0, 0, w, h); }
+        }
+      };
+      let resizeFrame = 0;
+      const scheduleRepaint = () => {
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(paintNoise);
+      };
+      if (typeof ResizeObserver !== 'undefined') {
+        const resize = new ResizeObserver(scheduleRepaint);
+        covers.forEach(cover => resize.observe(cover));
+      }
+      addEventListener('resize', scheduleRepaint, { passive: true });
+      paintNoise();
+
+      // Damped spring: stiffness 70/s², damping ratio 0.86. Motion is driven
+      // only during interaction and settles fully after pointer leave.
+      const STIFFNESS = 70;
+      const DAMPING_RATIO = .86;
+      const DAMPING = 2 * DAMPING_RATIO * Math.sqrt(STIFFNESS);
+      const springs = covers.map(cover => ({ cover, x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, active: false }));
+      let animationFrame = 0;
+      let lastFrame = 0;
+      function settle(timestamp) {
+        const dt = lastFrame ? Math.min((timestamp - lastFrame) / 1000, 1/30) : 1/60;
+        lastFrame = timestamp;
+        let moving = false;
+        for (const s of springs) {
+          if (!s.active) continue;
+          for (const axis of ['x', 'y']) {
+            const velocity = 'v' + axis;
+            const target = 't' + axis;
+            s[velocity] += ((s[target] - s[axis]) * STIFFNESS - s[velocity] * DAMPING) * dt;
+            s[axis] += s[velocity] * dt;
+          }
+          if (Math.abs(s.tx - s.x) + Math.abs(s.ty - s.y) + Math.abs(s.vx) + Math.abs(s.vy) < .065) {
+            s.x = s.tx; s.y = s.ty; s.vx = 0; s.vy = 0; s.active = false;
+          } else moving = true;
+          s.cover.style.setProperty('--paint-x', `${s.x.toFixed(3)}px`);
+          s.cover.style.setProperty('--paint-y', `${s.y.toFixed(3)}px`);
+          s.cover.style.setProperty('--pattern-x', `${(-s.x * .42).toFixed(3)}px`);
+          s.cover.style.setProperty('--pattern-y', `${(-s.y * .42).toFixed(3)}px`);
+        }
+        if (moving) animationFrame = requestAnimationFrame(settle);
+        else { animationFrame = 0; lastFrame = 0; }
+      }
+      function startSpring(s) {
+        if (reduceMotion.matches) return;
+        s.active = true;
+        if (!animationFrame) animationFrame = requestAnimationFrame(settle);
+      }
+      function resetSpring(s) {
+        s.cover.classList.remove('is-hovering');
+        s.tx = s.ty = 0;
+        startSpring(s);
+      }
+      springs.forEach(s => {
+        s.cover.addEventListener('pointerenter', event => {
+          if (event.pointerType === 'touch' || reduceMotion.matches) return;
+          s.cover.classList.add('is-hovering');
+        });
+        s.cover.addEventListener('pointermove', event => {
+          if (event.pointerType === 'touch' || reduceMotion.matches) return;
+          const bounds = s.cover.getBoundingClientRect();
+          const x = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width - .5) * 2));
+          const y = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height - .5) * 2));
+          s.tx = x * 16; s.ty = y * 16;
+          s.cover.style.setProperty('--glow-x', `${((x + 1) * 50).toFixed(2)}%`);
+          s.cover.style.setProperty('--glow-y', `${((y + 1) * 50).toFixed(2)}%`);
+          startSpring(s);
+        }, { passive: true });
+        s.cover.addEventListener('pointerleave', () => resetSpring(s));
+      });
+      function onMotionChange() {
+        if (!reduceMotion.matches) return;
+        cancelAnimationFrame(animationFrame);
+        animationFrame = 0; lastFrame = 0;
+        for (const s of springs) {
+          s.active = false; s.x = s.y = s.tx = s.ty = s.vx = s.vy = 0;
+          s.cover.classList.remove('is-hovering');
+          for (const key of ['--paint-x', '--paint-y', '--pattern-x', '--pattern-y']) s.cover.style.setProperty(key, '0px');
+        }
+      }
+      reduceMotion.addEventListener?.('change', onMotionChange);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { cancelAnimationFrame(animationFrame); animationFrame = 0; lastFrame = 0; }
+        else if (!reduceMotion.matches && springs.some(s => s.active)) animationFrame = requestAnimationFrame(settle);
+      });
+    })();
+  </script>
+</body>
+</html>

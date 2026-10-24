@@ -4,11 +4,12 @@ import {
   ThemeScope, Button, Badge, Card, TextField, Progress, SegmentedControl, Accordion, TagInput,
   SpotlightCard, Marquee, CopyButton, Skeleton,
   OtpInput, Stepper, RangeSlider, UploadDropzone, FlipBoard,
+  Switch, Tabs, Tooltip, Dialog, EmptyState, CountUp,
 } from '../packages/react/src'
 import '../packages/react/src/styles.css'
 import './styles/library-demo.css'
 
-const categories = ['全部', '基础', '输入', '数据展示', '容器'] as const
+const categories = ['全部', '基础', '输入', '数据展示', '容器', '反馈', '动效'] as const
 type Category = typeof categories[number]
 const catalog = [
   { id: 'button', name: 'Button', cn: '按钮', group: '基础', description: '四种风格 · 三种尺寸 · Loading 与原生按钮属性', usage: '<Button variant="primary">创建项目</Button>' },
@@ -28,6 +29,12 @@ const catalog = [
   { id: 'range', name: 'RangeSlider', cn: '数值滑块', group: '输入', description: '原生 range · 键盘友好 · 可配置范围', usage: '<RangeSlider label="音量" defaultValue={36} />' },
   { id: 'upload', name: 'UploadDropzone', cn: '拖拽文件', group: '输入', description: '类型过滤 · 重复检测 · 文件列表（不上传）', usage: '<UploadDropzone label="附件" accept=".png,.pdf" />' },
   { id: 'flip', name: 'FlipBoard', cn: '机械翻牌屏', group: '数据展示', description: '通用文字显示 · 3D 双面翻牌 · 动效降级', usage: '<FlipBoard value="HELLO UI" columns={10} />' },
+  { id: 'switch', name: 'Switch', cn: '开关控件', group: '输入', description: '可访问状态 · 受控与非受控 · 禁用状态', usage: '<Switch label="通知" defaultChecked />', fresh: true },
+  { id: 'tabs', name: 'Tabs', cn: '标签页', group: '容器', description: '可组合内容 · 方向键、Home / End 导航', usage: '<Tabs label="资料" items={items} />', fresh: true },
+  { id: 'tooltip', name: 'Tooltip', cn: '悬浮提示', group: '反馈', description: '悬停、聚焦显示 · Escape 关闭 · ARIA', usage: '<Tooltip label="帮助" content="更多说明" />', fresh: true },
+  { id: 'dialog', name: 'Dialog', cn: '对话框', group: '反馈', description: '焦点约束 · Escape / 遮罩关闭 · 轻量弹出动效', usage: '<Dialog open={open} onOpenChange={setOpen} title="设置">内容</Dialog>', fresh: true },
+  { id: 'empty', name: 'EmptyState', cn: '空状态', group: '反馈', description: '无数据展示 · 图标 / 说明 / 自定义操作', usage: '<EmptyState title="暂无数据" description="创建第一个项目" />', fresh: true },
+  { id: 'count', name: 'CountUp', cn: '数字动效', group: '动效', description: 'RAF 补间 · 数字变化 · 降低动态偏好', usage: '<CountUp value={total} duration={850} />', fresh: true },
   { id: 'theme', name: 'ThemeScope', cn: '主题容器', group: '基础', description: '局部暗色/亮色切换和 CSS Tokens', usage: '<ThemeScope theme="dark">...</ThemeScope>' },
 ] as const
 
@@ -47,6 +54,12 @@ function LibraryApp() {
   const [rangeValue, setRangeValue] = useState(36)
   const [uploads, setUploads] = useState<File[]>([])
   const [projectName, setProjectName] = useState('')
+  const [notifications, setNotifications] = useState(true)
+  const [tabKey, setTabKey] = useState('overview')
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [countValue, setCountValue] = useState(1280)
+  const [density, setDensity] = useState<'grid' | 'compact'>('grid')
+  const [onlyNew, setOnlyNew] = useState(false)
   const [copied, setCopied] = useState<string | null>(null)
 
   const accents = {
@@ -62,8 +75,9 @@ function LibraryApp() {
 
   const visible = useMemo(() => catalog.filter(item =>
     (category === '全部' || item.group === category) &&
+    (!onlyNew || 'fresh' in item) &&
     (item.name + item.cn + item.description).toLowerCase().includes(query.trim().toLowerCase())
-  ), [category, query])
+  ), [category, query, onlyNew])
 
   const copy = async (id: string, code: string) => {
     try {
@@ -110,6 +124,24 @@ function LibraryApp() {
         return <UploadDropzone label="项目附件" value={uploads} onFilesChange={setUploads} maxFiles={3} accept=".png,.jpg,.pdf" onReject={reason => setToast(reason === 'limit' ? '最多 3 个文件' : reason === 'type' ? '仅支持 PNG / JPG / PDF' : '文件重复')} />
       case 'flip':
         return <div className="lb-preview-stack"><FlipBoard value={flipText.toUpperCase()} columns={10} align="center" label="展示文本" stagger={24} /><div className="lb-preview-row"><Button variant="secondary" size="sm" onClick={() => setFlipText('READY')}>READY</Button><Button variant="secondary" size="sm" onClick={() => setFlipText('DESIGN')}>DESIGN</Button><Button variant="secondary" size="sm" onClick={() => setFlipText('BUILD UI')}>BUILD UI</Button></div></div>
+      case 'switch':
+        return <div className="lb-preview-stack"><Switch label="消息通知" description="接收项目状态变化通知" checked={notifications} onCheckedChange={setNotifications} /><Switch label="自动更新" description="此示例已禁用" disabled defaultChecked /></div>
+      case 'tabs':
+        return <Tabs label="项目详情" value={tabKey} onValueChange={setTabKey} items={[
+          { id: 'overview', label: '概览', content: <span>组件数量、版本信息和项目概况。</span> },
+          { id: 'activity', label: '动态', content: <span>最近的设计调整和代码更新。</span> },
+          { id: 'files', label: '文件', content: <span>设计资源与组件相关文件。</span> },
+        ]} />
+      case 'tooltip':
+        return <div className="lb-preview-row"><Tooltip label="ⓘ 交互说明" content="支持鼠标悬停、Tab 聚焦和 Escape 关闭" /><Tooltip label="下面显示" content="提示层也支持底部布局" placement="bottom" /></div>
+      case 'dialog':
+        return <><div className="lb-preview-row"><Button onClick={() => setDialogOpen(true)}>打开设置弹窗 ↗</Button><span className="lb-meta">Escape 关闭 / Tab 切换</span></div>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen} title="工作区设置" description="修改当前工作区的展示名称" footer={<><Button variant="secondary" onClick={() => setDialogOpen(false)}>取消</Button><Button onClick={() => { setDialogOpen(false); setToast('演示设置已保存') }}>保存更改</Button></>}><TextField label="工作区名称" defaultValue="Personal workspace" /></Dialog>
+        </>
+      case 'empty':
+        return <EmptyState title="还没有项目" description="创建一个项目，开始整理组件和设计资源。" size="sm" action={<Button variant="secondary" size="sm" onClick={() => setToast('空状态操作已触发')}>创建项目</Button>} />
+      case 'count':
+        return <div className="lb-count-demo"><span className="lb-meta">ACTIVE COMPONENT VIEWS</span><CountUp value={countValue} label="浏览量" duration={900} className="lb-large-number" /><div className="lb-preview-row"><Button variant="secondary" size="sm" onClick={() => setCountValue(v => v + 128)}>+128</Button><Button variant="ghost" size="sm" onClick={() => setCountValue(1280)}>重置</Button></div></div>
       case 'theme':
         return <div className="lb-preview-stack"><span className="lb-meta">当前主题 / {theme}</span><Button variant="secondary" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>切换到{theme === 'dark' ? '亮色' : '暗色'}主题</Button></div>
       default:
@@ -143,7 +175,7 @@ function LibraryApp() {
               <a className="lb-primary-link" href="#components">探索组件 <span aria-hidden="true">↗</span></a>
               <a className="lb-secondary-link" href="#tokens">查看设计变量 <span aria-hidden="true">→</span></a>
             </div>
-            <div className="lb-hero-stats"><div><strong>18</strong><span>REUSABLE COMPONENTS</span></div><div><strong>02</strong><span>COLOR MODES</span></div><div><strong>03</strong><span>ACCENT PRESETS</span></div></div>
+            <div className="lb-hero-stats"><div><strong>24</strong><span>REUSABLE COMPONENTS</span></div><div><strong>02</strong><span>COLOR MODES</span></div><div><strong>03</strong><span>ACCENT PRESETS</span></div></div>
           </div>
           <div className="lb-hero-aside" aria-label="实时主题预览">
             <div className="lb-aside-head"><span className="lb-dot-grid" aria-hidden="true">✦</span> Appearance preview <Badge tone="success">Live</Badge></div>
@@ -156,10 +188,11 @@ function LibraryApp() {
           </div>
         </div>
         <div id="components" className="lb-controls"><div className="lb-filter-group" aria-label="组件分类">{categories.map(c => <button key={c} type="button" className={category === c ? 'is-active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div><label className="lb-search"><span>⌕</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索组件名称或用途..." /></label></div>
+        <div className="lb-toolbar"><div className="lb-toolbar-left"><button type="button" className={onlyNew ? 'lb-chip is-selected' : 'lb-chip'} aria-pressed={onlyNew} onClick={() => setOnlyNew(v => !v)}>✦ 本次新增 6</button><span>参考社区实践 · 保持轻量 API</span></div><div className="lb-view-switch" aria-label="组件视图"><button type="button" aria-pressed={density === 'grid'} className={density === 'grid' ? 'is-active' : ''} onClick={() => setDensity('grid')}>▦ 网格</button><button type="button" aria-pressed={density === 'compact'} className={density === 'compact' ? 'is-active' : ''} onClick={() => setDensity('compact')}>≡ 紧凑</button></div></div>
         <div className="lb-list-title"><div><span className="lb-section-number">COMPONENT LIBRARY / 01</span><h2>组件目录 <small>Components</small></h2></div><span className="lb-counter">{visible.length} / {catalog.length} 个结果</span></div>
-        <section className="lb-grid" aria-label="组件预览">
+        <section className={density === 'compact' ? 'lb-grid is-compact' : 'lb-grid'} aria-label="组件预览">
           {visible.map((item, index) => <article className="lb-item" key={item.id}>
-            <div className="lb-item-head"><span className="lb-item-number">{String(index + 1).padStart(2, '0')}</span><Badge tone="accent">{item.group}</Badge></div>
+            <div className="lb-item-head"><span className="lb-item-number">{String(index + 1).padStart(2, '0')}</span><div className="lb-item-flags">{'fresh' in item && <span className="lb-new-flag">NEW</span>}<Badge tone="accent">{item.group}</Badge></div></div>
             <h3>{item.name}<small>{item.cn}</small></h3><p>{item.description}</p>
             <div className="lb-preview">{renderPreview(item.id)}</div>
             <div className="lb-code"><code>{item.usage}</code><button type="button" onClick={() => copy(item.id, item.usage)} aria-label={'复制 ' + item.name + ' 用法'}>{copied === item.id ? '✓ 已复制' : '复制 ↗'}</button></div>

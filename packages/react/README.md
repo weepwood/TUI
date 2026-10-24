@@ -1,8 +1,8 @@
 # @weepwood/terminal-ui
 
-Weepwood UI 的通用 React 组件包，采用中性灰阶、蓝色主强调色、轻量交互和可配置主题变量。目前提供 18 个独立于特定业务的组件。
+Weepwood UI 的通用 React 组件包，采用中性灰阶、蓝色主强调色、轻量交互和可配置主题变量。目前提供 24 个独立于特定业务的组件。
 
-> 版本 0.1.0 为首批可复用组件 API。尚未发布 npm；需要从本仓库构建并打包后本地安装。
+> 版本 0.2.0 增加通用交互、反馈与数字动效组件，仍处于未发布的预览阶段。尚未发布 npm；需要从本仓库构建并打包后本地安装。
 
 ## 使用
 
@@ -58,6 +58,12 @@ export function Example() {
 | RangeSlider | min, max, step, value/defaultValue | 基于原生 range 的滑块 |
 | UploadDropzone | accept, maxFiles, value/defaultValue, onFilesChange, onReject | 纯本地文件选择及校验 |
 | FlipBoard | value, columns, align, duration, stagger, label | 通用 split-flap 机械翻牌屏 |
+| Switch | checked/defaultChecked, onCheckedChange, label | 键盘友好的开关 |
+| Tabs | items, value/defaultValue, onValueChange, label | 键盘导航的标签页 |
+| Tooltip | label, content, placement | 指针和键盘聚焦提示 |
+| Dialog | open, onOpenChange, title, footer | 焦点约束与关闭回焦的模态框 |
+| EmptyState | title, description, icon, action, size | 通用空状态展示 |
+| CountUp | value, duration, decimals, prefix/suffix | 数值变化补间动画 |
 
 CopyButton 依赖安全上下文中的 Clipboard API，失败时触发 onCopyError，不会假装成功。Marquee 的 items 为纯文本，避免克隆可交互元素造成重复 Tab 焦点。
 
@@ -75,6 +81,10 @@ UploadDropzone **不执行上传**，只返回浏览器 `File[]` 给调用方；
 ```
 
 将该 class 应用于 ThemeScope 即可。支持浅色与深色两套设计变量（展示站默认浅色；单独使用 ThemeScope 时请显式指定 theme），所有组件尽可能提供原生键盘操作及可访问标签。
+
+复杂交互注意事项：Dialog 为受控组件，按 Escape 关闭、约束 Tab 焦点并在关闭后恢复焦点；Tooltip 提供键盘聚焦显示；Tabs 支持左右方向键和 Home/End；CountUp 首屏 SSR 渲染最终值，仅属性变化时播放动画，减少动效偏好时不播放。请继续使用真实浏览器和无障碍工具检查生产交互。
+
+研究及设计取舍见 [社区研究记录](../../docs/COMMUNITY_RESEARCH.md)。
 
 详细翻牌 API 和使用示例见 [FlipBoard 指南](../../docs/FLIPBOARD.md)。
 

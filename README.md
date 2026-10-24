@@ -2,7 +2,7 @@
 
 本仓库现分为两部分：
 
-- **通用 React 组件包（新）**：`packages/react/`，共 17 个可复用组件，独立构建、局部主题、公共 TypeScript API。
+- **通用 React 组件包（新）**：`packages/react/`，共 18 个可复用组件，独立构建、局部主题、公共 TypeScript API。
 - **原交互动效展厅（保留）**：`src/components/`，原有 32 个交互演示尚未全部抽成可发布组件。
 
 ## 两个预览入口

@@ -5,6 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Button, Badge, Card, ThemeScope, TextField, Progress, SegmentedControl, Accordion, TagInput, SpotlightCard, Marquee, CopyButton, Skeleton,
   OtpInput, Stepper, RangeSlider, UploadDropzone, acceptsFile, pickFiles,
+  FlipBoard, formatFlipRows,
 } from '../packages/react/dist/index.js'
 
 const render = (component, props) => renderToStaticMarkup(createElement(component, props))
@@ -125,4 +126,19 @@ test('file filtering checks extension and MIME, rejects duplicates and limits', 
   assert.deepEqual(result.rejected.map(x => x.reason), ['duplicate', 'type'])
   const overflow = pickFiles([pdf, png], [{ name: 'another.pdf', type: 'application/pdf', size: 8, lastModified: 0 }], 2)
   assert.deepEqual(overflow.rejected.map(x => x.reason), ['limit'])
+})
+
+
+test('flip board formats rows for alignment and fixed width', () => {
+  assert.deepEqual(formatFlipRows(['ABC', 'B'], 5, 'center').map(x => x.join('')), [' ABC ', '  B  '])
+  assert.equal(formatFlipRows('ABCDEFGHIJK', 4)[0].join(''), 'ABCD')
+  assert.equal(formatFlipRows('', 4)[0].join(''), '    ')
+})
+
+test('flip board renders SSR current text and a single accessible label', () => {
+  const html = render(FlipBoard, { value: ['READY', 'GO'], columns: 5, label: 'Status', duration: 0 })
+  assert.match(html, /role="img"/)
+  assert.match(html, /aria-label="Status: READY \/ GO"/)
+  assert.equal((html.match(/tui-flip__cell/g) || []).length, 10)
+  assert.match(html, /aria-hidden="true"/)
 })

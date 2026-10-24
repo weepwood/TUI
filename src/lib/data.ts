@@ -32,8 +32,14 @@ export const COMPONENTS: CompMeta[] = [
   { id: 'c17', no: 'TR-121', en: 'ESCAPE BUTTON', cn: '逃跑按钮', gate: 'MOTION', st: 'ON TIME' },
   { id: 'c18', no: 'TR-122', en: 'MAGNIFYING DOCK', cn: '放大坞栏', gate: 'MOTION', st: 'BOARDING' },
   { id: 'c19', no: 'TR-123', en: 'REACTION BURST', cn: '点赞爆裂', gate: 'FEEDBACK', st: 'ON TIME' },
+  { id: 'c20', no: 'TR-124', en: 'RANGE SLIDER', cn: '滑杆', gate: 'INPUT', st: 'ON TIME' },
+  { id: 'c21', no: 'TR-125', en: 'PROGRESS STEPS', cn: '登机步骤条', gate: 'MOTION', st: 'BOARDING' },
+  { id: 'c22', no: 'TR-126', en: 'ACCORDION', cn: '手风琴', gate: 'TEXT', st: 'ON TIME' },
+  { id: 'c23', no: 'TR-127', en: 'TAG INPUT', cn: '标签输入', gate: 'INPUT', st: 'BOARDING' },
+  { id: 'c24', no: 'TR-128', en: 'UPLOAD DROPZONE', cn: '上传区', gate: 'INPUT', st: 'ON TIME' },
+  { id: 'c25', no: 'TR-129', en: 'TEXT SCRAMBLE', cn: '乱码解码', gate: 'TEXT', st: 'BOARDING' },
   { id: null, no: 'TR-112', en: 'SHADER ROWS', cn: '着色器行', gate: 'VISUAL', st: 'DELAYED' },
-  { id: null, no: 'TR-118', en: 'MORSE TICKER', cn: '摩斯特尘', gate: 'TEXT', st: 'DELAYED' },
+  { id: null, no: 'TR-118', en: 'MORSE TICKER', cn: '摩尔特尘', gate: 'TEXT', st: 'DELAYED' },
 ]
 
 export interface Group {
@@ -43,17 +49,17 @@ export interface Group {
 
 export const GROUPS: Group[] = [
   { label: '开始 · START', ids: ['c00'] },
-  { label: '文本 · TEXT', ids: ['c01', 'c02'] },
-  { label: '输入 · INPUT', ids: ['c03', 'c04', 'c05', 'c06', 'c10', 'c11'] },
+  { label: '文本 · TEXT', ids: ['c01', 'c02', 'c22', 'c25'] },
+  { label: '输入 · INPUT', ids: ['c03', 'c04', 'c05', 'c06', 'c10', 'c11', 'c20', 'c23', 'c24'] },
   { label: '反馈 · FEEDBACK', ids: ['c07', 'c08', 'c14', 'c15', 'c19'] },
-  { label: '动效 · MOTION', ids: ['c09', 'c12', 'c13', 'c16', 'c17', 'c18'] },
+  { label: '动效 · MOTION', ids: ['c09', 'c12', 'c13', 'c16', 'c17', 'c18', 'c21'] },
 ]
 
 export const MQ_ITEMS = [
   'GATE 24 — NOW BOARDING',
   'FLIP · MOTION · DETAIL',
   'TERMINAL/UI v2.6',
-  '20 LIVE COMPONENTS',
+  '26 LIVE COMPONENTS',
   'ZERO DEPENDENCIES',
   'REACT + VITE + TS',
   'SLIDE · TILT · BURST',

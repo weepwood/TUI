@@ -28,6 +28,12 @@ const TiltCard = lazy(() => import('./components/TiltCard'))
 const EscapeButton = lazy(() => import('./components/EscapeButton'))
 const MagnifyingDock = lazy(() => import('./components/MagnifyingDock'))
 const ReactionBurst = lazy(() => import('./components/ReactionBurst'))
+const RangeSlider = lazy(() => import('./components/RangeSlider'))
+const ProgressSteps = lazy(() => import('./components/ProgressSteps'))
+const Accordion = lazy(() => import('./components/Accordion'))
+const TagInput = lazy(() => import('./components/TagInput'))
+const UploadDropzone = lazy(() => import('./components/UploadDropzone'))
+const TextScramble = lazy(() => import('./components/TextScramble'))
 
 export default function App() {
   const [activeId, setActiveId] = useState('c00')
@@ -354,6 +360,96 @@ export default function App() {
           >
             <Suspense fallback={<span className="hint">LOADING…</span>}>
               <ReactionBurst />
+            </Suspense>
+          </CompSection>
+
+          <CompSection
+            id="c20"
+            tag="C-20 · Input · TR-124"
+            title="Range Slider"
+            cn="滑杆"
+            st="ON TIME"
+            footer={<>自定义轨道 + 琥珀渐变填充 + 拖拽数值气泡；方向键、HOME/END 全键盘可达。</>}
+          >
+            <Suspense fallback={<span className="hint">LOADING…</span>}>
+              <RangeSlider />
+            </Suspense>
+          </CompSection>
+
+          <CompSection
+            id="c21"
+            tag="C-21 · Motion · TR-125"
+            title="Progress Steps"
+            cn="登机步骤条"
+            st="BOARDING"
+            footer={<>连接线按进度「注液」展开（scaleX + transform-origin: left），完成步打勾、当前步脉冲。</>}
+          >
+            <Suspense fallback={<span className="hint">LOADING…</span>}>
+              <ProgressSteps />
+            </Suspense>
+          </CompSection>
+
+          <CompSection
+            id="c22"
+            tag="C-22 · Text · TR-126"
+            title="Accordion"
+            cn="手风琴"
+            st="ON TIME"
+            footer={
+              <>
+                用 <code>grid-template-rows: 0fr → 1fr</code> 实现高度展开动画（Magic UI 同款手法），单开模式。
+              </>
+            }
+          >
+            <Suspense fallback={<span className="hint">LOADING…</span>}>
+              <Accordion />
+            </Suspense>
+          </CompSection>
+
+          <CompSection
+            id="c23"
+            tag="C-23 · Input · TR-127"
+            title="Tag Input"
+            cn="标签输入"
+            st="BOARDING"
+            footer={<>回车 / 逗号提交、空输入退格删最后一个、去重 + 上限校验，芯片带入场动画。</>}
+          >
+            <Suspense fallback={<span className="hint">LOADING…</span>}>
+              <TagInput />
+            </Suspense>
+          </CompSection>
+
+          <CompSection
+            id="c24"
+            tag="C-24 · Input · TR-128"
+            title="Upload Dropzone"
+            cn="上传区"
+            st="ON TIME"
+            footer={
+              <>
+                拖入高亮 + 文件芯片列表（参考 Magic UI FileUpload）。纯前端演示，不真正上传。
+              </>
+            }
+          >
+            <Suspense fallback={<span className="hint">LOADING…</span>}>
+              <UploadDropzone />
+            </Suspense>
+          </CompSection>
+
+          <CompSection
+            id="c25"
+            tag="C-25 · Text · TR-129"
+            title="Text Scramble"
+            cn="乱码解码"
+            st="BOARDING"
+            footer={
+              <>
+                随机字形逐位定格成目标短语（ReactBits Decode Text 同款效果），rAF 驱动、离屏自动暂停。
+              </>
+            }
+          >
+            <Suspense fallback={<span className="hint">LOADING…</span>}>
+              <TextScramble />
             </Suspense>
           </CompSection>
 

@@ -1,6 +1,8 @@
 # TERMINAL/UI — 组件航站楼
 
-像机场航显板一样翻动的 React 动效组件展示厅。每一个组件都是可交互的活演示，页面即文档。
+像机场航显板一样翻动的 React 动效组件展示厅，现共 **26 个可交互组件**。每一个都是活演示，页面即文档。
+
+部分组件交互参考了 [Bencho](https://bencho.dev)、[Magic UI](https://magicui.design) 与 [ReactBits](https://reactbits.dev)，全部零依赖手工实现。
 
 ## 技术栈
 
@@ -57,6 +59,12 @@ src/
     ├── EscapeButton.tsx    # C-17 逃跑按钮（懒加载）
     ├── MagnifyingDock.tsx  # C-18 放大坞栏（懒加载）
     ├── ReactionBurst.tsx   # C-19 点赞爆裂（懒加载）
+    ├── RangeSlider.tsx     # C-20 滑杆（懒加载）
+    ├── ProgressSteps.tsx   # C-21 登机步骤条（懒加载）
+    ├── Accordion.tsx       # C-22 手风琴（Magic UI 风格，懒加载）
+    ├── TagInput.tsx        # C-23 标签输入（懒加载）
+    ├── UploadDropzone.tsx  # C-24 上传区（Magic UI FileUpload 参考，懒加载）
+    ├── TextScramble.tsx    # C-25 乱码解码（ReactBits Decode Text 参考，懒加载）
     ├── Clock.tsx           # 独立时钟（隔离每秒重渲染）
     └── BoardingPass.tsx    # 登机牌页脚
 ```

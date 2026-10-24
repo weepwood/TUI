@@ -847,6 +847,144 @@ footer{padding:44px 0 56px}
 }
 .rb-count{font-size:12px;color:var(--amber);letter-spacing:.14em}
 
+/* ============ C-20 滑杆 ============ */
+.rs{display:flex;flex-direction:column;gap:18px;width:100%;max-width:440px}
+.rs-hd{display:flex;justify-content:space-between;align-items:baseline;width:100%}
+.rs-val{font-size:13px;color:var(--amber);font-weight:700}
+.rs-track{
+  position:relative;height:36px;display:flex;align-items:center;cursor:pointer;touch-action:none;
+}
+.rs-track::before{content:"";position:absolute;left:0;right:0;height:4px;border-radius:99px;background:var(--line2)}
+.rs-fill{position:absolute;left:0;height:4px;border-radius:99px;background:linear-gradient(90deg,var(--amber),var(--ok));box-shadow:0 0 8px rgba(255,176,46,.4)}
+.rs-tick{
+  position:absolute;width:2px;height:8px;border-radius:2px;background:var(--line2);
+  transform:translate(-50%,-50%);top:50%;transition:background .2s;pointer-events:none;
+}
+.rs-tick.on{background:var(--amber)}
+.rs-thumb{
+  position:absolute;top:50%;width:22px;height:22px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:linear-gradient(180deg,var(--flap-a),var(--flap-b));
+  border:2px solid var(--amber);
+  box-shadow:0 3px 10px rgba(0,0,0,.5);
+  transition:scale .15s;
+}
+.rs-track.drag .rs-thumb{scale:1.2}
+.rs-bubble{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%) translateY(4px);
+  background:var(--panel2);border:1px solid var(--line2);border-radius:7px;
+  font-size:11px;color:var(--amber);padding:2px 8px;
+  opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;
+}
+.rs-bubble.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.rs-track:focus-visible{outline:2px solid var(--amber);outline-offset:4px;border-radius:8px}
+
+/* ============ C-21 登机步骤条 ============ */
+.ps{display:flex;flex-direction:column;gap:22px;width:100%;max-width:520px}
+.ps-track{display:flex;justify-content:space-between}
+.ps-step{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1}
+.ps-node-wrap{position:relative;display:flex;align-items:center;width:100%;justify-content:center}
+.ps-line{
+  position:absolute;right:50%;margin-right:20px;top:50%;left:-50%;margin-left:20px;
+  height:3px;border-radius:99px;background:var(--line2);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.2,.8,.3,1),background .3s;
+}
+.ps-line.on{transform:scaleX(1);background:var(--ok)}
+.ps-node{
+  width:40px;height:40px;border-radius:50%;border:2px solid var(--line2);
+  background:var(--panel);color:var(--muted);
+  display:grid;place-items:center;font-family:'JetBrains Mono';font-size:13px;font-weight:700;
+  transition:.25s;z-index:1;
+}
+.ps-node.done{border-color:var(--ok);color:var(--ok);background:rgba(61,220,151,.08)}
+.ps-node.active{border-color:var(--amber);color:var(--amber);animation:ps-pulse 1.8s infinite}
+@keyframes ps-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,176,46,.35)}50%{box-shadow:0 0 0 9px rgba(255,176,46,0)}}
+.ps-label{display:flex;flex-direction:column;align-items:center;gap:1px}
+.ps-label b{font-size:13px}
+.ps-label span{font-family:'JetBrains Mono';font-size:9px;color:var(--muted);letter-spacing:.16em}
+.ps-bar{display:flex;align-items:center;gap:16px;justify-content:center}
+.ps-count{font-size:11px;color:var(--muted);letter-spacing:.12em}
+
+/* ============ C-22 手风琴 ============ */
+.acc{width:100%;max-width:520px;display:flex;flex-direction:column;gap:10px}
+.acc-item{background:var(--bg2);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:border-color .25s}
+.acc-item.open{border-color:rgba(255,176,46,.45)}
+.acc-q{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  padding:14px 16px;font-size:13.5px;
+}
+.acc-idx{font-size:10px;color:var(--amber);letter-spacing:.1em}
+.acc-q span:nth-child(2){flex:1}
+.acc-arrow{
+  font-style:normal;color:var(--muted);transition:transform .3s cubic-bezier(.2,.8,.3,1),color .2s;
+  display:grid;place-items:center;width:22px;height:22px;border:1px solid var(--line2);border-radius:50%;flex:none;
+}
+.acc-item.open .acc-arrow{transform:rotate(45deg);color:var(--amber);border-color:var(--amber)}
+.acc-a-wrap{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .4s cubic-bezier(.2,.8,.3,1);
+}
+.acc-item.open .acc-a-wrap{grid-template-rows:1fr}
+.acc-a{overflow:hidden}
+.acc-a p{padding:0 16px 15px;font-size:12.5px;color:var(--muted);line-height:1.8}
+
+/* ============ C-23 标签输入 ============ */
+.ti{display:flex;flex-direction:column;gap:14px;width:100%;max-width:480px}
+.ti-box{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  background:var(--bg2);border:1px solid var(--line2);border-radius:11px;
+  padding:10px 12px;min-height:52px;
+}
+.ti-box:focus-within{border-color:var(--amber)}
+.ti-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--panel2);border:1px solid rgba(255,176,46,.4);
+  color:var(--amber);border-radius:8px;padding:4px 6px 4px 10px;
+  font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;
+  animation:fade-in-card .25s ease both;
+}
+.ti-x{
+  width:16px;height:16px;border-radius:50%;display:grid;place-items:center;
+  font-size:11px;color:var(--muted);transition:.15s;line-height:1;
+}
+.ti-x:hover{color:var(--danger);background:rgba(255,93,93,.12)}
+.ti-input{
+  flex:1;min-width:120px;background:none;border:none;outline:none;
+  font-family:'JetBrains Mono';font-size:12.5px;color:var(--ink);
+}
+.ti-input::placeholder{color:var(--muted);font-family:'Noto Sans SC';font-size:12px}
+.ti-sug{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+
+/* ============ C-24 上传区 ============ */
+.dz{display:flex;flex-direction:column;gap:14px;width:100%;max-width:480px}
+.dz-area{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  border:2px dashed var(--line2);border-radius:14px;padding:28px 20px;
+  color:var(--muted);cursor:pointer;transition:.25s;text-align:center;
+}
+.dz-area svg{width:26px;height:26px;color:var(--amber)}
+.dz-area b{color:var(--ink);font-size:13.5px;font-weight:500}
+.dz-area span{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.06em}
+.dz-area.over{border-color:var(--amber);background:rgba(255,176,46,.06);transform:scale(1.015)}
+.dz-files{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.dz-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--bg2);border:1px solid var(--line2);border-radius:8px;
+  padding:6px 8px 6px 11px;font-size:11px;color:var(--ink);
+  animation:fade-in-card .25s ease both;
+}
+.dz-chip small{color:var(--muted)}
+
+/* ============ C-25 乱码解码 ============ */
+.ts{display:flex;flex-direction:column;gap:16px;align-items:center}
+.ts-text{
+  font-weight:700;letter-spacing:.14em;
+  font-size:clamp(30px,5vw,48px);line-height:1.1;
+  color:var(--amber);
+  min-height:1.2em;
+  text-shadow:0 0 24px rgba(255,176,46,.25);
+}
+
 /* ============ 响应式：侧边栏变顶部横条 ============ */
 @media(max-width:960px){
   .layout{display:block}

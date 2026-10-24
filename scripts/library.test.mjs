@@ -151,6 +151,6 @@ test('disabled leading segmented option is skipped by roving tabindex', () => {
       { value: 'modern', label: 'Modern' },
     ],
   })
-  assert.match(html, /disabled="" tabIndex="-1"/)
-  assert.match(html, /aria-checked="true"[^>]*tabIndex="0"/)
+  assert.match(html, /disabled="" tabindex="-1"/)
+  assert.match(html, /aria-checked="true"[^>]*tabindex="0"/)
 })

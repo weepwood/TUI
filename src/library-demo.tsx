@@ -1,4 +1,4 @@
-import { StrictMode, useMemo, useState, type CSSProperties } from 'react'
+import { StrictMode, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   ThemeScope, Button, Badge, Card, TextField, Progress, SegmentedControl, Accordion, TagInput,
@@ -8,6 +8,9 @@ import {
 } from '../packages/react/src'
 import '../packages/react/src/styles.css'
 import './styles/library-demo.css'
+import './styles/docs.css'
+import DocsExplorer from './docs/DocsExplorer'
+import { idFromSlug, slugById } from './docs/docs-data'
 
 const categories = ['全部', '基础', '输入', '数据展示', '容器', '反馈', '动效'] as const
 type Category = typeof categories[number]
@@ -39,6 +42,14 @@ const catalog = [
 ] as const
 
 function LibraryApp() {
+  const [page, setPage] = useState<'docs' | 'gallery'>(() => {
+    if (typeof window === 'undefined') return 'docs'
+    return new URLSearchParams(window.location.search).get('view') === 'gallery' ? 'gallery' : 'docs'
+  })
+  const [currentId, setCurrentId] = useState(() => {
+    if (typeof window === 'undefined') return 'segmented'
+    return idFromSlug(new URLSearchParams(window.location.search).get('component') ?? '') ?? 'segmented'
+  })
   const [theme, setTheme] = useState<'dark' | 'light'>('light')
   const [accent, setAccent] = useState<'blue' | 'violet' | 'green'>('blue')
   const [category, setCategory] = useState<Category>('全部')
@@ -61,6 +72,34 @@ function LibraryApp() {
   const [density, setDensity] = useState<'grid' | 'compact'>('grid')
   const [onlyNew, setOnlyNew] = useState(false)
   const [copied, setCopied] = useState<string | null>(null)
+
+  useEffect(() => {
+    const syncRoute = () => {
+      const params = new URLSearchParams(window.location.search)
+      setPage(params.get('view') === 'gallery' ? 'gallery' : 'docs')
+      setCurrentId(idFromSlug(params.get('component') ?? '') ?? 'segmented')
+    }
+    window.addEventListener('popstate', syncRoute)
+    return () => window.removeEventListener('popstate', syncRoute)
+  }, [])
+  const openDocs = (id: string) => {
+    const url = new URL(window.location.href)
+    url.search = ''
+    url.searchParams.set('component', slugById[id] ?? 'segmented-control')
+    url.hash = ''
+    window.history.pushState({}, '', url.pathname + url.search)
+    setCurrentId(id)
+    setPage('docs')
+    window.scrollTo(0, 0)
+  }
+  const openGallery = () => {
+    const url = new URL(window.location.href)
+    url.search = '?view=gallery'
+    url.hash = ''
+    window.history.pushState({}, '', url.pathname + url.search)
+    setPage('gallery')
+    window.scrollTo(0, 0)
+  }
 
   const accents = {
     blue: { light: '#365de6', dark: '#90b0ff', ring: 'rgba(67,103,223,.24)' },
@@ -149,15 +188,31 @@ function LibraryApp() {
     }
   }
 
+  if (page === 'docs') {
+    return (
+      <ThemeScope theme={theme} className="lb-root" style={themeStyle}>
+        <DocsExplorer
+          catalog={catalog}
+          selectedId={currentId}
+          onSelect={openDocs}
+          onGallery={openGallery}
+          theme={theme}
+          onToggleTheme={() => setTheme(value => value === 'dark' ? 'light' : 'dark')}
+          renderPreview={renderPreview}
+        />
+      </ThemeScope>
+    )
+  }
+
   return (
     <ThemeScope theme={theme} className="lb-root" style={themeStyle}>
       <header className="lb-header">
-        <a className="lb-brand" href="/" aria-label="Weepwood UI 首页">
+        <a className="lb-brand" href="?component=segmented-control" onClick={event => { event.preventDefault(); openDocs('segmented') }} aria-label="Weepwood UI 文档首页">
           <div className="lb-mark" aria-hidden="true">w<span>.</span></div>
           <div><strong>Weepwood <span>UI</span></strong><small>PERSONAL DESIGN SYSTEM</small></div>
         </a>
         <nav className="lb-topnav" aria-label="主导航">
-          <a href="#components">组件</a>
+          <a href="?component=segmented-control" onClick={event => { event.preventDefault(); openDocs('segmented') }}>组件文档</a>
           <a href="#tokens">设计变量</a>
           <a href="https://github.com/weepwood/terminal-ui" target="_blank" rel="noreferrer">GitHub ↗</a>
           <button type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? '切换至浅色主题' : '切换至深色主题'}>
@@ -195,7 +250,7 @@ function LibraryApp() {
             <div className="lb-item-head"><span className="lb-item-number">{String(index + 1).padStart(2, '0')}</span><div className="lb-item-flags">{'fresh' in item && <span className="lb-new-flag">NEW</span>}<Badge tone="accent">{item.group}</Badge></div></div>
             <h3>{item.name}<small>{item.cn}</small></h3><p>{item.description}</p>
             <div className={item.id === 'tooltip' ? 'lb-preview lb-preview--overflow' : 'lb-preview'}>{renderPreview(item.id)}</div>
-            <div className="lb-code"><code>{item.usage}</code><button type="button" onClick={() => copy(item.id, item.usage)} aria-label={'复制 ' + item.name + ' 用法'}>{copied === item.id ? '✓ 已复制' : '复制 ↗'}</button></div>
+            <div className="lb-code"><code>{item.usage}</code><div className="lb-code-actions"><button type="button" onClick={() => copy(item.id, item.usage)} aria-label={'复制 ' + item.name + ' 用法'}>{copied === item.id ? '✓ 已复制' : '复制'}</button><a href={'?component=' + (slugById[item.id] ?? item.id)} onClick={event => { event.preventDefault(); openDocs(item.id) }}>查看文档 ↗</a></div></div>
           </article>)}
           {visible.length === 0 && <div className="lb-empty">没有找到匹配的组件，请更换关键词。</div>}
         </section>

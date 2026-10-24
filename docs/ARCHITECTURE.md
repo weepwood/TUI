@@ -2,7 +2,8 @@
 
 ## 当前分层
 
-1. src/library-demo.tsx — 正式交互式组件目录；index.html 与 library.html 均加载它。
+1. src/library-demo.tsx — 统一入口与状态驱动的组件预览；默认进入 DocsExplorer；`?view=gallery` 可切换原卡片总览。
+1a. src/docs/DocsExplorer.tsx、docs-data.ts 与 src/styles/docs.css — 独立文档体验层，不进入发布包。
 2. src/styles/library-demo.css — 仅展示应用样式；不属于可发布组件。
 3. packages/react/src — 24 个正式 React 公共组件和中性的 `tui-*` CSS Tokens。
 4. packages/react/dist — 独立 ESM、样式和类型声明（生成文件，不提交）。

@@ -42,3 +42,32 @@ test('component catalog includes all six new reusable primitives and density con
     assert.ok(jsx.includes(term), term + ' must remain present')
   }
 })
+
+
+test('Planes-inspired documentation includes browseable details, prop reference and safe install instructions', () => {
+  const jsx = read('src/docs/DocsExplorer.tsx')
+  const data = read('src/docs/docs-data.ts')
+  const entry = read('src/library-demo.tsx')
+  for (const name of ['Preview', 'Installation', 'Usage', 'Props', 'Use cases', 'Related components']) {
+    assert.ok(jsx.includes(name), 'documentation section missing: ' + name)
+  }
+  for (const id of ['segmented', 'button', 'tooltip', 'dialog', 'count']) {
+    assert.ok(data.includes(id + ':'), 'missing metadata for ' + id)
+  }
+  assert.match(jsx, /npm pack \.\/packages\/react/)
+  assert.doesNotMatch(jsx, /npm install @weepwood\/terminal-ui\b/)
+  assert.match(entry, /idFromSlug/)
+  assert.match(entry, /popstate/)
+  assert.match(entry, /view=gallery/)
+  assert.match(entry, /<DocsExplorer/)
+})
+
+test('segmented control retains radiogroup API while animating the selected pill', () => {
+  const component = read('packages/react/src/components/SegmentedControl.tsx')
+  const css = read('packages/react/src/styles.css')
+  assert.match(component, /role="radiogroup"/)
+  assert.match(component, /aria-checked=/)
+  assert.match(component, /tui-segment-index/)
+  assert.match(css, /tui-segmented::before/)
+  assert.match(css, /prefers-reduced-motion:reduce/)
+})

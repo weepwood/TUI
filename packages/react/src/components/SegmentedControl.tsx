@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent } from 'react'
+import { useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 
 export interface SegmentedOption {
   value: string
@@ -33,6 +33,16 @@ export function SegmentedControl({
     let direction = 0
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') direction = 1
     if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') direction = -1
+    if ((event.key === 'Home' || event.key === 'End') && !disabled) {
+      const enabled = options.map((option, index) => !option.disabled ? index : -1).filter(index => index >= 0)
+      const target = event.key === 'Home' ? enabled[0] : enabled[enabled.length - 1]
+      if (target !== undefined) {
+        event.preventDefault()
+        choose(options[target].value)
+        refs.current[target]?.focus()
+      }
+      return
+    }
     if (!direction || disabled || !options.length) return
     event.preventDefault()
     let next = index
@@ -48,8 +58,12 @@ export function SegmentedControl({
 
   const selectedIndex = options.findIndex(option => option.value === selected && !option.disabled)
   const focusIndex = selectedIndex >= 0 ? selectedIndex : options.findIndex(option => !option.disabled)
+  const indicatorStyle = {
+    '--tui-segment-count': Math.max(1, options.length),
+    '--tui-segment-index': Math.max(0, selectedIndex),
+  } as CSSProperties
   return (
-    <div className={['tui-segmented', className].filter(Boolean).join(' ')} role="radiogroup" aria-label={label} aria-disabled={disabled || undefined}>
+    <div className={['tui-segmented', className].filter(Boolean).join(' ')} role="radiogroup" aria-label={label} aria-disabled={disabled || undefined} data-has-selection={selectedIndex >= 0} style={indicatorStyle}>
       {options.map((option, index) => (
         <button
           key={option.value}

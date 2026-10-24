@@ -19,12 +19,18 @@ npm ci
 npm run dev           # 默认进入文档式组件详情页（参考 Planes 的信息结构）
                       # ?component=segmented-control 直接访问分段控制文档
                       # ?view=gallery 访问原有互动卡片总览
-npm run check         # 双入口打包、独立组件构建、类型声明和测试
+npm run check         # 组件站构建、独立包、类型声明和测试
 npm run build:lib     # packages/react/dist
 npm pack ./packages/react
 ```
 
 两个入口（`/` 和 `/library.html`）均采用同一个应用，默认打开**文档式组件详情页**。侧栏按组件分类导航，中间包括演示、安装、使用示例、属性表、场景和相关组件。组件间切换使用 `?component=<slug>`，支持刷新与前后退；原卡片墙在 `?view=gallery` 保留。原专题演示源码仍保留在 src/App.tsx、src/components 和 src/styles/global.css 等文件中以便后续无损迁移，但已不再作为首页入口参与生产站点构建，也不包含在可安装组件包内。
+
+## 独立视觉实验：柔和渐变封面墙
+
+- 入口：[`examples/noise-gradient-cover-wall.html`](./examples/noise-gradient-cover-wall.html)，运行 `npm run dev` 后访问 `/examples/noise-gradient-cover-wall.html`。
+- 不依赖 React、图片、外部 CSS 或 JS：单文件 HTML + CSS + Canvas + SVG，包含六组色彩、五种细线纹样、像素级噪点、弹簧悬停、降低动态偏好适配。
+- 这是**自包含的视觉实验组件**，不属于当前 24 个 React 包公共导出；独立页面已经加入 Vite 多页面构建，可直接复制单文件使用。
 
 ## 当前组件
 

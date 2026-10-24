@@ -71,3 +71,22 @@ test('segmented control retains radiogroup API while animating the selected pill
   assert.match(css, /tui-segmented::before/)
   assert.match(css, /prefers-reduced-motion:reduce/)
 })
+
+
+test('standalone gradient cover wall ships as a self-contained image-free HTML entry', () => {
+  const html = read('examples/noise-gradient-cover-wall.html')
+  const vite = read('vite.config.ts')
+  const docs = read('src/docs/DocsExplorer.tsx')
+  assert.match(vite, /gradientCovers: 'examples\/noise-gradient-cover-wall\.html'/)
+  assert.match(docs, /examples\/noise-gradient-cover-wall\.html/)
+  assert.equal((html.match(/<article class="cover"/g) ?? []).length, 6)
+  assert.equal((html.match(/<canvas class="grain"/g) ?? []).length, 6)
+  assert.equal((html.match(/<svg class="ornament"/g) ?? []).length, 5)
+  for (const token of ['mix-blend-mode: overlay', 'opacity: .4', 'TILE = 128',
+      'devicePixelRatio', 'STIFFNESS = 70', 'DAMPING_RATIO = .86',
+      'prefers-reduced-motion: reduce', 'pointermove']) {
+    assert.ok(html.includes(token), token + ' must appear in the single-file demo')
+  }
+  assert.doesNotMatch(html, /<img\b|<script\b[^>]*\bsrc=|<link\b[^>]*\bhref=/i)
+  assert.doesNotMatch(html, /https?:\/\//i)
+})

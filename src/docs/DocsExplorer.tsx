@@ -114,6 +114,7 @@ export default function DocsExplorer({
           <a href="?component=segmented-control" className="is-current"
             onClick={event => onLinkClick(event, () => navTo('segmented'))}>组件</a>
           <a href="?view=gallery" onClick={event => onLinkClick(event, onGallery)}>全部预览</a>
+          <a href="./examples/noise-gradient-cover-wall.html">渐变封面 ↗</a>
           <a href="https://github.com/weepwood/terminal-ui" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
         </nav>
         <div className="ds-actions">

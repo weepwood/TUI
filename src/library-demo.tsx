@@ -214,6 +214,7 @@ function LibraryApp() {
         <nav className="lb-topnav" aria-label="主导航">
           <a href="?component=segmented-control" onClick={event => { event.preventDefault(); openDocs('segmented') }}>组件文档</a>
           <a href="#tokens">设计变量</a>
+          <a href="./examples/noise-gradient-cover-wall.html">封面墙实验 ↗</a>
           <a href="https://github.com/weepwood/terminal-ui" target="_blank" rel="noreferrer">GitHub ↗</a>
           <button type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? '切换至浅色主题' : '切换至深色主题'}>
             {theme === 'dark' ? '☀' : '☾'} <span>{theme === 'dark' ? '浅色' : '深色'}</span>

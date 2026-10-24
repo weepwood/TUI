@@ -88,5 +88,6 @@ test('standalone gradient cover wall ships as a self-contained image-free HTML e
     assert.ok(html.includes(token), token + ' must appear in the single-file demo')
   }
   assert.doesNotMatch(html, /<img\b|<script\b[^>]*\bsrc=|<link\b[^>]*\bhref=/i)
-  assert.doesNotMatch(html, /https?:\/\//i)
+  // The SVG namespace URI is an identifier, not a remote dependency.
+  assert.doesNotMatch(html.replaceAll("http://www.w3.org/2000/svg", ""), /https?:\/\//i)
 })

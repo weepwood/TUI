@@ -1,4 +1,4 @@
-import { StrictMode, useMemo, useState } from 'react'
+import { StrictMode, useMemo, useState, type CSSProperties } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   ThemeScope, Button, Badge, Card, TextField, Progress, SegmentedControl, Accordion, TagInput,
@@ -32,7 +32,8 @@ const catalog = [
 ] as const
 
 function LibraryApp() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
+  const [theme, setTheme] = useState<'dark' | 'light'>('light')
+  const [accent, setAccent] = useState<'blue' | 'violet' | 'green'>('blue')
   const [category, setCategory] = useState<Category>('全部')
   const [query, setQuery] = useState('')
   const [toast, setToast] = useState('')
@@ -47,6 +48,17 @@ function LibraryApp() {
   const [uploads, setUploads] = useState<File[]>([])
   const [projectName, setProjectName] = useState('')
   const [copied, setCopied] = useState<string | null>(null)
+
+  const accents = {
+    blue: { light: '#365de6', dark: '#90b0ff', ring: 'rgba(67,103,223,.24)' },
+    violet: { light: '#7048ca', dark: '#b69cff', ring: 'rgba(130,89,214,.25)' },
+    green: { light: '#11785c', dark: '#65d5b0', ring: 'rgba(42,152,113,.25)' },
+  } as const
+  const currentAccent = accents[accent]
+  const themeStyle = {
+    '--tui-accent': theme === 'dark' ? currentAccent.dark : currentAccent.light,
+    '--tui-ring': currentAccent.ring,
+  } as CSSProperties
 
   const visible = useMemo(() => catalog.filter(item =>
     (category === '全部' || item.group === category) &&
@@ -75,7 +87,7 @@ function LibraryApp() {
       case 'segmented':
         return <div className="lb-preview-stack"><SegmentedControl label="布局方式" value={view} onValueChange={setView} options={[{ value: 'grid', label: '网格 Grid' }, { value: 'list', label: '列表 List' }, { value: 'compact', label: '紧凑 Compact' }]} /><span className="lb-meta">当前选择 / {view}</span></div>
       case 'accordion':
-        return <Accordion defaultValue="one" items={[{ id: 'one', title: '这个组件能在其他项目使用吗？', content: '可以。它不依赖航班数据、站点 Context，也不会覆盖全局 CSS。' }, { id: 'two', title: '如何定制主题？', content: '在 ThemeScope 上选择 theme，再覆盖 --tui-accent 等 CSS 变量。' }, { id: 'three', title: '是否支持键盘操作？', content: '触发按钮支持 Tab、Enter 和 Space，并提供 aria-expanded 与关联面板。' }]} />
+        return <Accordion defaultValue="one" items={[{ id: 'one', title: '这个组件能在其他项目使用吗？', content: '可以。组件基于独立 Props 和局部样式，不依赖展示页面的 Context。' }, { id: 'two', title: '如何定制主题？', content: '在 ThemeScope 上选择 theme，再覆盖 --tui-accent 等 CSS 变量。' }, { id: 'three', title: '是否支持键盘操作？', content: '触发按钮支持 Tab、Enter 和 Space，并提供 aria-expanded 与关联面板。' }]} />
       case 'tags':
         return <TagInput label="技术栈标签" value={tags} onValueChange={setTags} maxTags={6} onError={reason => setToast(reason === 'duplicate' ? '标签已存在' : '最多添加 6 个标签')} />
       case 'progress':
@@ -83,9 +95,9 @@ function LibraryApp() {
       case 'spotlight':
         return <SpotlightCard glowSize={300}><span className="lb-card-kicker">INTERACTIVE / LIGHT</span><h3 style={{margin:'8px 0'}}>Pointer spotlight</h3><p className="lb-meta">移动鼠标，让边缘光晕跟随你的指针。</p></SpotlightCard>
       case 'marquee':
-        return <Marquee label="技术标签" items={['React', 'TypeScript', 'Vite', 'Accessible', 'Motion', 'Terminal UI']} duration={18} />
+        return <Marquee label="技术标签" items={['React', 'TypeScript', 'Vite', 'Accessible', 'Motion', 'Weepwood UI']} duration={18} />
       case 'copy':
-        return <div className="lb-preview-stack"><span className="lb-meta">npm install @weepwood/terminal-ui</span><CopyButton text="npm install @weepwood/terminal-ui" onCopyError={() => setToast('请在安全环境中启用剪贴板权限')} /></div>
+        return <div className="lb-preview-stack"><span className="lb-meta">npm pack ./packages/react</span><CopyButton text="npm pack ./packages/react" onCopyError={() => setToast('请在安全环境中启用剪贴板权限')} /></div>
       case 'skeleton':
         return <Skeleton avatar lines={3} />
       case 'otp':
@@ -106,20 +118,45 @@ function LibraryApp() {
   }
 
   return (
-    <ThemeScope theme={theme} className="lb-root">
+    <ThemeScope theme={theme} className="lb-root" style={themeStyle}>
       <header className="lb-header">
-        <div className="lb-brand"><div className="lb-mark">T<span>U</span></div><div><strong>TERMINAL<span>/UI</span></strong><small>PERSONAL COMPONENT LIBRARY</small></div></div>
-        <nav className="lb-topnav"><a href="/">← 返回原始动效展厅</a><a href="https://github.com/weepwood/terminal-ui">GITHUB ↗</a><button type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label="切换主题">{theme === 'dark' ? '☀' : '☾'} <span>{theme === 'dark' ? 'Light' : 'Dark'}</span></button></nav>
+        <a className="lb-brand" href="/" aria-label="Weepwood UI 首页">
+          <div className="lb-mark" aria-hidden="true">w<span>.</span></div>
+          <div><strong>Weepwood <span>UI</span></strong><small>PERSONAL DESIGN SYSTEM</small></div>
+        </a>
+        <nav className="lb-topnav" aria-label="主导航">
+          <a href="#components">组件</a>
+          <a href="#tokens">设计变量</a>
+          <a href="https://github.com/weepwood/terminal-ui" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <button type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? '切换至浅色主题' : '切换至深色主题'}>
+            {theme === 'dark' ? '☀' : '☾'} <span>{theme === 'dark' ? '浅色' : '深色'}</span>
+          </button>
+        </nav>
       </header>
       <main className="lb-main">
         <div className="lb-hero">
-          <div className="lb-eyebrow"><span className="lb-pulse" /> THE COMPONENT WORKSHOP · 001</div>
-          <h1>Build once.<br /><em>Use everywhere.</em></h1>
-          <p>把喜欢的设计变成真正能复用的组件。独立 React 包、清晰 API、可访问交互与可定制的设计变量。</p>
-          <div className="lb-hero-stats"><div><strong>18</strong><span>PUBLIC COMPONENTS</span></div><div><strong>02</strong><span>THEME MODES</span></div><div><strong>0</strong><span>UI DEPENDENCIES</span></div></div>
+          <div className="lb-hero-content">
+            <div className="lb-eyebrow"><span className="lb-pulse" /> WEEPWOOD / DESIGN SYSTEM</div>
+            <h1>让界面设计<br /><em>更简单、更一致。</em></h1>
+            <p>一套面向真实项目的 React 组件库。清晰的交互、克制的视觉、可配置的设计变量——无需依赖某一种业务或应用场景。</p>
+            <div className="lb-hero-actions">
+              <a className="lb-primary-link" href="#components">探索组件 <span aria-hidden="true">↗</span></a>
+              <a className="lb-secondary-link" href="#tokens">查看设计变量 <span aria-hidden="true">→</span></a>
+            </div>
+            <div className="lb-hero-stats"><div><strong>18</strong><span>REUSABLE COMPONENTS</span></div><div><strong>02</strong><span>COLOR MODES</span></div><div><strong>03</strong><span>ACCENT PRESETS</span></div></div>
+          </div>
+          <div className="lb-hero-aside" aria-label="实时主题预览">
+            <div className="lb-aside-head"><span className="lb-dot-grid" aria-hidden="true">✦</span> Appearance preview <Badge tone="success">Live</Badge></div>
+            <div className="lb-sample-panel">
+              <div className="lb-sample-title"><span>Workspace settings</span><Badge tone="accent">Active</Badge></div>
+              <TextField label="项目名称" placeholder="My workspace" defaultValue="Personal workspace" />
+              <div className="lb-sample-actions"><Button size="sm">保存更改</Button><Button size="sm" variant="secondary">取消</Button></div>
+            </div>
+            <div className="lb-aside-foot"><span>可复用组件</span><span>React · CSS Tokens</span></div>
+          </div>
         </div>
-        <div className="lb-controls"><div className="lb-filter-group" aria-label="组件分类">{categories.map(c => <button key={c} type="button" className={category === c ? 'is-active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div><label className="lb-search"><span>⌕</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索组件 / Search" /></label></div>
-        <div className="lb-list-title"><div><span className="lb-section-number">01 / CATALOG</span><h2>Component collection</h2></div><span className="lb-counter">{visible.length} / {catalog.length} SHOWN</span></div>
+        <div id="components" className="lb-controls"><div className="lb-filter-group" aria-label="组件分类">{categories.map(c => <button key={c} type="button" className={category === c ? 'is-active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div><label className="lb-search"><span>⌕</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索组件名称或用途..." /></label></div>
+        <div className="lb-list-title"><div><span className="lb-section-number">COMPONENT LIBRARY / 01</span><h2>组件目录 <small>Components</small></h2></div><span className="lb-counter">{visible.length} / {catalog.length} 个结果</span></div>
         <section className="lb-grid" aria-label="组件预览">
           {visible.map((item, index) => <article className="lb-item" key={item.id}>
             <div className="lb-item-head"><span className="lb-item-number">{String(index + 1).padStart(2, '0')}</span><Badge tone="accent">{item.group}</Badge></div>
@@ -129,7 +166,31 @@ function LibraryApp() {
           </article>)}
           {visible.length === 0 && <div className="lb-empty">没有找到匹配的组件，请更换关键词。</div>}
         </section>
-        <footer className="lb-footer"><span>TERMINAL/UI © 2026 · HANDCRAFTED FOR REUSE</span><span>React · TypeScript · Scoped CSS · Accessible by default</span></footer>
+        <section id="tokens" className="lb-tokens" aria-label="设计变量">
+          <div className="lb-token-heading">
+            <div><span className="lb-section-number">FOUNDATIONS / 02</span><h2>设计变量 <small>Design tokens</small></h2><p>统一颜色、字体和圆角，主题切换只影响当前组件区域。</p></div>
+            <div className="lb-theme-actions"><button type="button" className={theme === 'light' ? 'is-selected' : ''} onClick={() => setTheme('light')}>☀ 浅色</button><button type="button" className={theme === 'dark' ? 'is-selected' : ''} onClick={() => setTheme('dark')}>☾ 深色</button></div>
+          </div>
+          <div className="lb-tokens-grid">
+            <div className="lb-token-card"><h3>语义色彩 <small>Color</small></h3>
+              {[
+                { name: 'Accent', token: '--tui-accent', color: 'var(--tui-accent)' },
+                { name: 'Surface', token: '--tui-surface', color: 'var(--tui-surface)' },
+                { name: 'Foreground', token: '--tui-text', color: 'var(--tui-text)' },
+                { name: 'Border', token: '--tui-border', color: 'var(--tui-border)' },
+              ].map(item => <div key={item.token} className="lb-token-line"><span className="lb-token-swatch" style={{ background: item.color }} /><span>{item.name}</span><code>{item.token}</code></div>)}
+            </div>
+            <div className="lb-token-card"><h3>强调色预设 <small>Accent</small></h3><p>选择强调色后，所有组件会同步更新。</p>
+              <div className="lb-accent-options">{([
+                { id: 'blue', title: '蓝色', color: '#365de6' },
+                { id: 'violet', title: '紫色', color: '#7048ca' },
+                { id: 'green', title: '绿色', color: '#11785c' },
+              ] as const).map(item => <button key={item.id} type="button" className={accent === item.id ? 'is-selected' : ''} aria-pressed={accent === item.id} onClick={() => setAccent(item.id)}><span style={{ background: item.color }} />{item.title}</button>)}</div>
+              <div className="lb-token-example"><code>--tui-accent</code><Button size="sm">主操作</Button><Badge tone="accent">选中</Badge></div>
+            </div>
+          </div>
+        </section>
+        <footer className="lb-footer"><span>© 2026 Weepwood UI · 个人组件设计系统</span><span>React · TypeScript · Design Tokens · Accessibility</span></footer>
       </main>
       {toast && <div className="lb-toast" role="status">{toast}<button onClick={() => setToast('')} aria-label="关闭提示">×</button></div>}
     </ThemeScope>

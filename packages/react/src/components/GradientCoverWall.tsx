@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type CSSProperties } from 'react'
+import { useEffect, useId, useRef, type CSSProperties, type ReactNode } from 'react'
 
 /** Soft gradient colour families. Custom palettes use the same six CSS tokens. */
 export interface GradientCoverPalette {
@@ -110,10 +110,10 @@ const DAMPING = 2 * DAMPING_RATIO * Math.sqrt(STIFFNESS)
 function Ornament({ kind }: { kind: GradientCoverPattern }) {
   const id = useId().replace(/:/g, '')
   if (kind === 'none') return null
-  const lines: React.ReactNode[] = []
-  const paths: React.ReactNode[] = []
-  const dots: React.ReactNode[] = []
-  const ellipses: React.ReactNode[] = []
+  const lines: ReactNode[] = []
+  const paths: ReactNode[] = []
+  const dots: ReactNode[] = []
+  const ellipses: ReactNode[] = []
   if (kind === 'rays') {
     for (let a = 0; a < 360; a += 9) {
       const t = a * Math.PI / 180
@@ -163,7 +163,7 @@ function Ornament({ kind }: { kind: GradientCoverPattern }) {
           <stop offset="58%" stopColor="#888" /><stop offset="85%" stopColor="#fff" />
           <stop offset="100%" stopColor="#fff" />
         </radialGradient>
-        <mask id={'mask-' + id} maskContentUnits="userSpaceOnUse">
+        <mask id={'mask-' + id} maskContentUnits="userSpaceOnUse" style={{ maskType: 'luminance' }}>
           <rect width={400} height={400} fill={'url(#fade-' + id + ')'} />
         </mask>
       </defs>

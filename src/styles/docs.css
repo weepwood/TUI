@@ -175,3 +175,10 @@
 .ds-segment-variations>div{display:grid;justify-items:center;gap:4px}
 .ds-segment-variations .tui-segmented__option{font-size:11px;padding:8px 11px}
 @media(max-width:650px){.ds-segment-variations{gap:20px}.ds-segment-examples{gap:18px}.ds-segment-main{max-width:100%}}
+
+/* Give the gradient wall the full demonstration viewport, not the input field width. */
+.ds-preview-content:has(.lb-cover-wall-demo){width:100%;max-width:100%;align-items:stretch}
+.ds-preview-content .lb-cover-wall-demo .tui-cover-wall{gap:clamp(9px,1.4vw,16px)}
+.ds-preview-content .lb-cover-wall-demo .tui-cover{border-radius:20px}
+.ds-preview-canvas:has(.lb-cover-wall-demo){overflow:visible}
+.ds-preview-canvas:has(.lb-cover-wall-demo) .ds-preview-pattern{opacity:.3}

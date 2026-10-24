@@ -119,3 +119,10 @@ button,input{font:inherit}
 .lb-code-actions{display:flex;align-items:center;gap:14px;flex:none}
 .lb-code-actions a{font-size:11px;color:var(--tui-accent);text-decoration:none;white-space:nowrap}
 .lb-code-actions a:hover{text-decoration:underline}
+
+/* Cover wall preview inside normal gallery cards. */
+.lb-cover-wall-demo{width:100%;max-width:100%;min-width:0}
+.lb-cover-wall-demo .tui-cover-wall{gap:8px}
+.lb-cover-wall-demo .tui-cover{border-radius:12px}
+.lb-cover-single-demo{width:min(100%,240px);margin-inline:auto}
+.lb-cover-single-demo .tui-cover{width:100%}

@@ -67,6 +67,8 @@ export const docsDetails: Record<string, DocsDetail> = {
   dialog: { intro:'受控对话框，提供关闭操作、键盘导航与关闭后焦点恢复。',props:[p('open','boolean','必填','是否打开'),p('onOpenChange','function','必填','关闭与状态回调'),p('title','string','必填','弹窗标题'),p('footer','ReactNode','—','底部操作区')],useCases:[{title:'设置面板',detail:'需要用户注意的独立交互。'}],related:['tooltip','button','tabs'] },
   empty: { intro:'表达当前没有内容或筛选结果，并允许用户直接采取操作。',props:[p('title','string','必填','主提示'),p('description','string','—','简短说明'),p('action','ReactNode','—','操作插槽'),p('size',"'sm' | 'md'","'md'",'占位密度')],useCases:[{title:'无数据',detail:'新用户首次进入与空搜索结果。'}],related:['skeleton','card','upload'] },
   count: { intro:'以流畅数值补间展示变化，支持 SSR 和减少动效设置。',props:[p('value','number','必填','目标数值'),p('duration','number','850','毫秒时长'),p('decimals','number','0','小数位数'),p('prefix / suffix','string','—','前缀与后缀')],useCases:[{title:'数据看板',detail:'统计指标与完成数量。'}],related:['progress','flip','marquee'] },
+  covers: { intro: '真正可复用的 3×2 柔和渐变封面墙：Canvas 物理像素噪点、SVG 几何纹样和弹簧悬停反馈。', props: [p('items','GradientCoverItem[]','六张预设卡片','数组包含 id、lines、palette、pattern'),p('columns','2 | 3 | 4','3','桌面布局列数'),p('motion','boolean','true','开关动效，系统减少动画偏好优先'),p('label','string','Gradient cover collection','封面墙无障碍名称')],useCases:[{title:'品牌视觉实验',detail:'无需图片的系列封面。'},{title:'展示站点',detail:'六组配色的沉浸式画廊。'}],related:['cover','spotlight','marquee'] },
+  cover: { intro:'可定制双行英文、六组预设或自定义调色板与五种 SVG 细线纹样。',props:[p('lines','readonly [string, string]','必填','两行标题'),p('palette','GradientCoverPreset | GradientCoverPalette',"'sunset'",'预设或自定义六个颜色'),p('pattern','rays | contours | waves | dots | lens | none',"'rays'",'几何纹样选择'),p('motion','boolean','true','关闭动效')],useCases:[{title:'系列封面',detail:'专栏、播客或专辑封面。'}],related:['covers','spotlight','card'] },
   theme: { intro:'在局部 DOM 子树中统一应用明暗主题和 CSS Design Tokens。',props:[p('theme',"'light' | 'dark'","'dark'",'主题模式'),p('className','string',"''",'额外主题类名'),p('style','CSSProperties','—','覆盖局部变量')],useCases:[{title:'微前端',detail:'同一页面内运行不同主题。'}],related:['card','button','segmented'] },
 }
 export const slugById: Record<string, string> = {
@@ -75,7 +77,7 @@ export const slugById: Record<string, string> = {
   marquee:'marquee',copy:'copy-button',skeleton:'skeleton',otp:'otp-input',
   stepper:'number-stepper',range:'range-slider',upload:'file-dropzone',
   flip:'flip-board',switch:'switch',tabs:'tabs',tooltip:'tooltip',dialog:'dialog',
-  empty:'empty-state',count:'count-up',theme:'theme-scope',
+  empty:'empty-state',count:'count-up',covers:'gradient-cover-wall',cover:'gradient-cover-card',theme:'theme-scope',
 }
 export const idFromSlug = (slug: string): string | undefined =>
   Object.keys(slugById).find(id => slugById[id] === slug)

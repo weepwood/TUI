@@ -30,17 +30,17 @@ npm pack ./packages/react
 
 - 入口：[`examples/noise-gradient-cover-wall.html`](./examples/noise-gradient-cover-wall.html)，运行 `npm run dev` 后访问 `/examples/noise-gradient-cover-wall.html`。
 - 不依赖 React、图片、外部 CSS 或 JS：单文件 HTML + CSS + Canvas + SVG，包含六组色彩、五种细线纹样、像素级噪点、弹簧悬停、降低动态偏好适配。
-- 这是**自包含的视觉实验组件**，不属于当前 24 个 React 包公共导出；独立页面已经加入 Vite 多页面构建，可直接复制单文件使用。
+- 这是**自包含的视觉实验版本**，与 React 正式导出的渐变封面组件一起维护；独立页面已经加入 Vite 多页面构建，可直接复制单文件使用，另有 GradientCoverCard / GradientCoverWall 正式 React 公开组件。
 
 ## 当前组件
 
-共 **24 个**：
+共 **26 个**：
 
 | 分类 | 组件 |
 | --- | --- |
 | 基础 | Button, Badge, CopyButton, ThemeScope |
 | 输入 | TextField, SegmentedControl, TagInput, OtpInput, Stepper, RangeSlider, UploadDropzone, Switch |
-| 展示 | Progress, Skeleton, Marquee, FlipBoard, CountUp |
+| 展示 | Progress, Skeleton, Marquee, FlipBoard, CountUp, GradientCoverCard, GradientCoverWall |
 | 容器 | Card, Accordion, SpotlightCard, Tabs |
 
 | 反馈 | Dialog, Tooltip, EmptyState |

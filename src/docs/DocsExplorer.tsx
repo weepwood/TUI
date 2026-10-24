@@ -44,7 +44,19 @@ export default function DocsExplorer({
     [entry.name, entry.cn, entry.group, entry.description].join(' ').toLowerCase().includes(search.trim().toLowerCase())
   ), [catalog, search])
   const groups = [...new Set(catalog.map(entry => entry.group))]
-  const source = item.id === 'segmented'
+  const source = item.id === 'covers' ? [
+    "import { ThemeScope, GradientCoverWall } from '@weepwood/terminal-ui'",
+    "import '@weepwood/terminal-ui/styles.css'",
+    '',
+    '<ThemeScope theme="light">',
+    '  <GradientCoverWall />',
+    '</ThemeScope>',
+  ].join('\n') : item.id === 'cover' ? [
+    "import { GradientCoverCard } from '@weepwood/terminal-ui'",
+    "import '@weepwood/terminal-ui/styles.css'",
+    '',
+    '<GradientCoverCard lines={["SOFT", "LIGHT"]} palette="sunset" pattern="rays" />',
+  ].join('\n') : item.id === 'segmented'
     ? [
       "import { useState } from 'react'",
       "import { SegmentedControl } from '@weepwood/terminal-ui'",
@@ -149,7 +161,7 @@ export default function DocsExplorer({
               </div>
             })}
           </div>
-          <div className="ds-sidebar-foot"><span className="ds-sidebar-foot-dot"/> React · TypeScript · 24 components</div>
+          <div className="ds-sidebar-foot"><span className="ds-sidebar-foot-dot"/> React · TypeScript · 26 components</div>
         </aside>
 
         <main className="ds-main" id="main-content">
@@ -236,7 +248,7 @@ export default function DocsExplorer({
         <aside className="ds-toc" aria-label="本页目录">
           <span className="ds-toc-title">ON THIS PAGE</span>
           <nav>{sections.map(section => <a key={section.id} href={'#' + section.id}>{section.text}</a>)}</nav>
-          <div className="ds-toc-note"><span>✦</span> 24 个组件可交互预览，样式通过本地 CSS 变量定制。</div>
+          <div className="ds-toc-note"><span>✦</span> 26 个组件可交互预览，样式通过本地 CSS 变量定制。</div>
         </aside>
       </div>
       {copied === 'failed' && <div className="ds-copy-error" role="status">复制失败：请允许浏览器访问剪贴板</div>}

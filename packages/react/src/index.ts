@@ -51,3 +51,12 @@ export { EmptyState } from './components/EmptyState'
 export type { EmptyStateProps } from './components/EmptyState'
 export { CountUp } from './components/CountUp'
 export type { CountUpProps } from './components/CountUp'
+
+export {
+  GradientCoverCard, GradientCoverWall, gradientCoverPalettes,
+  defaultGradientCovers, paintGradientCoverNoise,
+} from './components/GradientCoverWall'
+export type {
+  GradientCoverCardProps, GradientCoverWallProps, GradientCoverItem,
+  GradientCoverPalette, GradientCoverPreset, GradientCoverPattern,
+} from './components/GradientCoverWall'

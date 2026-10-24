@@ -4,7 +4,7 @@ import {
   ThemeScope, Button, Badge, Card, TextField, Progress, SegmentedControl, Accordion, TagInput,
   SpotlightCard, Marquee, CopyButton, Skeleton,
   OtpInput, Stepper, RangeSlider, UploadDropzone, FlipBoard,
-  Switch, Tabs, Tooltip, Dialog, EmptyState, CountUp,
+  Switch, Tabs, Tooltip, Dialog, EmptyState, CountUp, GradientCoverWall, GradientCoverCard,
 } from '../packages/react/src'
 import '../packages/react/src/styles.css'
 import './styles/library-demo.css'
@@ -38,6 +38,8 @@ const catalog = [
   { id: 'dialog', name: 'Dialog', cn: '对话框', group: '反馈', description: '焦点约束 · Escape / 遮罩关闭 · 轻量弹出动效', usage: '<Dialog open={open} onOpenChange={setOpen} title="设置">内容</Dialog>', fresh: true },
   { id: 'empty', name: 'EmptyState', cn: '空状态', group: '反馈', description: '无数据展示 · 图标 / 说明 / 自定义操作', usage: '<EmptyState title="暂无数据" description="创建第一个项目" />', fresh: true },
   { id: 'count', name: 'CountUp', cn: '数字动效', group: '动效', description: 'RAF 补间 · 数字变化 · 降低动态偏好', usage: '<CountUp value={total} duration={850} />', fresh: true },
+  { id: 'covers', name: 'GradientCoverWall', cn: '渐变封面墙', group: '动效', description: '3×2 无图片柔和渐变 · Canvas 颗粒 · SVG 几何纹样 · 弹簧交互', usage: '<GradientCoverWall />', fresh: true },
+  { id: 'cover', name: 'GradientCoverCard', cn: '渐变封面卡片', group: '动效', description: '自定义双行英文、渐变配色、SVG 纹样与悬停动效', usage: '<GradientCoverCard lines={["SOFT", "LIGHT"]} palette="sunset" pattern="rays" />', fresh: true },
   { id: 'theme', name: 'ThemeScope', cn: '主题容器', group: '基础', description: '局部暗色/亮色切换和 CSS Tokens', usage: '<ThemeScope theme="dark">...</ThemeScope>' },
 ] as const
 
@@ -181,6 +183,10 @@ function LibraryApp() {
         return <EmptyState title="还没有项目" description="创建一个项目，开始整理组件和设计资源。" size="sm" action={<Button variant="secondary" size="sm" onClick={() => setToast('空状态操作已触发')}>创建项目</Button>} />
       case 'count':
         return <div className="lb-count-demo"><span className="lb-meta">ACTIVE COMPONENT VIEWS</span><CountUp value={countValue} label="浏览量" duration={900} className="lb-large-number" /><div className="lb-preview-row"><Button variant="secondary" size="sm" onClick={() => setCountValue(v => v + 128)}>+128</Button><Button variant="ghost" size="sm" onClick={() => setCountValue(1280)}>重置</Button></div></div>
+      case 'covers':
+        return <div className="lb-cover-wall-demo"><GradientCoverWall /></div>
+      case 'cover':
+        return <div className="lb-cover-single-demo"><GradientCoverCard lines={['SOFT', 'LIGHT']} palette="sunset" pattern="rays" /></div>
       case 'theme':
         return <div className="lb-preview-stack"><span className="lb-meta">当前主题 / {theme}</span><Button variant="secondary" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>切换到{theme === 'dark' ? '亮色' : '暗色'}主题</Button></div>
       default:
@@ -231,7 +237,7 @@ function LibraryApp() {
               <a className="lb-primary-link" href="#components">探索组件 <span aria-hidden="true">↗</span></a>
               <a className="lb-secondary-link" href="#tokens">查看设计变量 <span aria-hidden="true">→</span></a>
             </div>
-            <div className="lb-hero-stats"><div><strong>24</strong><span>REUSABLE COMPONENTS</span></div><div><strong>02</strong><span>COLOR MODES</span></div><div><strong>03</strong><span>ACCENT PRESETS</span></div></div>
+            <div className="lb-hero-stats"><div><strong>26</strong><span>REUSABLE COMPONENTS</span></div><div><strong>02</strong><span>COLOR MODES</span></div><div><strong>03</strong><span>ACCENT PRESETS</span></div></div>
           </div>
           <div className="lb-hero-aside" aria-label="实时主题预览">
             <div className="lb-aside-head"><span className="lb-dot-grid" aria-hidden="true">✦</span> Appearance preview <Badge tone="success">Live</Badge></div>
@@ -244,7 +250,7 @@ function LibraryApp() {
           </div>
         </div>
         <div id="components" className="lb-controls"><div className="lb-filter-group" aria-label="组件分类">{categories.map(c => <button key={c} type="button" className={category === c ? 'is-active' : ''} onClick={() => setCategory(c)}>{c}</button>)}</div><label className="lb-search"><span>⌕</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索组件名称或用途..." /></label></div>
-        <div className="lb-toolbar"><div className="lb-toolbar-left"><button type="button" className={onlyNew ? 'lb-chip is-selected' : 'lb-chip'} aria-pressed={onlyNew} onClick={() => setOnlyNew(v => !v)}>✦ 本次新增 6</button><span>参考社区实践 · 保持轻量 API</span></div><div className="lb-view-switch" aria-label="组件视图"><button type="button" aria-pressed={density === 'grid'} className={density === 'grid' ? 'is-active' : ''} onClick={() => setDensity('grid')}>▦ 网格</button><button type="button" aria-pressed={density === 'compact'} className={density === 'compact' ? 'is-active' : ''} onClick={() => setDensity('compact')}>≡ 紧凑</button></div></div>
+        <div className="lb-toolbar"><div className="lb-toolbar-left"><button type="button" className={onlyNew ? 'lb-chip is-selected' : 'lb-chip'} aria-pressed={onlyNew} onClick={() => setOnlyNew(v => !v)}>✦ 最近新增 8</button><span>参考社区实践 · 保持轻量 API</span></div><div className="lb-view-switch" aria-label="组件视图"><button type="button" aria-pressed={density === 'grid'} className={density === 'grid' ? 'is-active' : ''} onClick={() => setDensity('grid')}>▦ 网格</button><button type="button" aria-pressed={density === 'compact'} className={density === 'compact' ? 'is-active' : ''} onClick={() => setDensity('compact')}>≡ 紧凑</button></div></div>
         <div className="lb-list-title"><div><span className="lb-section-number">COMPONENT LIBRARY / 01</span><h2>组件目录 <small>Components</small></h2></div><span className="lb-counter">{visible.length} / {catalog.length} 个结果</span></div>
         <section className={density === 'compact' ? 'lb-grid is-compact' : 'lb-grid'} aria-label="组件预览">
           {visible.map((item, index) => <article className={item.id === 'tooltip' ? 'lb-item lb-item--tooltip' : 'lb-item'} key={item.id}>

@@ -91,3 +91,22 @@ test('standalone gradient cover wall ships as a self-contained image-free HTML e
   // The SVG namespace URI is an identifier, not a remote dependency.
   assert.doesNotMatch(html.replaceAll("http://www.w3.org/2000/svg", ""), /https?:\/\//i)
 })
+
+test('gradient cover components are included in both public package and documentation catalog', () => {
+  const index = read('packages/react/src/index.ts')
+  const catalog = read('src/library-demo.tsx')
+  const docs = read('src/docs/docs-data.ts')
+  const css = read('packages/react/src/styles.css')
+  for (const name of ['GradientCoverCard', 'GradientCoverWall']) {
+    assert.match(index, new RegExp(name))
+    assert.match(catalog, new RegExp("name: '" + name + "'"))
+  }
+  for (const name of ['covers', 'cover']) {
+    assert.ok(docs.includes(name + ':'))
+  }
+  for (const token of ['tui-cover-wall', 'tui-cover__grain', 'tui-cover__ornament',
+    'mix-blend-mode:overlay', 'opacity:.4', 'prefers-reduced-motion:reduce']) {
+    assert.ok(css.includes(token), 'missing reusable style: ' + token)
+  }
+  assert.match(read('packages/react/package.json'), /"version": "0\.3\.0"/)
+})

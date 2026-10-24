@@ -6,6 +6,7 @@ import {
   Button, Badge, Card, ThemeScope, TextField, Progress, SegmentedControl, Accordion, TagInput, SpotlightCard, Marquee, CopyButton, Skeleton,
   OtpInput, Stepper, RangeSlider, UploadDropzone, acceptsFile, pickFiles,
   FlipBoard, formatFlipRows, Switch, Tabs, Tooltip, Dialog, EmptyState, CountUp,
+  GradientCoverCard, GradientCoverWall, defaultGradientCovers, gradientCoverPalettes,
 } from '../packages/react/dist/index.js'
 
 const render = (component, props) => renderToStaticMarkup(createElement(component, props))
@@ -205,4 +206,42 @@ test('count-up provides stable initial SSR value and a descriptive label', () =>
   assert.match(html, /role="img"/)
   assert.match(html, /aria-label="Views: \+2300 views"/)
   assert.match(html, /\+2,300 views/)
+})
+
+test('GradientCoverWall SSR renders six defaults, exactly five vector patterns and no images', () => {
+  assert.equal(defaultGradientCovers.length, 6)
+  const html = render(GradientCoverWall, {})
+  assert.equal((html.match(/<article class="tui-cover"/g) || []).length, 6)
+  assert.equal((html.match(/<canvas /g) || []).length, 6)
+  assert.equal((html.match(/<svg /g) || []).length, 5)
+  assert.doesNotMatch(html, /<img\b/i)
+  assert.match(html, /DAILY/)
+  assert.match(html, /POETRY/)
+  assert.match(html, /aria-label="Gradient cover collection"/)
+  assert.match(html, /--tui-cover-columns:3/)
+})
+
+test('GradientCoverCard exposes custom palette, titles and reduced-motion override', () => {
+  const custom = { top:'#b1b2b3', bottom:'#332211', orb1:'#ffaabb', orb2:'#bbccdd', orb3:'#ddeeff', orb4:'#eeffdd' }
+  const html = render(GradientCoverCard, {
+    lines:['CUSTOM','TITLE'], palette: custom, pattern:'dots', motion:false,
+  })
+  assert.match(html, /CUSTOM/)
+  assert.match(html, /TITLE/)
+  assert.match(html, /data-motion="off"/)
+  assert.match(html, /--tui-cover-top:#b1b2b3/)
+  assert.match(html, /tui-cover__dots/)
+  assert.equal((html.match(/<canvas /g) || []).length, 1)
+  assert.ok('sunset' in gradientCoverPalettes && 'ember' in gradientCoverPalettes)
+})
+
+test('custom cover walls accept dynamic items and column counts', () => {
+  const html = render(GradientCoverWall, {
+    columns: 2, items:[
+      { id:'example', lines:['HELLO','WORLD'], palette:'ocean', pattern:'none' },
+    ],
+  })
+  assert.equal((html.match(/<article class="tui-cover"/g) || []).length, 1)
+  assert.doesNotMatch(html, /<svg /)
+  assert.match(html, /--tui-cover-columns:2/)
 })

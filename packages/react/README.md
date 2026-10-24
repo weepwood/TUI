@@ -1,8 +1,8 @@
 # @weepwood/terminal-ui
 
-Weepwood UI 的通用 React 组件包，采用中性灰阶、蓝色主强调色、轻量交互和可配置主题变量。目前提供 24 个独立于特定业务的组件。
+Weepwood UI 的通用 React 组件包，采用中性灰阶、蓝色主强调色、轻量交互和可配置主题变量。目前提供 26 个独立于特定业务的组件。
 
-> 版本 0.2.0 增加通用交互、反馈与数字动效组件，仍处于未发布的预览阶段。尚未发布 npm；需要从本仓库构建并打包后本地安装。
+> 版本 0.3.0 新增 GradientCoverCard / GradientCoverWall 公共导出，仍处于未发布的预览阶段。尚未发布 npm；需要从本仓库构建并打包后本地安装。
 
 ## 使用
 
@@ -64,6 +64,8 @@ export function Example() {
 | Dialog | open, onOpenChange, title, footer | 焦点约束与关闭回焦的模态框 |
 | EmptyState | title, description, icon, action, size | 通用空状态展示 |
 | CountUp | value, duration, decimals, prefix/suffix | 数值变化补间动画 |
+| GradientCoverCard | lines, palette, pattern, motion, style | 可复用的单张渐变封面 |
+| GradientCoverWall | items, columns, motion, label, style | 组合式响应封面墙 |
 
 CopyButton 依赖安全上下文中的 Clipboard API，失败时触发 onCopyError，不会假装成功。Marquee 的 items 为纯文本，避免克隆可交互元素造成重复 Tab 焦点。
 
@@ -94,3 +96,25 @@ UploadDropzone **不执行上传**，只返回浏览器 `File[]` 给调用方；
 - 原来的专题演示代码已从默认构建入口移除，仍留在仓库作为历史实验源码，**不属于** npm 包公开 API。
 - 后续逐步迁移动效组件；每个迁移必须完成数据/事件解耦、键盘与 ARIA、样式隔离、类型与测试。
 - 因私有仓库尚未声明可再分发的开源许可，当前包标记 UNLICENSED。发布前应明确授权方案。
+
+## GradientCoverWall / GradientCoverCard
+
+独立 React 组件，可在其他项目直接导入，不需要 iframe：
+
+```tsx
+import { GradientCoverWall, GradientCoverCard, ThemeScope } from '@weepwood/terminal-ui'
+import '@weepwood/terminal-ui/styles.css'
+
+export function CoverExample() {
+  return <ThemeScope theme="light">
+    <GradientCoverWall />
+    <GradientCoverCard lines={['SOFT', 'LIGHT']} palette="sunset" pattern="rays" />
+  </ThemeScope>
+}
+```
+
+- GradientCoverWall 默认展示六张，items 可定义独立的英文两行、调色板、纹样和稳定 id。
+- GradientCoverCard.lines 必须为两行的 tuple，palette 支持六个预设名，或传入完整的 top/bottom/orb1/orb2/orb3/orb4 自定义色值。
+- pattern: rays / contours / waves / dots / lens / none。motion={false} 关闭动态；系统 prefers-reduced-motion 优先。
+- Canvas 采用 128×128 物理像素灰度随机瓦片，各张按 DPR 绘制，不请求任何网络图片。Inter 采用本地字体，缺失时使用系统回退字体。
+- 仍提供 [独立 HTML 单文件版本](../../examples/noise-gradient-cover-wall.html)。

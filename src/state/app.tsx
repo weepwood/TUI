@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 
 /* ---------- 主题 ---------- */
 type Theme = 'night' | 'day'
@@ -64,8 +64,10 @@ function ToastProvider({ children }: { children: ReactNode }) {
       setTimeout(() => setItems(list => list.filter(t => t.id !== id)), 320)
     }, 2300)
   }, [])
+  /* 固定上下文值：toast 回调稳定，弹 toast / 消失时不再重渲染全部消费者 */
+  const value = useMemo(() => ({ toast }), [toast])
   return (
-    <ToastContext.Provider value={{ toast }}>
+    <ToastContext.Provider value={value}>
       {children}
       <div className="toasts" aria-live="polite">
         {items.map(t => (

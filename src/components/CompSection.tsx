@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { memo, useState, type ReactNode } from 'react'
 import { useReveal } from '../lib/hooks'
 import { MULTI_VARIANT_IDS, VARIANTS, type Status } from '../lib/data'
 import { copyText } from '../lib/scroll'
@@ -16,17 +16,26 @@ interface Props {
   className?: string
   demoStyle?: React.CSSProperties
   children: ReactNode
+  /** 受控变体：传入时（单页查看器）由外部驱动 ←/→ 切换；不传时（总览）内部自持 */
+  variant?: string
+  onVariantChange?: (v: string) => void
 }
 
 /** 组件展示块统一骨架：变体切换 + 一键复制提示词（点击即复制，不展开面板）+ 演示区 + 说明条 */
-export default function CompSection({ id, tag, title, cn, st, footer, prompt, className, demoStyle, children }: Props) {
+function CompSection({ id, tag, title, cn, st, footer, prompt, className, demoStyle, children, variant, onVariantChange }: Props) {
   const ref = useReveal<HTMLElement>()
   const multi = MULTI_VARIANT_IDS.has(id)
-  const [variantId, setVariantId] = useState('classic')
+  const [localVariant, setLocalVariant] = useState('classic')
+  const variantId = variant ?? localVariant
   const [copied, setCopied] = useState(false)
   const { toast } = useToast()
-  const variant = VARIANTS.find(v => v.id === variantId) ?? VARIANTS[0]
-  const fullPrompt = variant.id === 'classic' ? prompt : `${prompt}${variant.promptSuffix}`
+  const variantMeta = VARIANTS.find(v => v.id === variantId) ?? VARIANTS[0]
+  const fullPrompt = variantMeta.id === 'classic' ? prompt : `${prompt}${variantMeta.promptSuffix}`
+
+  const pickVariant = (v: string) => {
+    if (variant === undefined) setLocalVariant(v)
+    onVariantChange?.(v)
+  }
 
   const copyPrompt = async () => {
     const ok = await copyText(fullPrompt)
@@ -66,7 +75,7 @@ export default function CompSection({ id, tag, title, cn, st, footer, prompt, cl
               className={`var-chip${v.id === variantId ? ' on' : ''}`}
               role="tab"
               aria-selected={v.id === variantId}
-              onClick={() => setVariantId(v.id)}
+              onClick={() => pickVariant(v.id)}
             >
               {v.label}
             </button>
@@ -74,10 +83,13 @@ export default function CompSection({ id, tag, title, cn, st, footer, prompt, cl
         </div>
       )}
 
-      <div className={`comp-demo${variant.cls ? ' ' + variant.cls : ''}`} style={demoStyle} data-variant={variant.id}>
+      <div className={`comp-demo${variantMeta.cls ? ' ' + variantMeta.cls : ''}`} style={demoStyle} data-variant={variantMeta.id}>
         {children}
       </div>
       <div className="comp-ft">{footer}</div>
     </section>
   )
 }
+
+/* props 全部来自 useMemo 的稳定引用：总览滚动时 scrollspy 更新不会重渲染各区块 */
+export default memo(CompSection)

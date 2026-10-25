@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useReveal } from '../lib/hooks'
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
 }
 
 /** 登机牌风格页脚 */
-export default function BoardingPass({ onGoto }: Props) {
+function BoardingPass({ onGoto }: Props) {
   const ref = useReveal<HTMLDivElement>()
   return (
     <footer id="about">
@@ -38,3 +39,5 @@ export default function BoardingPass({ onGoto }: Props) {
     </footer>
   )
 }
+
+export default memo(BoardingPass)

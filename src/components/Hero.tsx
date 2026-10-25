@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { CHARSET, COMPONENTS, INSTALL_CMD, PHRASES } from '../lib/data'
 import { FlapBoardEngine } from '../lib/flap'
 import { REDUCED, copyText } from '../lib/scroll'
@@ -12,7 +12,7 @@ interface Props {
 }
 
 /** 英雄区：机械翻牌大屏 + 控制台（组件 C-00 本体） */
-export default function Hero({ onGoto, onOpenPalette }: Props) {
+function Hero({ onGoto, onOpenPalette }: Props) {
   const rowRef = useRef<HTMLDivElement>(null)
   const engineRef = useRef<FlapBoardEngine | null>(null)
   const [input, setInput] = useState('')
@@ -138,3 +138,5 @@ export default function Hero({ onGoto, onOpenPalette }: Props) {
     </section>
   )
 }
+
+export default memo(Hero)

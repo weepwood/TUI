@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, lazy, Suspense, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, lazy, Suspense, type ReactNode } from 'react'
 import { COMPONENTS, INSTALL_CMD, type CompMeta } from './lib/data'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
@@ -53,8 +53,10 @@ const viewFromURL = () => {
 }
 
 export default function App() {
-  /* view = null 总览模式；view = 组件 id 聚焦模式（URL ?view= 同步，可分享/后退） */
-  const [view, setView] = useState<string | null>(viewFromURL)
+  /* 单页模式为默认浏览形态：每个组件一页，↑↓/滚轮切换组件，←→ 切换样式；
+     view = null 为总览模式（侧边栏「总览全部组件」或查看器 ✕ 进入），URL ?view= 同步可分享/后退 */
+  const [view, setView] = useState<string | null>(() => viewFromURL() ?? 'c00')
+  const [variantId, setVariantId] = useState('classic')
   const [spyId, setSpyId] = useState('c00')
   const [paletteOpen, setPaletteOpen] = useState(false)
   const openPalette = useCallback(() => setPaletteOpen(true), [])
@@ -66,6 +68,20 @@ export default function App() {
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
   }, [])
+
+  /* 首次直链进入时把默认组件补进 URL，保证前进/后退历史一致 */
+  useEffect(() => {
+    if (!viewFromURL()) {
+      const url = new URL(location.href)
+      url.searchParams.set('view', 'c00')
+      history.replaceState({}, '', url)
+    }
+  }, [])
+
+  /* 换组件即复位样式变体，每页都从经典开始 */
+  useEffect(() => {
+    setVariantId('classic')
+  }, [view])
 
   const openView = useCallback((id: string | null) => {
     setView(id)
@@ -98,64 +114,77 @@ export default function App() {
     window.dispatchEvent(new CustomEvent('terminal:flip-random'))
   }, [])
 
-  const bodies: Record<string, ReactNode> = {
-    c01: <Odometer />,
-    c02: <Marquee />,
-    c03: <OtpInput />,
-    c04: <Stepper />,
-    c05: <Segmented />,
-    c06: <PaletteCard onOpen={openPalette} />,
-    c07: (
-      <>
-        <div className="cmd-box">
-          <code>{INSTALL_CMD}</code>
-        </div>
-        <CopyButton cmd={INSTALL_CMD} />
-        <span className="hint">写入剪贴板后图标与文案一起切换</span>
-      </>
-    ),
-    c08: <ThemeSwitch />,
-    c09: <HoldToBoard />,
-    c10: <Lazy><SeatMap /></Lazy>,
-    c11: <Lazy><Autocomplete /></Lazy>,
-    c12: <Lazy><DetentDrawer /></Lazy>,
-    c13: <Lazy><RotaryKnob /></Lazy>,
-    c14: <Lazy><SkeletonLoader /></Lazy>,
-    c15: <Lazy><SlideToConfirm /></Lazy>,
-    c16: <Lazy><TiltCard /></Lazy>,
-    c17: <Lazy><EscapeButton /></Lazy>,
-    c18: <Lazy><MagnifyingDock /></Lazy>,
-    c19: <Lazy><ReactionBurst /></Lazy>,
-    c20: <Lazy><RangeSlider /></Lazy>,
-    c21: <Lazy><ProgressSteps /></Lazy>,
-    c22: <Lazy><Accordion /></Lazy>,
-    c23: <Lazy><TagInput /></Lazy>,
-    c24: <Lazy><UploadDropzone /></Lazy>,
-    c25: <Lazy><TextScramble /></Lazy>,
-    c26: <Lazy><StarRating /></Lazy>,
-    c27: <Lazy><Checklist /></Lazy>,
-    c28: <Lazy><SpotlightCard /></Lazy>,
-    c29: <Lazy><CardSwap /></Lazy>,
-    c30: <Lazy><TimeScrubber /></Lazy>,
-    c31: <Lazy><DestCarousel /></Lazy>,
-  }
-
-  const renderComp = (c: CompMeta & { id: string }) => (
-    <CompSection
-      key={c.id}
-      id={c.id}
-      tag={`${c.id.replace('c', 'C-')} · ${c.gate[0] + c.gate.slice(1).toLowerCase()} · ${c.no}`}
-      title={c.en}
-      cn={c.cn}
-      st={c.st === 'BOARDING' ? 'BOARDING' : 'ON TIME'}
-      prompt={c.prompt}
-      demoStyle={c.id === 'c09' ? { minHeight: 260 } : undefined}
-      className={c.id === 'c02' ? 'mq-comp' : undefined}
-      footer={FOOTERS[c.id]}
-    >
-      {bodies[c.id]}
-    </CompSection>
+  /* 演示内容与区块列表用 useMemo 固定（依赖的回调均稳定），
+     配合 CompSection 的 memo，scrollspy 更新侧边栏时不再重渲染 32 个区块 */
+  const bodies: Record<string, ReactNode> = useMemo(
+    () => ({
+      c01: <Odometer />,
+      c02: <Marquee />,
+      c03: <OtpInput />,
+      c04: <Stepper />,
+      c05: <Segmented />,
+      c06: <PaletteCard onOpen={openPalette} />,
+      c07: (
+        <>
+          <div className="cmd-box">
+            <code>{INSTALL_CMD}</code>
+          </div>
+          <CopyButton cmd={INSTALL_CMD} />
+          <span className="hint">写入剪贴板后图标与文案一起切换</span>
+        </>
+      ),
+      c08: <ThemeSwitch />,
+      c09: <HoldToBoard />,
+      c10: <Lazy><SeatMap /></Lazy>,
+      c11: <Lazy><Autocomplete /></Lazy>,
+      c12: <Lazy><DetentDrawer /></Lazy>,
+      c13: <Lazy><RotaryKnob /></Lazy>,
+      c14: <Lazy><SkeletonLoader /></Lazy>,
+      c15: <Lazy><SlideToConfirm /></Lazy>,
+      c16: <Lazy><TiltCard /></Lazy>,
+      c17: <Lazy><EscapeButton /></Lazy>,
+      c18: <Lazy><MagnifyingDock /></Lazy>,
+      c19: <Lazy><ReactionBurst /></Lazy>,
+      c20: <Lazy><RangeSlider /></Lazy>,
+      c21: <Lazy><ProgressSteps /></Lazy>,
+      c22: <Lazy><Accordion /></Lazy>,
+      c23: <Lazy><TagInput /></Lazy>,
+      c24: <Lazy><UploadDropzone /></Lazy>,
+      c25: <Lazy><TextScramble /></Lazy>,
+      c26: <Lazy><StarRating /></Lazy>,
+      c27: <Lazy><Checklist /></Lazy>,
+      c28: <Lazy><SpotlightCard /></Lazy>,
+      c29: <Lazy><CardSwap /></Lazy>,
+      c30: <Lazy><TimeScrubber /></Lazy>,
+      c31: <Lazy><DestCarousel /></Lazy>,
+    }),
+    [openPalette],
   )
+
+  /* 第二个参数：单页查看器传入受控变体；总览模式不传，区块内部自持 */
+  const renderComp = useCallback(
+    (c: CompMeta & { id: string }, pageVariant?: string) => (
+      <CompSection
+        key={c.id}
+        id={c.id}
+        tag={`${c.id.replace('c', 'C-')} · ${c.gate[0] + c.gate.slice(1).toLowerCase()} · ${c.no}`}
+        title={c.en}
+        cn={c.cn}
+        st={c.st === 'BOARDING' ? 'BOARDING' : 'ON TIME'}
+        prompt={c.prompt}
+        demoStyle={c.id === 'c09' ? { minHeight: 260 } : undefined}
+        className={c.id === 'c02' ? 'mq-comp' : undefined}
+        footer={FOOTERS[c.id]}
+        variant={pageVariant}
+        onVariantChange={setVariantId}
+      >
+        {bodies[c.id]}
+      </CompSection>
+    ),
+    [bodies],
+  )
+
+  const gallery = useMemo(() => SECTIONS.filter(s => s.id !== 'c00').map(s => renderComp(s)), [renderComp])
 
   const idx = view ? SECTIONS.findIndex(s => s.id === view) : -1
   const cur = idx >= 0 ? SECTIONS[idx] : null
@@ -171,26 +200,30 @@ export default function App() {
         <Sidebar activeId={view ?? spyId} onNavigate={openView} onOpenOverview={() => openView(null)} overview={!view} />
 
         <main className="content">
-          {/* 聚焦模式：组件呈现在全局浮动查看器中，背后不挂载总览，保持单组件开销 */}
-          {!cur && (
+          {/* 单页模式：组件页面直接占据侧边栏右侧内容区；总览模式：全部组件并排 */}
+          {cur ? (
+            <ComponentViewer
+              id={cur.id}
+              variantId={variantId}
+              onVariantChange={setVariantId}
+              onClose={() => openView(null)}
+              onSwitch={openView}
+            >
+              {cur.id === 'c00' ? (
+                <Hero onGoto={openView} onOpenPalette={openPalette} />
+              ) : (
+                renderComp(cur, variantId)
+              )}
+            </ComponentViewer>
+          ) : (
             <>
               <Hero onGoto={openView} onOpenPalette={openPalette} />
-              {SECTIONS.filter(s => s.id !== 'c00').map(s => renderComp(s))}
+              {gallery}
               <BoardingPass onGoto={openView} />
             </>
           )}
         </main>
       </div>
-
-      {cur && (
-        <ComponentViewer id={cur.id} onClose={() => openView(null)} onSwitch={openView}>
-          {cur.id === 'c00' ? (
-            <Hero onGoto={openView} onOpenPalette={openPalette} />
-          ) : (
-            renderComp(cur)
-          )}
-        </ComponentViewer>
-      )}
 
       <CommandPalette open={paletteOpen} onClose={closePalette} onNavigate={openView} onRandomFlip={randomFlip} />
     </>

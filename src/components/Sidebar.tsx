@@ -11,6 +11,10 @@ interface Props {
 
 const dotCls = (st: Status) => (st === 'BOARDING' ? 'st-boarding pulse' : st === 'ON TIME' ? 'st-ontime' : 'st-delayed')
 
+/* 模块级常量：目录本身不变，避免每次渲染（含 4.6s 状态点闪烁）重建 Map 与数组 */
+const byId = new Map(COMPONENTS.map(c => [c.id, c]))
+const teasers = COMPONENTS.filter(c => !c.id)
+
 /** 左侧目录：总览/聚焦切换 + 分组导航 + 状态点（点会偶尔闪换，保持"活着"） */
 export default function Sidebar({ activeId, onNavigate, onOpenOverview, overview }: Props) {
   const { toast } = useToast()
@@ -22,9 +26,6 @@ export default function Sidebar({ activeId, onNavigate, onOpenOverview, overview
     }, 4600)
     return () => clearInterval(t)
   }, [])
-
-  const byId = new Map(COMPONENTS.map(c => [c.id, c]))
-  const teasers = COMPONENTS.filter(c => !c.id)
 
   return (
     <aside className="sidebar" aria-label="组件目录">

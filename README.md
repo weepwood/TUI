@@ -1,8 +1,8 @@
-# TERMINAL/UI — 组件航站楼
+# UI / PLAYGROUND — 通用组件展示库
 
-像机场航显板一样翻动的 React 动效组件展示厅，现共 **32 个可交互组件**。每一个都是活演示，页面即文档。
+一个可交互的 React UI 展示与灵感项目，涵盖按钮、表单、导航、反馈、动效和微交互，共 **37 个组件演示**。每个组件都可以直接操作，页面即文档；机场翻牌屏保留为项目的动效名片。
 
-部分组件交互参考了 [Bencho](https://bencho.dev)、[Magic UI](https://magicui.design) 与 [ReactBits](https://reactbits.dev)，全部零依赖手工实现。
+基础控件强调语义、可访问性和常见状态；动效组件则展示更具表现力的交互。部分交互参考了 [Bencho](https://bencho.dev)、[Magic UI](https://magicui.design) 与 [ReactBits](https://reactbits.dev)，全部零依赖手工实现。
 
 ## 技术栈
 
@@ -71,9 +71,26 @@ src/
     ├── CardSwap.tsx        # C-29 卡片堆叠（Bencho Card Swap，懒加载）
     ├── TimeScrubber.tsx    # C-30 起飞时间轴（Bencho Time Scrubber，懒加载）
     ├── DestCarousel.tsx    # C-31 目的地轮播（scroll-snap，懒加载）
+    ├── ButtonShowcase.tsx # C-32 按钮变体与加载态
+    ├── StatusShowcase.tsx # C-33 状态徽标与可关闭提示
+    ├── TabsShowcase.tsx   # C-34 键盘可访问标签页
+    ├── DialogShowcase.tsx # C-35 对话框与焦点返回
+    ├── FormShowcase.tsx   # C-36 常见表单控件
     ├── Clock.tsx           # 独立时钟（隔离每秒重渲染）
     └── BoardingPass.tsx    # 登机牌页脚
 ```
+
+## 通用 UI 基础组件
+
+新增 FOUNDATIONS 分组，优先覆盖真实产品里最常用的界面构件：
+
+- **Buttons**：语义变体、尺寸、加载状态与收藏交互
+- **Badges & Alerts**：状态徽标、成功/信息/警告/错误提示和关闭行为
+- **Tabs**：方向键切换、焦点管理与关联面板
+- **Dialog**：Escape/遮罩关闭、语义标记与焦点回归
+- **Form basics**：文本框、邮箱、下拉选择、复选框和提交状态
+
+旧有的机场主题演示作为动效组件类别保留；整体入口现在默认展示完整组件库，便于快速浏览，而不是直接跳到单一的机场翻牌屏。
 
 ## 组件提示词与样式变体
 
@@ -87,8 +104,8 @@ src/
 
 ## 浏览模式
 
-- **单页 PAGE（默认）**：左侧目录 + 右侧组件单页；`↑/↓`（或滚轮、底部按钮）切换不同组件，`←/→` 切换同一组件的样式变体（仅有多样式的组件生效），`ESC` 返回总览；URL 同步为 `?view=c05`，可分享、可后退
-- **总览 GALLERY**：全部组件并排展示（侧边栏「总览全部组件」或查看器 `✕ 总览` 进入，带 content-visibility 与离屏暂停优化）
+- **总览 GALLERY（默认）**：完整组件库按基础控件、文本、输入、反馈和动效分组展示，首屏从基础 UI 组件开始浏览
+- **单页 PAGE**：侧边栏选择组件进入聚焦查看；`↑/↓`（或滚轮、底部按钮）切换组件，`←/→` 切换样式变体（仅有多样式的组件生效），`ESC` 返回总览；URL 同步为 `?view=c05`，可分享、可后退
 
 ## 组件提示词
 
@@ -103,7 +120,7 @@ src/
 - 长按登机的 rAF 循环空闲即停；百分比文字 ref 直写，不触发 React 渲染
 - `.comp` 区块启用 `content-visibility: auto`，视口外跳过渲染与布局；导航定位前强制渲染保证落点精确
 - 时钟隔离在 `<Clock />` 叶子组件内，每秒重渲染不再波及 Header / Hero
-- C-10 ~ C-14 通过 `React.lazy` 代码分割（独立 chunk，主包解析后异步加载，不阻塞首屏渲染）
+- C-10 及后续组件通过 `React.lazy` 代码分割（独立 chunk，主包解析后异步加载，不阻塞首屏渲染）
 - 旋钮拖拽帧内只写 transform，整数变化才 setState
 - 尊重 `prefers-reduced-motion`
 

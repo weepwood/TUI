@@ -162,6 +162,26 @@ export const COMPONENTS: CompMeta[] = [
     id: 'c31', no: 'TR-135', en: 'DEST CAROUSEL', cn: '目的地轮播', gate: 'TEXT', st: 'BOARDING',
     prompt: '实现滚动吸附轮播：横向 scroll-snap 容器展示目的地卡片，支持指针拖拽滚动（pointer 捕获 + scrollTo）、左右按钮按卡片宽度翻页；底部圆点指示器随滚动位置联动；每张卡片不同的渐变底色 + 大号压缩字体城市名 + 机场代码徽章。',
   },
+  {
+    id: 'c37', no: 'UI-206', en: 'DATA TABLE', cn: '数据表格', gate: 'DATA', st: 'BOARDING',
+    prompt: '实现可交互数据表格：成员头像与邮箱双行单元格、状态胶囊、筛选标签联动计数、搜索过滤、按名称排序、空结果状态、分页脚注；表头细描边、行悬停高亮，窄屏横向滚动不破版。',
+  },
+  {
+    id: 'c38', no: 'UI-207', en: 'TOOLTIP & POPOVER', cn: '提示浮层', gate: 'OVERLAY', st: 'ON TIME',
+    prompt: '实现提示与浮层组件：悬停/聚焦出现的 tooltip 带延迟与小箭头，键盘可达；点击展开的 share popover 含标题、说明、复制链接与成员头像堆叠，复制后按钮短暂反馈「Copied」，点击外部或 Escape 关闭。',
+  },
+  {
+    id: 'c39', no: 'UI-208', en: 'AVATAR & TEAM', cn: '头像与团队卡', gate: 'DATA', st: 'ON TIME',
+    prompt: '实现头像体系与团队卡片：sm/md/lg 三档尺寸、渐变底色首字母、在线状态圆点、重叠头像堆叠带 +N；团队卡包含品牌标记、认证徽章、简介、项目/关注/成员三项指标与可切换的 Follow 按钮。',
+  },
+  {
+    id: 'c40', no: 'UI-209', en: 'PRICING', cn: '价格方案', gate: 'MARKETING', st: 'BOARDING',
+    prompt: '实现价格方案区：月付/年付切换（年付显示 −20% 与节省金额，数字过渡不跳动）、三档方案卡、中间方案高亮并带 MOST POPULAR 角标、功能清单打勾、CTA 点击后变为已选状态。',
+  },
+  {
+    id: 'c41', no: 'UI-210', en: 'ANALYTICS CARD', cn: '数据看板', gate: 'DATA', st: 'ON TIME',
+    prompt: '实现数据看板卡片：大号数值与同比涨幅、时间范围下拉切换数据集、SVG 面积折线图带渐变填充与端点圆点、横向网格线、Y 轴刻度、X 轴日期标签和图例；数值与路径随范围平滑更新。',
+  },
   { id: null, no: 'TR-112', en: 'SHADER ROWS', cn: '着色器行', gate: 'VISUAL', st: 'DELAYED', prompt: '' },
   { id: null, no: 'TR-118', en: 'MORSE TICKER', cn: '摩尔特尘', gate: 'TEXT', st: 'DELAYED', prompt: '' },
 ]
@@ -174,6 +194,7 @@ export interface Group {
 export const GROUPS: Group[] = [
   { label: '开始 · START', ids: ['c00'] },
   { label: '基础 · FOUNDATIONS', ids: ['c32', 'c33', 'c34', 'c35', 'c36'] },
+  { label: '复合 · COMPOSITES', ids: ['c37', 'c38', 'c39', 'c40', 'c41'] },
   { label: '文本 · TEXT', ids: ['c01', 'c02', 'c22', 'c25', 'c31'] },
   { label: '输入 · INPUT', ids: ['c03', 'c04', 'c05', 'c06', 'c10', 'c11', 'c20', 'c23', 'c24', 'c26'] },
   { label: '反馈 · FEEDBACK', ids: ['c07', 'c08', 'c14', 'c15', 'c19', 'c27'] },
@@ -184,7 +205,7 @@ export const MQ_ITEMS = [
   'GATE 24 — NOW BOARDING',
   'FLIP · MOTION · DETAIL',
   'UI / PLAYGROUND v3.0',
-  '37 LIVE COMPONENTS',
+  '42 LIVE COMPONENTS',
   'ZERO DEPENDENCIES',
   'REACT + VITE + TS',
   'SLIDE · TILT · BURST',

@@ -45,6 +45,11 @@ const StatusShowcase = lazy(() => import('./components/StatusShowcase'))
 const TabsShowcase = lazy(() => import('./components/TabsShowcase'))
 const DialogShowcase = lazy(() => import('./components/DialogShowcase'))
 const FormShowcase = lazy(() => import('./components/FormShowcase'))
+const DataTable = lazy(() => import('./components/DataTable'))
+const TooltipPopover = lazy(() => import('./components/TooltipPopover'))
+const AvatarTeam = lazy(() => import('./components/AvatarTeam'))
+const PricingShowcase = lazy(() => import('./components/PricingShowcase'))
+const AnalyticsCard = lazy(() => import('./components/AnalyticsCard'))
 
 const Lazy = ({ children }: { children: ReactNode }) => (
   <Suspense fallback={<span className="hint">LOADING…</span>}>{children}</Suspense>
@@ -158,6 +163,11 @@ export default function App() {
       c34: <Lazy><TabsShowcase /></Lazy>,
       c35: <Lazy><DialogShowcase /></Lazy>,
       c36: <Lazy><FormShowcase /></Lazy>,
+      c37: <Lazy><DataTable /></Lazy>,
+      c38: <Lazy><TooltipPopover /></Lazy>,
+      c39: <Lazy><AvatarTeam /></Lazy>,
+      c40: <Lazy><PricingShowcase /></Lazy>,
+      c41: <Lazy><AnalyticsCard /></Lazy>,
     }),
     [openPalette],
   )

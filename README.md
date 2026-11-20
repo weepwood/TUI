@@ -1,6 +1,6 @@
 # UI / PLAYGROUND — 通用组件展示库
 
-一个可交互的 React UI 展示与灵感项目，涵盖按钮、表单、导航、反馈、动效和微交互，共 **37 个组件演示**。每个组件都可以直接操作，页面即文档；机场翻牌屏保留为项目的动效名片。
+一个可交互的 React UI 展示与灵感项目，涵盖按钮、表单、导航、反馈、动效和微交互，共 **42 个组件演示**。每个组件都可以直接操作，页面即文档；机场翻牌屏保留为项目的动效名片。
 
 基础控件强调语义、可访问性和常见状态；动效组件则展示更具表现力的交互。部分交互参考了 [Bencho](https://bencho.dev)、[Magic UI](https://magicui.design) 与 [ReactBits](https://reactbits.dev)，全部零依赖手工实现。
 
@@ -82,6 +82,11 @@ src/
     ├── TabsShowcase.tsx   # C-34 键盘可访问标签页
     ├── DialogShowcase.tsx # C-35 对话框与焦点返回
     ├── FormShowcase.tsx   # C-36 常见表单控件
+    ├── DataTable.tsx      # C-37 成员表（筛选/搜索/排序）
+    ├── TooltipPopover.tsx # C-38 提示与分享浮层
+    ├── AvatarTeam.tsx     # C-39 头像体系与团队卡
+    ├── PricingShowcase.tsx# C-40 价格方案与计费切换
+    ├── AnalyticsCard.tsx  # C-41 数据看板与面积折线图
     ├── Clock.tsx           # 独立时钟（隔离每秒重渲染）
     └── BoardingPass.tsx    # 登机牌页脚
 ```
@@ -95,6 +100,14 @@ src/
 - **Tabs**：方向键切换、焦点管理与关联面板
 - **Dialog**：Escape/遮罩关闭、语义标记与焦点回归
 - **Form basics**：文本框、邮箱、下拉选择、复选框和提交状态
+
+新增 COMPOSITES 分组，展示把多个基础件组合起来的真实界面片段：
+
+- **Data table**：成员行（头像 + 邮箱）、状态胶囊、筛选计数、即时搜索、名称排序、空结果与分页
+- **Tooltip & popover**：悬停/聚焦提示、分享浮层、复制链接反馈、Escape 与外部点击关闭
+- **Avatar & team**：三档头像尺寸、在线圆点、重叠堆叠、团队指标卡与 Follow 切换
+- **Pricing**：月付/年付切换、节省金额、三档方案卡、高亮推荐位与选中反馈
+- **Analytics card**：区间切换、SVG 面积折线、网格与坐标标签、图例与涨跌徽标
 
 旧有的机场主题演示作为动效组件类别保留；整体入口现在默认展示完整组件库，便于快速浏览，而不是直接跳到单一的机场翻牌屏。
 

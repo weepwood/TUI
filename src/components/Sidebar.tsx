@@ -56,7 +56,7 @@ export default function Sidebar({ activeId, onNavigate, onOpenOverview, overview
                   onClick={() => onNavigate(id)}
                   title={c.en}
                 >
-                  <span className="sb-code">C-{String(idx).padStart(2, '0')}</span>
+                  <span className="sb-code">C-{id.slice(1).padStart(2, '0')}</span>
                   <span className="sb-name">{c.cn}</span>
                   <i className={`sb-dot ${dotCls(st)}`} />
                 </button>

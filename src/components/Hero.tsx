@@ -68,7 +68,7 @@ function Hero({ onGoto, onOpenPalette }: Props) {
     <section className="hero" id="c00">
       <div className="overline">
         <span className="dot" />
-        LIVE · 免费可复制的动效组件
+LIVE · 一个可以动手体验的 UI 组件库
       </div>
 
       <div className="bezel">
@@ -109,11 +109,11 @@ function Hero({ onGoto, onOpenPalette }: Props) {
       </div>
 
       <p className="hero-sub">
-        这是一个<b>像机场航显板一样翻动</b>的组件展示厅。下面每一个组件，从左侧目录直达，
-        全都是<b>可以落地的代码</b> —— 复制、粘贴、起飞。
+        从按钮、表单、反馈到动效与微交互，这里是一个<b>通用 UI 组件展示与灵感库</b>。每个组件都可直接体验，
+        也保留了这块翻牌屏作为项目的动效名片。<b>探索、组合、带走灵感。</b>
       </p>
       <div className="hero-cta">
-        <button className="btn btn-primary" onClick={() => onGoto('c01')}>
+        <button className="btn btn-primary" onClick={() => onGoto('c32')}>
           浏览组件
         </button>
         <button className="btn" onClick={onOpenPalette}>

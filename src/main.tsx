@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import { AppProviders } from './state/app'
 import './styles/global.css'
+import './styles/ui-showcase.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

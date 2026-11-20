@@ -12,10 +12,10 @@ export default function Header({ onOpenPalette, onGoto }: Props) {
   return (
     <header>
       <div className="hd">
-        <button className="brand" onClick={() => onGoto('c00')} aria-label="回到翻牌大屏">
-          <span className="mini-flap">T</span>
-          <b>TERMINAL/UI</b>
-          <span className="ver mono">v2.6</span>
+        <button className="brand" onClick={() => onGoto('c00')} aria-label="打开 UI Playground 首页">
+          <span className="mini-flap">U</span>
+          <b>UI / PLAYGROUND</b>
+          <span className="ver mono">v3.0</span>
         </button>
         <nav className="top">
           <button onClick={() => onGoto('about')}>关于 About</button>

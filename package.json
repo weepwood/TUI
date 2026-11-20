@@ -1,9 +1,9 @@
 {
-  "name": "terminal-ui",
+  "name": "ui-playground",
   "private": true,
-  "version": "2.6.0",
+  "version": "3.0.0",
   "type": "module",
-  "description": "TERMINAL/UI — 像机场航显板一样翻动的 React 动效组件库",
+  "description": "UI / PLAYGROUND — A hands-on React component showcase and design playground",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

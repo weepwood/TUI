@@ -19,6 +19,26 @@ export const COMPONENTS: CompMeta[] = [
     prompt: '用 React 实现机场航显板风格的机械翻牌屏：13 块翻牌单元，每格分上下两半页，翻转时旧字符上半页落下（渐暗）、新字符下半页合上（渐亮），用 CSS 3D rotateX + WAAPI；字符沿字轮逐格前进、逐列 62ms 错峰级联；支持输入自定义短语、多短语循环轮播、速度切换；深色面板、米白 Barlow Condensed 字符、琥珀点缀、扫描线质感。',
   },
   {
+    id: 'c32', no: 'UI-201', en: 'BUTTONS', cn: '按钮', gate: 'ACTIONS', st: 'BOARDING',
+    prompt: '实现通用按钮组件展示：primary、secondary、outline、ghost、destructive 五种语义变体，以及 small/default/large 尺寸；展示悬停、按下、键盘焦点、加载中状态。使用原生 button，保持清晰对比度与可访问焦点样式。',
+  },
+  {
+    id: 'c33', no: 'UI-202', en: 'BADGES & ALERTS', cn: '徽标与提示', gate: 'FEEDBACK', st: 'BOARDING',
+    prompt: '实现通用状态徽标与提示消息：default/primary/success/warning/error/outline 徽标；成功、信息、警告、错误四种 alert，图标、标题、说明和可关闭操作；语义色采用低饱和背景与高对比文字。',
+  },
+  {
+    id: 'c34', no: 'UI-203', en: 'TABS', cn: '标签页', gate: 'NAVIGATION', st: 'BOARDING',
+    prompt: '实现 accessible tabs 标签页组件：role=tablist/tab/tabpanel，选中态下划线动画，方向键切换并管理 tabIndex，aria-controls 与 aria-labelledby 正确关联；面板展示有层级的标题、文案与数据指标。',
+  },
+  {
+    id: 'c35', no: 'UI-204', en: 'DIALOG', cn: '对话框', gate: 'OVERLAY', st: 'BOARDING',
+    prompt: '实现可访问对话框：按钮打开居中弹层与遮罩，Escape 和点击遮罩关闭，关闭后焦点回到触发按钮；添加 aria-modal、标题和描述关联，提供取消与主操作。包含轻量淡入缩放动画。',
+  },
+  {
+    id: 'c36', no: 'UI-205', en: 'FORM BASICS', cn: '表单基础', gate: 'INPUT', st: 'BOARDING',
+    prompt: '实现通用表单基础控件展示：带 label 的文本输入、email 输入、select、checkbox；精细的 focus/hover/checked 状态、分组布局、辅助说明和提交成功反馈；控件可键盘操作且 label 正确关联。',
+  },
+  {
     id: 'c01', no: 'TR-102', en: 'ODOMETER', cn: '里程表', gate: 'TEXT', st: 'ON TIME',
     prompt: '实现滚动数字里程表组件：每位数字一根垂直「字轴」（0-9 纵排），改变数值时用 transform: translateY 滚动到目标位，逐位错峰（右到左每位延迟 70ms），cubic-bezier 缓动 1.1s；六位数带千分位逗号；进入视口时从 000000 滚到目标值，按钮可随机加数再滚。',
   },
@@ -153,6 +173,7 @@ export interface Group {
 
 export const GROUPS: Group[] = [
   { label: '开始 · START', ids: ['c00'] },
+  { label: '基础 · FOUNDATIONS', ids: ['c32', 'c33', 'c34', 'c35', 'c36'] },
   { label: '文本 · TEXT', ids: ['c01', 'c02', 'c22', 'c25', 'c31'] },
   { label: '输入 · INPUT', ids: ['c03', 'c04', 'c05', 'c06', 'c10', 'c11', 'c20', 'c23', 'c24', 'c26'] },
   { label: '反馈 · FEEDBACK', ids: ['c07', 'c08', 'c14', 'c15', 'c19', 'c27'] },
@@ -162,8 +183,8 @@ export const GROUPS: Group[] = [
 export const MQ_ITEMS = [
   'GATE 24 — NOW BOARDING',
   'FLIP · MOTION · DETAIL',
-  'TERMINAL/UI v2.6',
-  '32 LIVE COMPONENTS',
+  'UI / PLAYGROUND v3.0',
+  '37 LIVE COMPONENTS',
   'ZERO DEPENDENCIES',
   'REACT + VITE + TS',
   'SLIDE · TILT · BURST',
@@ -182,7 +203,7 @@ export const PHRASES = [
 /** 翻牌字轮：空格在最前，其余顺序即翻转顺序 */
 export const CHARSET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.:/+'
 
-export const INSTALL_CMD = 'npx @terminal-ui/react add split-flap-board'
+export const INSTALL_CMD = 'npm install && npm run dev'
 
 /* ============ 样式变体：同一组件在不同提示词下生成不同样式 ============ */
 

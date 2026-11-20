@@ -40,6 +40,11 @@ const SpotlightCard = lazy(() => import('./components/SpotlightCard'))
 const CardSwap = lazy(() => import('./components/CardSwap'))
 const TimeScrubber = lazy(() => import('./components/TimeScrubber'))
 const DestCarousel = lazy(() => import('./components/DestCarousel'))
+const ButtonShowcase = lazy(() => import('./components/ButtonShowcase'))
+const StatusShowcase = lazy(() => import('./components/StatusShowcase'))
+const TabsShowcase = lazy(() => import('./components/TabsShowcase'))
+const DialogShowcase = lazy(() => import('./components/DialogShowcase'))
+const FormShowcase = lazy(() => import('./components/FormShowcase'))
 
 const Lazy = ({ children }: { children: ReactNode }) => (
   <Suspense fallback={<span className="hint">LOADING…</span>}>{children}</Suspense>
@@ -53,9 +58,9 @@ const viewFromURL = () => {
 }
 
 export default function App() {
-  /* 单页模式为默认浏览形态：每个组件一页，↑↓/滚轮切换组件，←→ 切换样式；
-     view = null 为总览模式（侧边栏「总览全部组件」或查看器 ✕ 进入），URL ?view= 同步可分享/后退 */
-  const [view, setView] = useState<string | null>(() => viewFromURL() ?? 'c00')
+  /* 默认展示完整组件总览；选择组件后进入单页查看器，↑↓/滚轮切换组件、←→ 切换样式；
+     view = null 为总览模式，URL ?view= 同步支持分享与浏览器前进/后退 */
+  const [view, setView] = useState<string | null>(() => viewFromURL())
   const [variantId, setVariantId] = useState('classic')
   const [spyId, setSpyId] = useState('c00')
   const [paletteOpen, setPaletteOpen] = useState(false)
@@ -67,15 +72,6 @@ export default function App() {
     const onPop = () => setView(viewFromURL())
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
-  }, [])
-
-  /* 首次直链进入时把默认组件补进 URL，保证前进/后退历史一致 */
-  useEffect(() => {
-    if (!viewFromURL()) {
-      const url = new URL(location.href)
-      url.searchParams.set('view', 'c00')
-      history.replaceState({}, '', url)
-    }
   }, [])
 
   /* 换组件即复位样式变体，每页都从经典开始 */
@@ -115,7 +111,7 @@ export default function App() {
   }, [])
 
   /* 演示内容与区块列表用 useMemo 固定（依赖的回调均稳定），
-     配合 CompSection 的 memo，scrollspy 更新侧边栏时不再重渲染 32 个区块 */
+     配合 CompSection 的 memo，scrollspy 更新侧边栏时不再重渲染所有区块 */
   const bodies: Record<string, ReactNode> = useMemo(
     () => ({
       c01: <Odometer />,
@@ -157,6 +153,11 @@ export default function App() {
       c29: <Lazy><CardSwap /></Lazy>,
       c30: <Lazy><TimeScrubber /></Lazy>,
       c31: <Lazy><DestCarousel /></Lazy>,
+      c32: <Lazy><ButtonShowcase /></Lazy>,
+      c33: <Lazy><StatusShowcase /></Lazy>,
+      c34: <Lazy><TabsShowcase /></Lazy>,
+      c35: <Lazy><DialogShowcase /></Lazy>,
+      c36: <Lazy><FormShowcase /></Lazy>,
     }),
     [openPalette],
   )
@@ -262,4 +263,9 @@ const FOOTERS: Record<string, ReactNode> = {
   c29: <>三张登机牌堆叠轮转，弹性 transform 换位（Bencho Card Swap 风格）。</>,
   c30: <>四航段时间轴 + 可拖飞机指针，实时换算 T+ 时间并高亮当前航段。</>,
   c31: <><code>scroll-snap</code> 吸附 + 指针拖拽 + 按钮翻页，圆点指示器随滚动联动。</>,
+  c32: <>五种语义变体、三档尺寸和可交互加载状态，覆盖产品里最常见的动作控件。</>,
+  c33: <>低对比语义底色、可关闭通知与状态胶囊，一眼区分成功、信息、警告与错误。</>,
+  c34: <>方向键可访问 tabs：自动管理焦点与 tabIndex，面板内容随选项切换。</>,
+  c35: <>支持 Escape、遮罩点击关闭与焦点返回；为关键操作提供清晰的确认上下文。</>,
+  c36: <>原生 input、select 与 checkbox 的完整表单状态，包含辅助信息与提交反馈。</>,
 }

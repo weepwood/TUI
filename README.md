@@ -20,6 +20,12 @@ npm run build     # 类型检查 + 生产构建（输出 dist/）
 npm run preview   # 预览生产构建
 ```
 
+## GitHub Pages 部署
+
+仓库通过 `.github/workflows/deploy-pages.yml` 自动构建并发布到 GitHub Pages：合并/推送到 `main` 后部署；Pull Request 会运行构建验证，手动运行可在 Actions 中选择 `Deploy UI Playground to GitHub Pages` 并点击 **Run workflow**。
+
+首次启用时，在仓库 **Settings → Pages → Build and deployment** 将 **Source** 设为 **GitHub Actions**。构建会自动使用 `/TUI/` 作为仓库站点路径，部署成功后可从该页面查看站点地址。
+
 ## 目录结构
 
 ```
